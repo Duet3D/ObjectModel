@@ -1,0 +1,26 @@
+{
+  "name": "@duet3d/objectmodel",
+  "version": "3.4.0-b7",
+  "description": "TypeScript implementation of the Duet3D Object Model",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Duet3D/ObjectModel.git"
+  },
+  "author": "Christian Hammacher",
+  "license": "LGPL-2.1",
+  "bugs": {
+    "url": "https://github.com/Duet3D/ObjectModel/issues"
+  },
+  "homepage": "https://github.com/Duet3D/ObjectModel#readme",
+  "devDependencies": {
+    "typescript": "^4.5.2"
+  },
+  "directories": {
+    "lib": "lib"
+  }
+}
