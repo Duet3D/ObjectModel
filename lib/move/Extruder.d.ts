@@ -7,6 +7,7 @@ export declare class ExtruderNonlinear extends ModelObject {
     upperLimit: number;
 }
 export default class Extruder extends ModelObject {
+    constructor();
     acceleration: number;
     current: number;
     driver: DriverId | null;

@@ -1,4 +1,6 @@
 import ModelObject from "../ModelObject";
+import ModelCollection from "../ModelCollection";
+import DriverId from "./DriverId";
 import Microstepping from "./Microstepping";
 
 export enum AxisLetter {
@@ -31,7 +33,7 @@ export default class Axis extends ModelObject {
     acceleration: number = 0;
     babystep: number = 0;
     current: number = 0;
-    drivers: Array<string> = new Array<string>();
+    readonly drivers: ModelCollection<DriverId> = new ModelCollection(DriverId);
     homed: boolean = false;
     jerk: number = 15;
     letter: AxisLetter = AxisLetter.none;

@@ -14,10 +14,10 @@ export class GpOutputPort extends ModelObject {
 }
 
 export enum LogLevel {
-    debug,
-    info,
-    warn,
-    off
+    debug = "debug",
+    info = "info",
+    warn = "warn",
+    off = "off"
 }
 
 export enum MachineMode {
@@ -27,6 +27,11 @@ export enum MachineMode {
 }
 
 export default class State extends ModelObject {
+    constructor() {
+        super();
+        this.wrapModelProperty("beep", BeepRequest);
+        this.wrapModelProperty("messageBox", MessageBox);
+    }
     atxPower: boolean | null = null;
     atxPowerPort: string | null = null;
     beep: BeepRequest | null = null;

@@ -9,6 +9,11 @@ export class ExtruderNonlinear extends ModelObject {
 }
 
 export default class Extruder extends ModelObject {
+    constructor() {
+        super();
+        this.wrapModelProperty("driver", DriverId);
+    }
+
     acceleration: number = 500;
     current: number = 0;
     driver: DriverId | null = null;

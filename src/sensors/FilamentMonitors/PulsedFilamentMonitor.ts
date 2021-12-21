@@ -1,5 +1,6 @@
-import ModelObject from "../../ModelObject";
+import ModelObject, { IModelObject } from "../../ModelObject";
 import FilamentMonitorBase, { FilamentMonitorType } from "./FilamentMonitorBase";
+import { getFilamentMonitor } from "./index";
 
 export class PulsedFilamentMonitorCalibrated extends ModelObject {
     mmPerPulse: number = 0;
@@ -16,10 +17,22 @@ export class PulsedFilamentMonitorConfigured extends ModelObject {
 }
 
 export default class PulsedFilamentMonitor extends FilamentMonitorBase {
+    constructor() {
+        super(FilamentMonitorType.pulsed);
+        this.wrapModelProperty("calibrated", PulsedFilamentMonitorCalibrated);
+    }
+
     calibrated: PulsedFilamentMonitorCalibrated | null = new PulsedFilamentMonitorCalibrated();
     readonly configured: PulsedFilamentMonitorConfigured = new PulsedFilamentMonitorConfigured();
 
-    constructor() {
-        super(FilamentMonitorType.pulsed);
+    override update(jsonElement: any): IModelObject | null {
+        if (jsonElement === null) {
+            return null;
+        }
+
+        if (typeof jsonElement.type === "string" && jsonElement.type !== this.type) {
+            return getFilamentMonitor(jsonElement.type).update(jsonElement);
+        }
+        return super.update(jsonElement);
     }
 }

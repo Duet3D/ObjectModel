@@ -1,4 +1,4 @@
-import ModelObject from "../../ModelObject";
+import ModelObject, { IModelObject } from "../../ModelObject";
 import FilamentMonitorBase from "./FilamentMonitorBase";
 export declare class PulsedFilamentMonitorCalibrated extends ModelObject {
     mmPerPulse: number;
@@ -13,7 +13,8 @@ export declare class PulsedFilamentMonitorConfigured extends ModelObject {
     sampleDistance: number;
 }
 export default class PulsedFilamentMonitor extends FilamentMonitorBase {
+    constructor();
     calibrated: PulsedFilamentMonitorCalibrated | null;
     readonly configured: PulsedFilamentMonitorConfigured;
-    constructor();
+    update(jsonElement: any): IModelObject | null;
 }

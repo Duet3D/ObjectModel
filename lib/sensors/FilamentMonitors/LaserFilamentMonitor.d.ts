@@ -1,4 +1,4 @@
-import ModelObject from "../../ModelObject";
+import ModelObject, { IModelObject } from "../../ModelObject";
 import FilamentMonitorBase from "./FilamentMonitorBase";
 export declare class LaserFilamentMonitorCalibrated extends ModelObject {
     calibrationFactor: number;
@@ -14,7 +14,8 @@ export declare class LaserFilamentMonitorConfigured extends ModelObject {
     sampleDistance: number;
 }
 export default class LaserFilamentMonitor extends FilamentMonitorBase {
+    constructor();
     calibrated: LaserFilamentMonitorCalibrated | null;
     readonly configured: LaserFilamentMonitorConfigured;
-    constructor();
+    update(jsonElement: any): IModelObject | null;
 }

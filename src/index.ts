@@ -17,6 +17,7 @@ import Sensors from "./sensors";
 import Spindle from "./spindles";
 import UserSession from "./userSessions";
 import Volume from "./volumes";
+import { ModelDictionary } from "./ModelDictionary";
 
 // Unfortunately we need to define a way to update arrays to remain compatible with Vue 2 (due to IE11).
 // This will become obsolete as soon as DWC is upgraded to Vue 3, but that isn't going to happen anytime soon.
@@ -27,11 +28,14 @@ export function setArrayItem(array: Array<any>, index: number, value: any) {
     (globalThis as any)._duetModelSetArray(array, index, value);
 }
 
+/**
+ * Refer to the DSF/RRF documentation for descriptions of the object model fields
+ */
 export default class ObjectModel extends ModelObject {
     readonly boards: ModelCollection<Board> = new ModelCollection(Board);
     readonly directories: Directories = new Directories();
     readonly fans: ModelCollection<Fan> = new ModelCollection(Fan);
-    readonly global: Map<string, any> = new Map<string, any>();
+    readonly global: ModelDictionary<any> = new ModelDictionary(false);
     readonly heat: Heat = new Heat();
     readonly httpEndpoints: ModelCollection<HttpEndpoint> = new ModelCollection(HttpEndpoint);
     readonly inputs: ModelCollection<InputChannel> = new ModelCollection(InputChannel);
@@ -39,7 +43,7 @@ export default class ObjectModel extends ModelObject {
     readonly limits: Limits = new Limits();
     readonly messages: ModelCollection<Message> = new ModelCollection(Message);         // must be manually cleared after updates
     readonly move: Move = new Move();
-    readonly plugins: ModelCollection<Plugin> = new ModelCollection(Plugin);
+    readonly plugins: ModelDictionary<Plugin> = new ModelDictionary(true, Plugin);
     readonly scanner: Scanner = new Scanner();
     readonly sensors: Sensors = new Sensors();
     readonly spindles: ModelCollection<Spindle> = new ModelCollection(Spindle);

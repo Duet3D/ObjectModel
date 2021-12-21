@@ -1,5 +1,5 @@
-import ModelObject from "../../ModelObject";
+import { IModelObject } from "../../ModelObject";
 import { ZLeadscrewKinematics } from "./KinematicsBase";
 export default class ScaraKinematics extends ZLeadscrewKinematics {
-    update(jsonElement: any): ModelObject | null;
+    update(jsonElement: any): IModelObject | null;
 }

@@ -1,4 +1,4 @@
-import ModelObject from "../../ModelObject";
+import { IModelObject } from "../../ModelObject";
 import KinematicsBase, { KinematicsName } from "./KinematicsBase";
 import CoreKinematics from "./CoreKinematics";
 import DeltaKinematics from "./DeltaKinematics";
@@ -11,7 +11,7 @@ export default class Kinematics extends KinematicsBase {
         super(KinematicsName.unknown);
     }
 
-    override update(jsonElement: any): ModelObject | null {
+    override update(jsonElement: any): IModelObject | null {
         if (jsonElement === null) {
             throw new Error("Kinematics must not be null");
         }
@@ -42,6 +42,7 @@ export function getKinematics(name: KinematicsName): KinematicsBase {
             return new ScaraKinematics(name);
         case KinematicsName.polar:
             return new PolarKinematics();
+        default:
+            return name as never;
     }
-    return name as never;
 }

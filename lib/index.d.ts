@@ -17,12 +17,16 @@ import Sensors from "./sensors";
 import Spindle from "./spindles";
 import UserSession from "./userSessions";
 import Volume from "./volumes";
+import { ModelDictionary } from "./ModelDictionary";
 export declare function setArrayItem(array: Array<any>, index: number, value: any): void;
+/**
+ * Refer to the DSF/RRF documentation for descriptions of the object model fields
+ */
 export default class ObjectModel extends ModelObject {
     readonly boards: ModelCollection<Board>;
     readonly directories: Directories;
     readonly fans: ModelCollection<Fan>;
-    readonly global: Map<string, any>;
+    readonly global: ModelDictionary<any>;
     readonly heat: Heat;
     readonly httpEndpoints: ModelCollection<HttpEndpoint>;
     readonly inputs: ModelCollection<InputChannel>;
@@ -30,7 +34,7 @@ export default class ObjectModel extends ModelObject {
     readonly limits: Limits;
     readonly messages: ModelCollection<Message>;
     readonly move: Move;
-    readonly plugins: ModelCollection<Plugin>;
+    readonly plugins: ModelDictionary<Plugin>;
     readonly scanner: Scanner;
     readonly sensors: Sensors;
     readonly spindles: ModelCollection<Spindle>;

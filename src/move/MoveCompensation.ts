@@ -22,10 +22,15 @@ export enum MoveCompensationType {
 }
 
 export default class MoveCompensation extends ModelObject {
+    constructor() {
+        super();
+        this.wrapModelProperty("liveGrid", ProbeGrid);
+        this.wrapModelProperty("meshDeviation", MoveDeviations);
+    }
     fadeHeight: number | null = null;
     file: string | null = null;
     liveGrid: ProbeGrid | null = null;
-    meshDeviation: MoveDeviations = new MoveDeviations();
+    meshDeviation: MoveDeviations | null = null;
     readonly probeGrid: ProbeGrid = new ProbeGrid();
     readonly skew: Skew = new Skew();
     type: MoveCompensationType = MoveCompensationType.none;

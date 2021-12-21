@@ -1,8 +1,12 @@
-import ModelObject from "../../ModelObject";
+import { IModelObject } from "../../ModelObject";
 import { KinematicsName, ZLeadscrewKinematics } from "./KinematicsBase";
 import { getKinematics } from "./index";
 
 export default class CoreKinematics extends ZLeadscrewKinematics {
+    constructor(name: KinematicsName) {
+        super(name);
+    }
+
     forwardMatrix: Array<Array<number>> = [
         [ 1, 0, 0 ],
         [ 0, 1, 0 ],
@@ -14,11 +18,7 @@ export default class CoreKinematics extends ZLeadscrewKinematics {
         [ 0, 0, 1 ]
     ]
 
-    constructor(name: KinematicsName) {
-        super(name);
-    }
-
-    override update(jsonElement: any): ModelObject | null {
+    override update(jsonElement: any): IModelObject | null {
         if (jsonElement === null) {
             throw new Error("Kinematics must not be null");
         }

@@ -1,5 +1,5 @@
 import ModelCollection from "../../ModelCollection";
-import ModelObject from "../../ModelObject";
+import ModelObject, { IModelObject } from "../../ModelObject";
 import KinematicsBase from "./KinematicsBase";
 import { getKinematics } from "./index";
 
@@ -19,7 +19,7 @@ export default class DeltaKinematics extends KinematicsBase {
     xTilt: number = 0;
     yTilt: number = 0;
 
-    override update(jsonElement: any): ModelObject | null {
+    override update(jsonElement: any): IModelObject | null {
         if (jsonElement === null) {
             throw new Error("Kinematics must not be null");
         }

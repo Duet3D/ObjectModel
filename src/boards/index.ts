@@ -1,10 +1,40 @@
-import ModelObject from "../ModelObject";
-import Accelerometer from "./Accelerometer";
-import DirectDisplay from "./DirectDisplay";
-import MinMaxCurrent from "./MinMaxCurrent";
-import { BoardState } from "./BoardState";
+import ModelObject, { IModelObject } from "../ModelObject";
+
+export class Accelerometer extends ModelObject {
+    points: number = 0;
+    runs: number = 0;
+}
+
+export enum BoardState {
+    unknown = "unknown",
+    flashing = "flashing",
+    flashFailed = "flashFailed",
+    resetting = "resetting",
+    running = "running"
+}
+
+export class MinMaxCurrent extends ModelObject {
+    current: number = 0;
+    min: number = 0;
+    max: number = 0;
+}
+
+export class DirectDisplay extends ModelObject {
+    pulsesPerClick: number = 0;
+    spiFreq: number = 0;
+    typeName: string = "";
+}
 
 export default class Board extends ModelObject {
+    constructor() {
+        super();
+        this.wrapModelProperty("accelerometer", Accelerometer);
+        this.wrapModelProperty("directDisplay", DirectDisplay);
+        this.wrapModelProperty("mcuTemp", MinMaxCurrent);
+        this.wrapModelProperty("v12", MinMaxCurrent);
+        this.wrapModelProperty("vIn", MinMaxCurrent);
+    }
+
     accelerometer: Accelerometer | null = null;
     bootloaderFileName: string | null = null;
     canAddress: number | null = 0;

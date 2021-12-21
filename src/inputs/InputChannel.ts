@@ -1,5 +1,4 @@
 import { Compatibility } from "./Compatibility";
-import { CodeChannel } from "./CodeChannel";
 import ModelObject from "../ModelObject";
 
 export enum DistanceUnit {
@@ -23,7 +22,7 @@ export default class InputChannel extends ModelObject {
     feedRate: number = 50;
     inMacro: boolean = false;
     macroRestartable: boolean = false;
-    name: CodeChannel = CodeChannel.unknown;
+    name: string = "";
     stackDepth: number = 0;
     state: InputChannelState = InputChannelState.idle;
     lineNumber: bigint = 0n;

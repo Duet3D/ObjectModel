@@ -1,5 +1,6 @@
-import ModelObject from "../../ModelObject";
+import ModelObject, { IModelObject } from "../../ModelObject";
 import FilamentMonitorBase, { FilamentMonitorType } from "./FilamentMonitorBase";
+import { getFilamentMonitor } from "./index";
 
 export class RotatingMagnetFilamentMonitorCalibrated extends ModelObject {
     mmPerPulse: number = 0;
@@ -17,10 +18,22 @@ export class RotatingMagnetFilamentMonitorConfigured extends ModelObject {
 }
 
 export default class RotatingMagnetFilamentMonitor extends FilamentMonitorBase {
+    constructor() {
+        super(FilamentMonitorType.rotatingMagnet);
+        this.wrapModelProperty("calibrated", RotatingMagnetFilamentMonitorCalibrated);
+    }
+
     calibrated: RotatingMagnetFilamentMonitorCalibrated | null = new RotatingMagnetFilamentMonitorCalibrated();
     readonly configured: RotatingMagnetFilamentMonitorConfigured = new RotatingMagnetFilamentMonitorConfigured();
 
-    constructor() {
-        super(FilamentMonitorType.rotatingMagnet);
+    override update(jsonElement: any): IModelObject | null {
+        if (jsonElement === null) {
+            return null;
+        }
+
+        if (typeof jsonElement.type === "string" && jsonElement.type !== this.type) {
+            return getFilamentMonitor(jsonElement.type).update(jsonElement);
+        }
+        return super.update(jsonElement);
     }
 }

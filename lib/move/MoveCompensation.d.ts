@@ -18,10 +18,11 @@ export declare enum MoveCompensationType {
     mesh = "mesh"
 }
 export default class MoveCompensation extends ModelObject {
+    constructor();
     fadeHeight: number | null;
     file: string | null;
     liveGrid: ProbeGrid | null;
-    meshDeviation: MoveDeviations;
+    meshDeviation: MoveDeviations | null;
     readonly probeGrid: ProbeGrid;
     readonly skew: Skew;
     type: MoveCompensationType;

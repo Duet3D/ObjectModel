@@ -1,7 +1,8 @@
 import ModelCollection from "../ModelCollection";
 import Heater from "./Heater";
+import ModelObject from "../ModelObject";
 
-export default class Heat {
+export default class Heat extends ModelObject {
     bedHeaters: Array<number> = new Array<number>();
     chamberHeaters: Array<number> = new Array<number>();
     coldExtrudeTemperature: number = 160;

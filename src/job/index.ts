@@ -19,7 +19,13 @@ export class TimesLeft extends ModelObject {
 }
 
 export default class Job extends ModelObject {
-    readonly build: Build = new Build();
+    constructor() {
+        super();
+        this.wrapModelProperty("build", Build);
+        this.wrapModelProperty("file", ParsedFileInfo);
+    }
+
+    build: Build = new Build();
     duration: number | null = null;
     file: ParsedFileInfo | null = null;
     filePosition: bigint | null = null;

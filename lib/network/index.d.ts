@@ -7,6 +7,6 @@ export declare const DefaultPassword = "reprap";
 export default class Network extends ModelObject {
     corsSite: string | null;
     hostname: string;
-    interfaces: ModelCollection<NetworkInterface>;
+    readonly interfaces: ModelCollection<NetworkInterface>;
     name: string;
 }

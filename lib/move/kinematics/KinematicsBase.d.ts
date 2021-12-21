@@ -31,6 +31,6 @@ export declare class TiltCorrection extends ModelObject {
     screwX: Array<number>;
     screwY: Array<number>;
 }
-export declare class ZLeadscrewKinematics extends KinematicsBase {
+export declare abstract class ZLeadscrewKinematics extends KinematicsBase {
     readonly tiltCorrection: TiltCorrection;
 }

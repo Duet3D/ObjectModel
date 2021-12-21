@@ -1,9 +1,36 @@
 import { setArrayItem } from "./index";
-import ModelCollection from "./ModelCollection";
+import { pathsToModuleNameMapper } from "ts-jest";
 
-export default abstract class ModelObject {
-    // Update this element from an arbitrary JSON object
-    public update(jsonElement: any): ModelObject | null {
+/**
+ * Interface for updating model objects using JSON data
+ */
+export interface IModelObject {
+    /**
+     * Update this instance from the given data
+     * @param jsonElement JSON data to upgrade this instance from
+     * @returns Updated instance (may not equal the original instance)
+     */
+    update(jsonElement: any): IModelObject | null;
+}
+
+/**
+ * Check whether a given value provides model update functionality
+ * @param value Value to check
+ */
+export function isModelObject(value: any): value is IModelObject {
+    return (value instanceof Object) && (value as IModelObject).update !== undefined;
+}
+
+/**
+ * Base class for object model classes
+ */
+export default abstract class ModelObject implements IModelObject {
+    /**
+     * Update this instance from the given data
+     * @param jsonElement JSON data to upgrade this instance from
+     * @returns Updated instance (may not equal the original instance)
+     */
+    public update(jsonElement: any): IModelObject | null {
         if (jsonElement === null) {
             return null;
         }
@@ -13,15 +40,19 @@ export default abstract class ModelObject {
                 const ownKey = key as keyof this;
                 const prop = this[ownKey];
 
-                if (prop instanceof ModelObject) {
+                 if (isModelObject(prop)) {
                     // Update model objects
-                    const updatedObject = prop.update(value as ModelObject);
+                    const updatedObject = prop.update(value);
                     if (prop !== updatedObject) {
                         const propDescriptor = Object.getOwnPropertyDescriptor(this, key);
-                        if (propDescriptor !== undefined && propDescriptor.set !== undefined) {
-                            this[ownKey] = updatedObject as any;
-                        } else if (process.env.NODE_ENV !== "production") {
-                            console.warn(`Model object ${key} changed but it could not be set due to missing setter`);
+                        if (propDescriptor !== undefined) {
+                            if (propDescriptor.writable) {
+                                this[ownKey] = updatedObject as any;
+                            } else if (propDescriptor.set !== undefined) {
+                                propDescriptor.set(updatedObject);
+                            } else if (process.env.NODE_ENV !== "production") {
+                                console.warn(`Model object ${key} changed but it could not be set due to missing setter`);
+                            }
                         }
                     }
                 } else if (prop instanceof Array) {
@@ -34,11 +65,6 @@ export default abstract class ModelObject {
                             const propItem = prop[i];
                             if (propItem === null) {
                                 setArrayItem(prop, i, value[i]);
-                            } else if (propItem instanceof ModelObject) {
-                                const newItem = propItem.update(value[i]);
-                                if (propItem !== newItem) {
-                                    setArrayItem(prop, i, newItem);
-                                }
                             } else {
                                 const newItem = value[i];
                                 if (propItem !== newItem) {
@@ -52,9 +78,9 @@ export default abstract class ModelObject {
                             prop.push(value[i]);
                         }
                     } else if (process.env.NODE_ENV !== "production") {
-                        console.warn(`Model object ${key} changed but it could not be set due to missing setter`);
+                        console.warn(`Model array ${key} could not be changed because the target type ${typeof value} is invalid`);
                     }
-                } else if (prop === null) {
+                } else if (prop === null || value === null) {
                     // Unfortunately we cannot do type checks during runtime without excessive extra work and possibly
                     // third-party libraries, so skip them for null values until there is a better solution.
                     // FWIW, we would just need "typeof prop" but TS does not seem to be capable of providing this.
@@ -89,11 +115,38 @@ export default abstract class ModelObject {
                             console.warn(`Incompatible string target type ${typeof value} for property ${key}`);
                         }
                     } else if (process.env.NODE_ENV !== "production") {
-                        console.warn(`Incompatible type ${propType} to for property {key} (${typeof value})`);
+                        console.warn(`Incompatible type ${propType} for property ${key} (${typeof value})`);
                     }
                 }
             }
         }
         return this;
+    }
+
+    /**
+     * Wrap a nullable model object property so that type checks can be performed
+     * @param key Property key of the derived class
+     * @param constructor Constructor for creating new elements
+     */
+    wrapModelProperty<K extends keyof this, T extends IModelObject>(key: K, constructor: { new(): T }): void {
+        let propertyValue: any = this[key];
+        Object.defineProperty(this, key, {
+            get() { return propertyValue; },
+            set(newValue) {
+                if (newValue === null) {
+                    propertyValue = null;
+                } else if (propertyValue !== null) {
+                    const newModel = propertyValue.update(newValue);
+                    if (propertyValue !== newModel) {
+                        propertyValue = newModel;
+                    }
+                } else {
+                    const newModel = new constructor();
+                    propertyValue = newModel.update(newValue);
+                }
+            },
+            configurable: true,
+            enumerable: true
+        });
     }
 }

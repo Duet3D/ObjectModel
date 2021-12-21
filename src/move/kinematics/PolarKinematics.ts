@@ -1,4 +1,4 @@
-import ModelObject from "../../ModelObject";
+import { IModelObject } from "../../ModelObject";
 import KinematicsBase, { KinematicsName } from "./KinematicsBase";
 import { getKinematics } from "./index";
 
@@ -7,7 +7,7 @@ export default class PolarKinematics extends KinematicsBase {
         super(KinematicsName.polar);
     }
 
-    override update(jsonElement: any): ModelObject | null {
+    override update(jsonElement: any): IModelObject | null {
         if (jsonElement === null) {
             throw new Error("Kinematics must not be null");
         }

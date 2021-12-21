@@ -16,7 +16,8 @@ export declare class TimesLeft extends ModelObject {
     slicer: number | null;
 }
 export default class Job extends ModelObject {
-    readonly build: Build;
+    constructor();
+    build: Build;
     duration: number | null;
     file: ParsedFileInfo | null;
     filePosition: bigint | null;

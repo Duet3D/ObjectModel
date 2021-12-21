@@ -12,5 +12,5 @@ export default class Build extends ModelObject {
     currentObject: number = -1;
     m486names: boolean = false;
     m486numbers: boolean = false;
-    objects: ModelCollection<BuildObject> = new ModelCollection(BuildObject);
+    readonly objects: ModelCollection<BuildObject> = new ModelCollection(BuildObject);
 }

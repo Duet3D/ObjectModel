@@ -6,7 +6,6 @@ import MoveCompensation from "./MoveCompensation";
 import Extruder from "./Extruder";
 import InputShaping from "./InputShaping";
 import Kinematics from "./kinematics";
-import CoreKinematics from "./kinematics/CoreKinematics";
 
 export class CurrentMove extends ModelObject {
     acceleration: number = 0;

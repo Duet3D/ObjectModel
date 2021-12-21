@@ -1,4 +1,3 @@
-import ModelCollection from "../ModelCollection";
 import ModelObject from "../ModelObject";
 
 export enum AnalogSensorType {

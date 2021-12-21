@@ -40,6 +40,6 @@ export class TiltCorrection extends ModelObject {
     screwY: Array<number> = [];
 }
 
-export class ZLeadscrewKinematics extends KinematicsBase {
+export abstract class ZLeadscrewKinematics extends KinematicsBase {
     readonly tiltCorrection: TiltCorrection = new TiltCorrection();
 }

@@ -1,5 +1,6 @@
-import ModelObject from "../../ModelObject";
+import ModelObject, { IModelObject } from "../../ModelObject";
 import FilamentMonitorBase, { FilamentMonitorType } from "./FilamentMonitorBase";
+import { getFilamentMonitor } from "./index";
 
 export class LaserFilamentMonitorCalibrated extends ModelObject {
     calibrationFactor: number = 0;
@@ -17,10 +18,22 @@ export class LaserFilamentMonitorConfigured extends ModelObject {
 }
 
 export default class LaserFilamentMonitor extends FilamentMonitorBase {
+    constructor() {
+        super(FilamentMonitorType.laser);
+        this.wrapModelProperty("calibrated", LaserFilamentMonitorCalibrated);
+    }
+
     calibrated: LaserFilamentMonitorCalibrated | null = new LaserFilamentMonitorCalibrated();
     readonly configured: LaserFilamentMonitorConfigured = new LaserFilamentMonitorConfigured();
 
-    constructor() {
-        super(FilamentMonitorType.laser);
+    override update(jsonElement: any): IModelObject | null {
+        if (jsonElement === null) {
+            return null;
+        }
+
+        if (typeof jsonElement.type === "string" && jsonElement.type !== this.type) {
+            return getFilamentMonitor(jsonElement.type).update(jsonElement);
+        }
+        return super.update(jsonElement);
     }
 }

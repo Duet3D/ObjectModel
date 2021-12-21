@@ -1,4 +1,5 @@
-export default class Directories {
+import ModelObject from "../ModelObject";
+export default class Directories extends ModelObject {
     filaments: string;
     firmware: string;
     gCodes: string;

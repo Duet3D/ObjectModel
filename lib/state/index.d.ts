@@ -11,10 +11,10 @@ export declare class GpOutputPort extends ModelObject {
     pwm: number;
 }
 export declare enum LogLevel {
-    debug = 0,
-    info = 1,
-    warn = 2,
-    off = 3
+    debug = "debug",
+    info = "info",
+    warn = "warn",
+    off = "off"
 }
 export declare enum MachineMode {
     fff = "FFF",
@@ -22,6 +22,7 @@ export declare enum MachineMode {
     laser = "Laser"
 }
 export default class State extends ModelObject {
+    constructor();
     atxPower: boolean | null;
     atxPowerPort: string | null;
     beep: BeepRequest | null;

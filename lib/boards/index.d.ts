@@ -1,9 +1,27 @@
 import ModelObject from "../ModelObject";
-import Accelerometer from "./Accelerometer";
-import DirectDisplay from "./DirectDisplay";
-import MinMaxCurrent from "./MinMaxCurrent";
-import { BoardState } from "./BoardState";
+export declare class Accelerometer extends ModelObject {
+    points: number;
+    runs: number;
+}
+export declare enum BoardState {
+    unknown = "unknown",
+    flashing = "flashing",
+    flashFailed = "flashFailed",
+    resetting = "resetting",
+    running = "running"
+}
+export declare class MinMaxCurrent extends ModelObject {
+    current: number;
+    min: number;
+    max: number;
+}
+export declare class DirectDisplay extends ModelObject {
+    pulsesPerClick: number;
+    spiFreq: number;
+    typeName: string;
+}
 export default class Board extends ModelObject {
+    constructor();
     accelerometer: Accelerometer | null;
     bootloaderFileName: string | null;
     canAddress: number | null;

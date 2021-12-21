@@ -4,8 +4,10 @@
   "description": "TypeScript implementation of the Duet3D Object Model",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "tsc"
+    "test": "jest --config jestconfig.json",
+    "build": "tsc",
+    "prepare" : "npm run build",
+    "prepublishOnly" : "npm test"
   },
   "repository": {
     "type": "git",
@@ -18,6 +20,9 @@
   },
   "homepage": "https://github.com/Duet3D/ObjectModel#readme",
   "devDependencies": {
+    "@types/jest": "^27.0.3",
+    "jest": "^27.4.5",
+    "ts-jest": "^27.1.2",
     "typescript": "^4.5.2"
   },
   "directories": {

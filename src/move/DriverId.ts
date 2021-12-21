@@ -1,10 +1,10 @@
-import ModelObject from "../ModelObject";
+import ModelObject, { IModelObject } from "../ModelObject";
 
 export default class DriverId extends ModelObject {
     board: number = 0;
     driver: number = 0;
 
-    override update(jsonElement: any): ModelObject | null {
+    override update(jsonElement: any): IModelObject | null {
         if (typeof jsonElement === "string") {
             const matches = /(\d+)\.(\d+)/.exec(jsonElement);
             if (matches !== null) {
@@ -17,5 +17,9 @@ export default class DriverId extends ModelObject {
             return this;
         }
         return null;
+    }
+
+    override toString() {
+        return `${this.board}.${this.driver}`;
     }
 }

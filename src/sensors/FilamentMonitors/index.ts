@@ -1,16 +1,16 @@
-import ModelObject from "../../ModelObject";
+import { IModelObject } from "../../ModelObject";
 import FilamentMonitorBase, { FilamentMonitorType } from "./FilamentMonitorBase";
 import LaserFilamentMonitor from "./LaserFilamentMonitor";
 import PulsedFilamentMonitor from "./PulsedFilamentMonitor";
 import RotatingMagnetFilamentMonitor from "./RotatingMagnetFilamentMonitor";
 
 export default class FilamentMonitor extends FilamentMonitorBase {
-    override update(jsonElement: any): ModelObject | null {
+    override update(jsonElement: any): IModelObject | null {
         if (jsonElement === null) {
             return null;
         }
 
-        if (typeof jsonElement.name === "string" && jsonElement.name !== this.type) {
+        if (typeof jsonElement.type === "string" && jsonElement.type !== this.type) {
             return getFilamentMonitor(jsonElement.type).update(jsonElement);
         }
         return super.update(jsonElement);
