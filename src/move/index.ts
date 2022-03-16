@@ -38,6 +38,8 @@ export default class Move extends ModelObject {
     readonly extruders: ModelCollection<Extruder> = new ModelCollection(Extruder);
     readonly idle: MotorsIdleControl = new MotorsIdleControl();
     kinematics: Kinematics = new Kinematics();
+    limitAxes: boolean = true;
+    noMovesBeforeHoming: boolean = true;
     printingAcceleration: number = 10000;
     readonly queue: ModelCollection<MoveQueueItem> = new ModelCollection(MoveQueueItem);
     readonly rotation: MoveRotation = new MoveRotation();

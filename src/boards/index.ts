@@ -13,6 +13,11 @@ export enum BoardState {
     running = "running"
 }
 
+export class ClosedLoop extends ModelObject {
+    points: number = 0;
+    runs: number = 0;
+}
+
 export class MinMaxCurrent extends ModelObject {
     current: number = 0;
     min: number = 0;
@@ -29,6 +34,7 @@ export default class Board extends ModelObject {
     constructor() {
         super();
         this.wrapModelProperty("accelerometer", Accelerometer);
+        this.wrapModelProperty("closedLoop", ClosedLoop);
         this.wrapModelProperty("directDisplay", DirectDisplay);
         this.wrapModelProperty("mcuTemp", MinMaxCurrent);
         this.wrapModelProperty("v12", MinMaxCurrent);
@@ -38,6 +44,7 @@ export default class Board extends ModelObject {
     accelerometer: Accelerometer | null = null;
     bootloaderFileName: string | null = null;
     canAddress: number | null = 0;
+    closedLoop: ClosedLoop | null = null;
     directDisplay: DirectDisplay | null = null;
     firmwareDate: string = "";
     firmwareFileName: string = "";

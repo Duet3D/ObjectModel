@@ -36,6 +36,7 @@ export default class State extends ModelObject {
     atxPowerPort: string | null = null;
     beep: BeepRequest | null = null;
     currentTool: number = -1;
+    deferredPowerDown: boolean | null = null;
     displayMessage: string = "";
     dsfVersion: string | null = null;       // deprecated; will be moved to separate dsf main key in v3.5
     dsfPluginSupport: boolean = false;      // deprecated; will be moved to separate dsf main key in v3.5
@@ -54,6 +55,7 @@ export default class State extends ModelObject {
     previousTool: number = -1;
     readonly restorePoints: ModelCollection<RestorePoint> = new ModelCollection(RestorePoint);
     status: MachineStatus = MachineStatus.starting;
+    thisInput: number | null = null;
     time: string | null = null;
     upTime: number = 0;
 }

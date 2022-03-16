@@ -29,6 +29,7 @@ export enum SbcPermission {
     launchProcesses = "launchProcesses",
     networkAccess = "networkAccess",
     webcamAccess = "webcamAccess",
+    gpioAccess = "gpioAccess",
     superUser = "superUser"
 }
 
@@ -74,6 +75,7 @@ export default class PluginManifest extends ModelObject {
     sbcPermissions: Set<SbcPermission> = new Set<SbcPermission>();
     sbcPackageDependencies: Array<string> = [];
     sbcPluginDependencies: Array<string> = [];
+    sbcPythonDependencies: Array<string> = [];
     rrfVersion: string | null = null;
     data: Map<string, any> = new Map<string, any>();
 

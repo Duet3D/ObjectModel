@@ -1,11 +1,10 @@
 import ModelObject from "../ModelObject";
 import ModelCollection from "../ModelCollection";
-import ParsedThumbnail from "./ParsedThumbnail";
+import ThumbnailInfo from "./ThumbnailInfo";
 
-export default class ParsedFileInfo extends ModelObject {
+export default class GCodeFileInfo extends ModelObject {
     filament: Array<number> = new Array<number>();
     fileName: string = "";
-    firstLayerHeight: number = 0;
     generatedBy: string = "";
     height: number = 0;
     lastModified: string | null = null;
@@ -14,5 +13,5 @@ export default class ParsedFileInfo extends ModelObject {
     printTime: bigint | null = null;
     simulatedTime: bigint | null = null;
     size: bigint = 0n;
-    readonly thumbnails: ModelCollection<ParsedThumbnail> = new ModelCollection(ParsedThumbnail);
+    readonly thumbnails: ModelCollection<ThumbnailInfo> = new ModelCollection(ThumbnailInfo);
 }

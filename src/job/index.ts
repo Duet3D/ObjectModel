@@ -1,7 +1,7 @@
 import Build from "./Build";
 import ModelCollection from "../ModelCollection";
 import ModelObject from "../ModelObject";
-import ParsedFileInfo from "./ParsedFileInfo"
+import GCodeFileInfo from "./GCodeFileInfo"
 
 export class Layer extends ModelObject {
     duration: number = 0;
@@ -22,12 +22,12 @@ export default class Job extends ModelObject {
     constructor() {
         super();
         this.wrapModelProperty("build", Build);
-        this.wrapModelProperty("file", ParsedFileInfo);
+        this.wrapModelProperty("file", GCodeFileInfo);
     }
 
     build: Build = new Build();
     duration: number | null = null;
-    file: ParsedFileInfo | null = null;
+    file: GCodeFileInfo | null = null;
     filePosition: bigint | null = null;
     lastDuration: number | null = null;
     lastFileName: string | null = null;
