@@ -1,8 +1,9 @@
 {
   "name": "@duet3d/objectmodel",
-  "version": "3.4.0",
+  "version": "3.4.0-b1",
   "description": "TypeScript implementation of the Duet3D Object Model",
-  "main": "index.js",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "scripts": {
     "test": "jest --config jestconfig.json",
     "build": "tsc",
@@ -25,5 +26,5 @@
     "ts-jest": "^27.1.2",
     "typescript": "^4.5.2"
   },
-  "files": ["lib/**"]
+  "files": ["/dist"]
 }
