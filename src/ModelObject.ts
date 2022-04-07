@@ -1,5 +1,4 @@
 import { setArrayItem } from "./index";
-import { pathsToModuleNameMapper } from "ts-jest";
 
 /**
  * Interface for updating model objects using JSON data
@@ -149,4 +148,18 @@ export default abstract class ModelObject implements IModelObject {
             enumerable: true
         });
     }
+}
+
+/**
+ * Initialize a class item from the given data
+ * @param itemType Item type to create
+ * @param data Data to assign
+ * @returns Initialized item instance
+ */
+function initItem<T>(itemType: { new(): T }, data: { [Property in keyof T]?: T[Property]; }): T {
+	const result = new itemType();
+	for (let key in data) {
+		result[key] = data[key]!;
+	}
+	return result;
 }
