@@ -46,3 +46,10 @@ export function getKinematics(name: KinematicsName): KinematicsBase {
             return name as never;
     }
 }
+
+export * from "./CoreKinematics";
+export * from "./DeltaKinematics";
+export * from "./HangprinterKinematics";
+export * from "./KinematicsBase";
+export * from "./PolarKinematics";
+export * from "./ScaraKinematics";

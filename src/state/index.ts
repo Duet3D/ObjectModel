@@ -59,3 +59,7 @@ export default class State extends ModelObject {
     time: string | null = null;
     upTime: number = 0;
 }
+
+export * from "./MachineStatus";
+export * from "./MessageBox";
+export * from "./RestorePoint";

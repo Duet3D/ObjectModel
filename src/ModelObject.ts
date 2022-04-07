@@ -156,7 +156,7 @@ export default abstract class ModelObject implements IModelObject {
  * @param data Data to assign
  * @returns Initialized item instance
  */
-function initItem<T>(itemType: { new(): T }, data: { [Property in keyof T]?: T[Property]; }): T {
+export function initItem<T>(itemType: { new(): T }, data: { [Property in keyof T]?: T[Property]; }): T {
 	const result = new itemType();
 	for (let key in data) {
 		result[key] = data[key]!;

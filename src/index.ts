@@ -1,7 +1,9 @@
+import ModelCollection from "./ModelCollection";
+import ModelDictionary from "./ModelDictionary";
 import ModelObject from "./ModelObject";
+
 import Board from "./boards";
 import State from "./state";
-import ModelCollection from "./ModelCollection";
 import Directories from "./directories";
 import Fan from "./fans";
 import Heat from "./heat";
@@ -17,7 +19,6 @@ import Sensors from "./sensors";
 import Spindle from "./spindles";
 import UserSession from "./userSessions";
 import Volume from "./volumes";
-import { ModelDictionary } from "./ModelDictionary";
 
 // Unfortunately we need to define a way to update arrays to remain compatible with Vue 2 (due to IE11).
 // This will become obsolete as soon as DWC is upgraded to Vue 3, but that isn't going to happen anytime soon.
@@ -51,3 +52,26 @@ export default class ObjectModel extends ModelObject {
     readonly userSessions: ModelCollection<UserSession> = new ModelCollection(UserSession);
     readonly volumes: ModelCollection<Volume> = new ModelCollection(Volume);
 }
+
+// Export everything again from here to simplify imports from other packages
+export * from "./ModelCollection";
+export * from "./ModelDictionary";
+export * from "./ModelObject";
+
+export * from "./boards";
+export * from "./state";
+export * from "./directories";
+export * from "./fans";
+export * from "./heat";
+export * from "./httpEndpoints";
+export * from "./inputs";
+export * from "./job";
+export * from "./limits";
+export * from "./messages";
+export * from "./move";
+export * from "./plugins";
+export * from "./scanner";
+export * from "./sensors";
+export * from "./spindles";
+export * from "./userSessions";
+export * from "./volumes";

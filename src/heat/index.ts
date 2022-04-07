@@ -9,3 +9,7 @@ export default class Heat extends ModelObject {
     coldRetractTemperature: number = 90;
     readonly heaters: ModelCollection<Heater> = new ModelCollection(Heater);
 }
+
+export * from "./Heater";
+export * from "./HeaterModel";
+export * from "./HeaterMonitor";

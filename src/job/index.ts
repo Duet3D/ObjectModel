@@ -42,3 +42,7 @@ export default class Job extends ModelObject {
     readonly timesLeft: TimesLeft = new TimesLeft();
     warmUpDuration: number | null = null;
 }
+
+export * from "./Build";
+export * from "./GCodeFileInfo";
+export * from "./ThumbnailInfo";

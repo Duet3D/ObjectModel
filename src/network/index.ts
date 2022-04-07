@@ -12,3 +12,5 @@ export default class Network extends ModelObject {
     readonly interfaces: ModelCollection<NetworkInterface> = new ModelCollection(NetworkInterface);
     name: string = DefaultName;
 }
+
+export * from "./NetworkInterface";

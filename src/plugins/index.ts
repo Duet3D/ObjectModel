@@ -6,3 +6,5 @@ export default class Plugin extends PluginManifest {
     sdFiles: Array<string> = [];
     pid: number = -1;
 }
+
+export * from "./PluginManifest";

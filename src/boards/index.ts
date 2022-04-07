@@ -1,4 +1,4 @@
-import ModelObject, { IModelObject } from "../ModelObject";
+import ModelObject from "../ModelObject";
 
 export class Accelerometer extends ModelObject {
     points: number = 0;

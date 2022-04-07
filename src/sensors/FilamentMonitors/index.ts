@@ -29,3 +29,8 @@ export function getFilamentMonitor(type: FilamentMonitorType): FilamentMonitorBa
             return new FilamentMonitor(type);
     }
 }
+
+export * from "./FilamentMonitorBase";
+export * from "./LaserFilamentMonitor";
+export * from "./PulsedFilamentMonitor";
+export * from "./RotatingMagnetFilamentMonitor";

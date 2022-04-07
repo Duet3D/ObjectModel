@@ -16,3 +16,8 @@ export default class Sensors extends  ModelObject {
     readonly gpIn: ModelCollection<GpInputPort> = new ModelCollection(GpInputPort);
     readonly probes: ModelCollection<Probe> = new ModelCollection(Probe);
 }
+
+export * from "./FilamentMonitors";
+export * from "./AnalogSensor";
+export * from "./Endstop";
+export * from "./Probe";
