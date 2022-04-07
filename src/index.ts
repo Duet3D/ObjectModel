@@ -14,6 +14,7 @@ export * from "./job";
 export * from "./limits";
 export * from "./messages";
 export * from "./move";
+export * from "./network";
 export * from "./plugins";
 export * from "./scanner";
 export * from "./sensors";
