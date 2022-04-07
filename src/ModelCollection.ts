@@ -4,7 +4,7 @@ import { setArrayItem } from "./index";
 /**
  * Class for storing model object items in an array
  */
-export default class ModelCollection<T extends IModelObject> extends Array<T> implements IModelObject {
+export class ModelCollection<T extends IModelObject> extends Array<T> implements IModelObject {
     private readonly itemConstructor: { new(): T };
 
     /**
@@ -80,3 +80,5 @@ export default class ModelCollection<T extends IModelObject> extends Array<T> im
         return this;
     }
 }
+
+export default ModelCollection

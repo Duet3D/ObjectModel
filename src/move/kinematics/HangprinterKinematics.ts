@@ -2,7 +2,7 @@ import { IModelObject } from "../../ModelObject";
 import KinematicsBase, { KinematicsName } from "./KinematicsBase";
 import { getKinematics } from "./index";
 
-export default class HangprinterKinematics extends KinematicsBase {
+export class HangprinterKinematics extends KinematicsBase {
     anchors: Array<Array<number>> = [
         [    0, -2000, -100 ],
         [ 2000,  1000, -100 ],
@@ -25,3 +25,5 @@ export default class HangprinterKinematics extends KinematicsBase {
         return super.update(jsonElement);
     }
 }
+
+export default HangprinterKinematics

@@ -1,7 +1,7 @@
-import Build from "./Build";
 import ModelCollection from "../ModelCollection";
 import ModelObject from "../ModelObject";
-import GCodeFileInfo from "./GCodeFileInfo"
+import Build from "./Build";
+import GCodeFileInfo from "./GCodeFileInfo";
 
 export class Layer extends ModelObject {
     duration: number = 0;
@@ -18,7 +18,7 @@ export class TimesLeft extends ModelObject {
     slicer: number | null = null;
 }
 
-export default class Job extends ModelObject {
+export class Job extends ModelObject {
     constructor() {
         super();
         this.wrapModelProperty("build", Build);
@@ -43,6 +43,8 @@ export default class Job extends ModelObject {
     warmUpDuration: number | null = null;
 }
 
-export * from "./Build";
-export * from "./GCodeFileInfo";
-export * from "./ThumbnailInfo";
+export default Job
+
+export * from "./Build"
+export * from "./GCodeFileInfo"
+export * from "./ThumbnailInfo"

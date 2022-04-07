@@ -1,8 +1,8 @@
-import ModelObject from "../ModelObject";
 import ModelCollection from "../ModelCollection";
+import ModelObject from "../ModelObject";
 import ThumbnailInfo from "./ThumbnailInfo";
 
-export default class GCodeFileInfo extends ModelObject {
+export class GCodeFileInfo extends ModelObject {
     filament: Array<number> = new Array<number>();
     fileName: string = "";
     generatedBy: string = "";
@@ -15,3 +15,5 @@ export default class GCodeFileInfo extends ModelObject {
     size: bigint = 0n;
     readonly thumbnails: ModelCollection<ThumbnailInfo> = new ModelCollection(ThumbnailInfo);
 }
+
+export default GCodeFileInfo

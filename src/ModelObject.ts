@@ -23,7 +23,7 @@ export function isModelObject(value: any): value is IModelObject {
 /**
  * Base class for object model classes
  */
-export default abstract class ModelObject implements IModelObject {
+export abstract class ModelObject implements IModelObject {
     /**
      * Update this instance from the given data
      * @param jsonElement JSON data to upgrade this instance from
@@ -163,3 +163,5 @@ export function initItem<T>(itemType: { new(): T }, data: { [Property in keyof T
 	}
 	return result;
 }
+
+export default ModelObject

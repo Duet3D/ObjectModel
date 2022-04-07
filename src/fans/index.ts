@@ -6,7 +6,7 @@ export class FanThermostaticControl extends ModelObject {
     lowTemperature: number | null = null;
 }
 
-export default class Fan extends ModelObject {
+export class Fan extends ModelObject {
     actualValue: number = 0;
     blip: number = 0.1;
     frequency: number = 250;
@@ -17,3 +17,5 @@ export default class Fan extends ModelObject {
     rpm: number = -1;
     readonly thermostatic: FanThermostaticControl = new FanThermostaticControl();
 }
+
+export default Fan

@@ -29,7 +29,7 @@ export enum AxisLetter {
     none = ''
 }
 
-export default class Axis extends ModelObject {
+export class Axis extends ModelObject {
     acceleration: number = 0;
     babystep: number = 0;
     current: number = 0;
@@ -51,3 +51,5 @@ export default class Axis extends ModelObject {
     visible: boolean = true;
     workplaceOffsets: Array<number> = new Array<number>();
 }
+
+export default Axis

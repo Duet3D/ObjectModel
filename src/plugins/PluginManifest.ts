@@ -33,7 +33,7 @@ export enum SbcPermission {
     superUser = "superUser"
 }
 
-export default class PluginManifest extends ModelObject {
+export class PluginManifest extends ModelObject {
     #id: string = "";
     get id() { return this.#id; }
     set id(value) {
@@ -92,3 +92,5 @@ export default class PluginManifest extends ModelObject {
         return true;
     }
 }
+
+export default PluginManifest

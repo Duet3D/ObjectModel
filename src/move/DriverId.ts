@@ -1,6 +1,6 @@
 import ModelObject, { IModelObject } from "../ModelObject";
 
-export default class DriverId extends ModelObject {
+export class DriverId extends ModelObject {
     board: number = 0;
     driver: number = 0;
 
@@ -23,3 +23,5 @@ export default class DriverId extends ModelObject {
         return `${this.board}.${this.driver}`;
     }
 }
+
+export default DriverId

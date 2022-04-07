@@ -5,8 +5,10 @@ export class MoveDeviations extends ModelObject {
     mean: number = 0;
 }
 
-export default class MoveCalibration extends ModelObject {
+export class MoveCalibration extends ModelObject {
     readonly final: MoveDeviations = new MoveDeviations();
     readonly initial: MoveDeviations = new MoveDeviations();
     numFactors: number = 0;
 }
+
+export default MoveCalibration

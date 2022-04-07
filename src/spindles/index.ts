@@ -7,7 +7,7 @@ export enum SpindleState {
     reverse = "reverse"
 }
 
-export default class Spindle extends ModelObject {
+export class Spindle extends ModelObject {
     active: number = 0;
     canReverse: boolean = false;
     current: number = 0;
@@ -16,3 +16,5 @@ export default class Spindle extends ModelObject {
     max: number = 10000;
     state: SpindleState = SpindleState.unconfigured;
 }
+
+export default Spindle

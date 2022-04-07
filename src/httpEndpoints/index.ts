@@ -11,10 +11,12 @@ export enum HttpEndpointType {
     WebSocket = "WebSocket"
 }
 
-export default class HttpEndpoint extends ModelObject {
+export class HttpEndpoint extends ModelObject {
     endpointType: HttpEndpointType = HttpEndpointType.GET;
     namespace: string = "";
     path: string = "";
     isUploadRequest: boolean = false;
     unixSocket: string = "";
 }
+
+export default HttpEndpoint

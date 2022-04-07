@@ -7,7 +7,7 @@ export enum MessageBoxMode {
     okCancel
 }
 
-export default class MessageBox extends ModelObject {
+export class MessageBox extends ModelObject {
     axisControls: number = 0;
     message: string = "";
     mode: MessageBoxMode = MessageBoxMode.okOnly;
@@ -15,3 +15,5 @@ export default class MessageBox extends ModelObject {
     timeout: number = 0;
     title: string = "";
 }
+
+export default MessageBox

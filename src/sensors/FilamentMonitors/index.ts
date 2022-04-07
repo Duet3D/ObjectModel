@@ -4,7 +4,7 @@ import LaserFilamentMonitor from "./LaserFilamentMonitor";
 import PulsedFilamentMonitor from "./PulsedFilamentMonitor";
 import RotatingMagnetFilamentMonitor from "./RotatingMagnetFilamentMonitor";
 
-export default class FilamentMonitor extends FilamentMonitorBase {
+export class FilamentMonitor extends FilamentMonitorBase {
     override update(jsonElement: any): IModelObject | null {
         if (jsonElement === null) {
             return null;
@@ -16,6 +16,8 @@ export default class FilamentMonitor extends FilamentMonitorBase {
         return super.update(jsonElement);
     }
 }
+
+export default FilamentMonitor
 
 export function getFilamentMonitor(type: FilamentMonitorType): FilamentMonitorBase {
     switch (type) {

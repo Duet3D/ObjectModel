@@ -30,7 +30,7 @@ export class MoveRotation extends ModelObject {
     centre: Array<number> = [0, 0];
 }
 
-export default class Move extends ModelObject {
+export class Move extends ModelObject {
     readonly axes: ModelCollection<Axis> = new ModelCollection(Axis);
     readonly calibration: MoveCalibration = new MoveCalibration();
     readonly compensation: MoveCompensation = new MoveCompensation();
@@ -49,6 +49,8 @@ export default class Move extends ModelObject {
     virtualEPos: number = 0;
     workplaceNumber: number = 0;
 }
+
+export default Move
 
 export * from "./kinematics";
 export * from "./Axis";

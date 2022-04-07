@@ -12,7 +12,7 @@ export enum HeaterState {
     offline = "offline"
 }
 
-export default class Heater extends ModelObject {
+export class Heater extends ModelObject {
     active: number = 0;
     avgPwm: number = 0;
     current: number = -273.15;
@@ -24,3 +24,5 @@ export default class Heater extends ModelObject {
     standby: number = 0;
     state: HeaterState = HeaterState.off;
 }
+
+export default Heater

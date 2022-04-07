@@ -1,6 +1,6 @@
 import ModelObject from "../ModelObject";
 
-export default class Volume extends ModelObject {
+export class Volume extends ModelObject {
     capacity: bigint | null = null;
     freeSpace: bigint | null = null;
     mounted: boolean = false;
@@ -9,3 +9,5 @@ export default class Volume extends ModelObject {
     path: string | null = null;
     speed: number | null = null;
 }
+
+export default Volume

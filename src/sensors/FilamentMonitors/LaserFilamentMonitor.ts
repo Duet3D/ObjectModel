@@ -17,7 +17,7 @@ export class LaserFilamentMonitorConfigured extends ModelObject {
     sampleDistance: number = 0;
 }
 
-export default class LaserFilamentMonitor extends FilamentMonitorBase {
+export class LaserFilamentMonitor extends FilamentMonitorBase {
     constructor() {
         super(FilamentMonitorType.laser);
         this.wrapModelProperty("calibrated", LaserFilamentMonitorCalibrated);
@@ -37,3 +37,5 @@ export default class LaserFilamentMonitor extends FilamentMonitorBase {
         return super.update(jsonElement);
     }
 }
+
+export default LaserFilamentMonitor

@@ -8,7 +8,7 @@ export class HeaterModelPID extends ModelObject {
     used: boolean = true;
 }
 
-export default class HeaterModel extends ModelObject {
+export class HeaterModel extends ModelObject {
     coolingExp: number = 1.35;
     coolingRate: number = 0.56;
     deadTime: number = 5.5;
@@ -20,3 +20,5 @@ export default class HeaterModel extends ModelObject {
     readonly pid: HeaterModelPID = new HeaterModelPID();
     standardVoltage: number | null = null;
 }
+
+export default HeaterModel

@@ -26,7 +26,7 @@ export enum MachineMode {
     laser = "Laser"
 }
 
-export default class State extends ModelObject {
+export class State extends ModelObject {
     constructor() {
         super();
         this.wrapModelProperty("beep", BeepRequest);
@@ -59,6 +59,8 @@ export default class State extends ModelObject {
     time: string | null = null;
     upTime: number = 0;
 }
+
+export default State
 
 export * from "./MachineStatus";
 export * from "./MessageBox";

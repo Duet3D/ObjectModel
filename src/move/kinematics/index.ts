@@ -6,7 +6,7 @@ import HangprinterKinematics from "./HangprinterKinematics";
 import ScaraKinematics from "./ScaraKinematics";
 import PolarKinematics from "./PolarKinematics";
 
-export default class Kinematics extends KinematicsBase {
+export class Kinematics extends KinematicsBase {
     constructor() {
         super(KinematicsName.unknown);
     }
@@ -22,6 +22,8 @@ export default class Kinematics extends KinematicsBase {
         return super.update(jsonElement);
     }
 }
+
+export default Kinematics
 
 export function getKinematics(name: KinematicsName): KinematicsBase {
     switch (name as KinematicsName) {

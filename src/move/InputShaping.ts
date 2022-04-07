@@ -11,7 +11,7 @@ export enum InputShapingType {
     custom = "custom"
 }
 
-export default class InputShaping extends ModelObject {
+export class InputShaping extends ModelObject {
     amplitudes: Array<number> = [];
     damping: number = 0.1;
     durations: Array<number> = [];
@@ -19,3 +19,5 @@ export default class InputShaping extends ModelObject {
     minAcceleration: number = 10;
     type: InputShapingType = InputShapingType.none;
 }
+
+export default InputShaping

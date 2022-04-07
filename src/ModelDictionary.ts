@@ -3,7 +3,7 @@ import { IModelObject, isModelObject } from "./ModelObject";
 /**
  * Dictionary class to map object model data
  */
-export default class ModelDictionary<T> extends Map<string, T | null> implements IModelObject {
+export class ModelDictionary<T> extends Map<string, T | null> implements IModelObject {
     private readonly nullDeletesKeys: boolean;
     private readonly itemConstructor: { new(): T } | null;
 
@@ -68,3 +68,5 @@ export default class ModelDictionary<T> extends Map<string, T | null> implements
         return this;
     }
 }
+
+export default ModelDictionary

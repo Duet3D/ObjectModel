@@ -18,8 +18,10 @@ export enum AnalogSensorType {
     unknown = "unknown"
 }
 
-export default class AnalogSensor extends ModelObject {
+export class AnalogSensor extends ModelObject {
     lastReading: number | null = null;
     name: string | null = null;
     type: AnalogSensorType = AnalogSensorType.unknown;
 }
+
+export default AnalogSensor

@@ -1,4 +1,4 @@
-import ModelObject from "../ModelObject";
+import { ModelObject } from "../ModelObject";
 
 export enum ThumbnailFormat {
     jpeg = 'jpeg',
@@ -6,7 +6,7 @@ export enum ThumbnailFormat {
     qoi = 'qoi'
 }
 
-export default class ThumbnailInfo extends ModelObject {
+export class ThumbnailInfo extends ModelObject {
     data: string | null = null;
     format: ThumbnailFormat = ThumbnailFormat.png;
     height: number = 0;
@@ -14,3 +14,5 @@ export default class ThumbnailInfo extends ModelObject {
     size: number = 0;
     width: number = 0;
 }
+
+export default ThumbnailInfo

@@ -6,7 +6,7 @@ export enum MessageType {
     error
 }
 
-export default class Message extends ModelObject {
+export class Message extends ModelObject {
     content: string = "";
     time: Date = new Date();
     type: MessageType = MessageType.success;
@@ -19,3 +19,5 @@ export default class Message extends ModelObject {
         }
     }
 }
+
+export default Message

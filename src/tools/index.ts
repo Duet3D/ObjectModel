@@ -6,7 +6,7 @@ export enum ToolState {
     standby = "standby"
 }
 
-export default class Tool extends ModelObject {
+export class Tool extends ModelObject {
     active: Array<number> = [];
     axes: Array<Array<number>> = [];
     extruders: Array<number> = [];
@@ -25,3 +25,5 @@ export default class Tool extends ModelObject {
     standby: Array<number> = [];
     state: ToolState = ToolState.off;
 }
+
+export default Tool

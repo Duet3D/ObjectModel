@@ -7,3 +7,5 @@ export enum Compatibility {
     Repetier = "Repetier",
     NanoDLP = "NanoDLP"
 }
+
+export default Compatibility

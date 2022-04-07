@@ -2,7 +2,7 @@ import { IModelObject } from "../../ModelObject";
 import KinematicsBase, { KinematicsName } from "./KinematicsBase";
 import { getKinematics } from "./index";
 
-export default class PolarKinematics extends KinematicsBase {
+export class PolarKinematics extends KinematicsBase {
     constructor() {
         super(KinematicsName.polar);
     }
@@ -18,3 +18,5 @@ export default class PolarKinematics extends KinematicsBase {
         return super.update(jsonElement);
     }
 }
+
+export default PolarKinematics

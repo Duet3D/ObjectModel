@@ -1,5 +1,5 @@
-import { Compatibility } from "./Compatibility";
 import ModelObject from "../ModelObject";
+import Compatibility from "./Compatibility";
 
 export enum DistanceUnit {
     mm ="mm",
@@ -14,7 +14,7 @@ export enum InputChannelState {
     reading = "reading"
 }
 
-export default class InputChannel extends ModelObject {
+export class InputChannel extends ModelObject {
     axesRelative: boolean = false;
     compatibility: Compatibility = Compatibility.RepRapFirmware;
     distanceUnit: DistanceUnit = DistanceUnit.mm;
@@ -28,3 +28,5 @@ export default class InputChannel extends ModelObject {
     lineNumber: bigint = 0n;
     volumetric: boolean = false;
 }
+
+export default InputChannel

@@ -9,7 +9,9 @@ export enum ScannerStatus {
     uploading = 'U'
 }
 
-export default class Scanner extends ModelObject {
+export class Scanner extends ModelObject {
     progress: number = 0;
     status: ScannerStatus = ScannerStatus.disconnected;
 }
+
+export default Scanner

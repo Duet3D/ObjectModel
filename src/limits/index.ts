@@ -1,6 +1,6 @@
 import ModelObject from "../ModelObject";
 
-export default class Limits extends ModelObject {
+export class Limits extends ModelObject {
     axes: number | null = null;
     axesPlusExtruders: number | null = null;
     bedHeaters: number | null = null;
@@ -27,3 +27,5 @@ export default class Limits extends ModelObject {
     zProbeProgramBytes: number | null = null;
     zProbes: number | null = null;
 }
+
+export default Limits

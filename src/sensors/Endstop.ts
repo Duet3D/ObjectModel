@@ -8,8 +8,10 @@ export enum EndstopType {
     unknown = "unknown"
 }
 
-export default class Endstop extends ModelObject {
+export class Endstop extends ModelObject {
     highEnd: boolean = false;
     triggered: boolean = false;
     type: EndstopType = EndstopType.unknown;
 }
+
+export default Endstop

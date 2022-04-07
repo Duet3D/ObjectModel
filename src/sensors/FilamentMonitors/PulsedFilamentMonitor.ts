@@ -16,7 +16,7 @@ export class PulsedFilamentMonitorConfigured extends ModelObject {
     sampleDistance: number = 0;
 }
 
-export default class PulsedFilamentMonitor extends FilamentMonitorBase {
+export class PulsedFilamentMonitor extends FilamentMonitorBase {
     constructor() {
         super(FilamentMonitorType.pulsed);
         this.wrapModelProperty("calibrated", PulsedFilamentMonitorCalibrated);
@@ -36,3 +36,5 @@ export default class PulsedFilamentMonitor extends FilamentMonitorBase {
         return super.update(jsonElement);
     }
 }
+
+export default PulsedFilamentMonitor

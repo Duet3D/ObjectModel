@@ -14,3 +14,5 @@ export enum MachineStatus {
     changingTool = "changingTool",
     idle = "idle"
 }
+
+export default MachineStatus

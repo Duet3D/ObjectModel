@@ -11,7 +11,7 @@ export class DeltaTower extends ModelObject {
     yPos: number = 0;
 }
 
-export default class DeltaKinematics extends KinematicsBase {
+export class DeltaKinematics extends KinematicsBase {
     deltaRadius: number = 0;
     homedHeight: number = 0;
     printRadius: number = 0;
@@ -30,3 +30,5 @@ export default class DeltaKinematics extends KinematicsBase {
         return super.update(jsonElement);
     }
 }
+
+export default DeltaKinematics

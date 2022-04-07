@@ -2,7 +2,7 @@ import { IModelObject } from "../../ModelObject";
 import { ZLeadscrewKinematics } from "./KinematicsBase";
 import { getKinematics } from "./index";
 
-export default class ScaraKinematics extends ZLeadscrewKinematics {
+export class ScaraKinematics extends ZLeadscrewKinematics {
     override update(jsonElement: any): IModelObject | null {
         if (jsonElement === null) {
             throw new Error("Kinematics must not be null");
@@ -14,3 +14,5 @@ export default class ScaraKinematics extends ZLeadscrewKinematics {
         return super.update(jsonElement);
     }
 }
+
+export default ScaraKinematics

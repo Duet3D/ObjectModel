@@ -21,7 +21,7 @@ export class MoveSegmentation extends ModelObject {
     minSegmentLength: number = 0;
 }
 
-export default abstract class KinematicsBase extends ModelObject {
+export abstract class KinematicsBase extends ModelObject {
     readonly name: KinematicsName;
     readonly segmentation: MoveSegmentation = new MoveSegmentation();
 
@@ -30,6 +30,8 @@ export default abstract class KinematicsBase extends ModelObject {
         this.name = name;
     }
 }
+
+export default KinematicsBase
 
 export class TiltCorrection extends ModelObject {
     correctionFactor: number = 0;

@@ -21,7 +21,7 @@ export enum MoveCompensationType {
     mesh = "mesh"
 }
 
-export default class MoveCompensation extends ModelObject {
+export class MoveCompensation extends ModelObject {
     constructor() {
         super();
         this.wrapModelProperty("liveGrid", ProbeGrid);
@@ -35,3 +35,5 @@ export default class MoveCompensation extends ModelObject {
     readonly skew: Skew = new Skew();
     type: MoveCompensationType = MoveCompensationType.none;
 }
+
+export default MoveCompensation

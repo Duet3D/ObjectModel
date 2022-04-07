@@ -14,7 +14,7 @@ export enum ProbeType {
     zMotorStall = 10
 }
 
-export default class Probe extends ModelObject {
+export class Probe extends ModelObject {
     calibrationTemperature: number = 0;
     deployedByUser: boolean = false;
     disablesHeaters: boolean = false;
@@ -32,3 +32,5 @@ export default class Probe extends ModelObject {
     type: ProbeType = ProbeType.none;
     value: Array<number> = [];
 }
+
+export default Probe

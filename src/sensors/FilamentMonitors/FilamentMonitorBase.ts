@@ -18,7 +18,7 @@ export enum FilamentMonitorType {
     unknown = "unknown"
 }
 
-export default class FilamentMonitorBase extends ModelObject {
+export class FilamentMonitorBase extends ModelObject {
     enabled: boolean = false;
     status: FilamentMonitorStatus = FilamentMonitorStatus.noDataReceived;
     type: FilamentMonitorType;
@@ -28,3 +28,5 @@ export default class FilamentMonitorBase extends ModelObject {
         this.type = type;
     }
 }
+
+export default FilamentMonitorBase

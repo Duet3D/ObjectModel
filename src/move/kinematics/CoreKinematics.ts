@@ -2,7 +2,7 @@ import { IModelObject } from "../../ModelObject";
 import { KinematicsName, ZLeadscrewKinematics } from "./KinematicsBase";
 import { getKinematics } from "./index";
 
-export default class CoreKinematics extends ZLeadscrewKinematics {
+export class CoreKinematics extends ZLeadscrewKinematics {
     constructor(name: KinematicsName) {
         super(name);
     }
@@ -29,3 +29,5 @@ export default class CoreKinematics extends ZLeadscrewKinematics {
         return super.update(jsonElement);
     }
 }
+
+export default CoreKinematics

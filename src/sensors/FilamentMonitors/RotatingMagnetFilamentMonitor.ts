@@ -17,7 +17,7 @@ export class RotatingMagnetFilamentMonitorConfigured extends ModelObject {
     sampleDistance: number = 0;
 }
 
-export default class RotatingMagnetFilamentMonitor extends FilamentMonitorBase {
+export class RotatingMagnetFilamentMonitor extends FilamentMonitorBase {
     constructor() {
         super(FilamentMonitorType.rotatingMagnet);
         this.wrapModelProperty("calibrated", RotatingMagnetFilamentMonitorCalibrated);
@@ -37,3 +37,5 @@ export default class RotatingMagnetFilamentMonitor extends FilamentMonitorBase {
         return super.update(jsonElement);
     }
 }
+
+export default RotatingMagnetFilamentMonitor

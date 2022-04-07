@@ -13,3 +13,5 @@ export enum CodeChannel {
     autopause = 11,
     unknown = 12
 }
+
+export default CodeChannel

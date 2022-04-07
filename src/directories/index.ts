@@ -1,6 +1,6 @@
 import ModelObject from "../ModelObject";
 
-export default class Directories extends ModelObject {
+export class Directories extends ModelObject {
     filaments: string = "0:/filaments";
     firmware: string = "0:/firmware";
     gCodes: string = "0:/gcodes";
@@ -10,3 +10,5 @@ export default class Directories extends ModelObject {
     system: string = "0:/sys";
     web: string = "0:/www";
 }
+
+export default Directories

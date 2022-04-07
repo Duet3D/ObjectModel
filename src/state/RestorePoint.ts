@@ -1,6 +1,6 @@
 import ModelObject from "../ModelObject";
 
-export default class RestorePoint extends ModelObject {
+export class RestorePoint extends ModelObject {
     coords: Array<number> = [];
     extruderPos: number = 0;
     fanPwm: number = 0;
@@ -10,3 +10,5 @@ export default class RestorePoint extends ModelObject {
     spindleSpeeds: Array<number> = [];
     toolNumber: number = -1;
 }
+
+export default RestorePoint

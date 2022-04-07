@@ -14,7 +14,7 @@ export enum NetworkInterfaceType {
     wifi = "wifi"
 }
 
-export default class NetworkInterface extends ModelObject {
+export class NetworkInterface extends ModelObject {
     activeProtocols: Set<NetworkProtocol> = new Set<NetworkProtocol>();
     actualIP: string | null = null;
     configuredIP: string | null = null;
@@ -28,3 +28,5 @@ export default class NetworkInterface extends ModelObject {
     subnet: string | null = null;
     type: NetworkInterfaceType = NetworkInterfaceType.wifi;
 }
+
+export default NetworkInterface

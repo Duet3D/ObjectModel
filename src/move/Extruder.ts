@@ -8,7 +8,7 @@ export class ExtruderNonlinear extends ModelObject {
     upperLimit: number = 0.2;
 }
 
-export default class Extruder extends ModelObject {
+export class Extruder extends ModelObject {
     constructor() {
         super();
         this.wrapModelProperty("driver", DriverId);
@@ -30,3 +30,5 @@ export default class Extruder extends ModelObject {
     speed: number = 100;
     stepsPerMm: number = 420;
 }
+
+export default Extruder

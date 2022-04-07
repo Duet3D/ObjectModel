@@ -30,7 +30,7 @@ export class DirectDisplay extends ModelObject {
     typeName: string = "";
 }
 
-export default class Board extends ModelObject {
+export class Board extends ModelObject {
     constructor() {
         super();
         this.wrapModelProperty("accelerometer", Accelerometer);
@@ -62,3 +62,5 @@ export default class Board extends ModelObject {
     v12: MinMaxCurrent | null = null;
     vIn: MinMaxCurrent | null = null;
 }
+
+export default Board

@@ -11,10 +11,12 @@ export enum SessionType {
     telnet = "telnet",
 }
 
-export default class UserSession extends ModelObject {
+export class UserSession extends ModelObject {
     accessLevel: AccessLevel = AccessLevel.readOnly;
     id: number = 0;
     origin: string | null = null;
     originId: number = -1;
     sessionType: SessionType = SessionType.local;
 }
+
+export default UserSession
