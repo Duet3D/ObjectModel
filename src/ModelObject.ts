@@ -150,18 +150,24 @@ export abstract class ModelObject implements IModelObject {
     }
 }
 
+export default ModelObject
+
 /**
- * Initialize a class item from the given data
- * @param itemType Item type to create
+ * Initialize a model object from the given data
+ * @param itemType Model type to create
  * @param data Data to assign
- * @returns Initialized item instance
+ * @returns Initialized model instance
  */
-export function initItem<T>(itemType: { new(): T }, data: { [Property in keyof T]?: T[Property]; }): T {
+export function initObject<T>(itemType: { new(): T }, data: { [Property in keyof T]?: T[Property]; }): T {
 	const result = new itemType();
 	for (let key in data) {
-		result[key] = data[key]!;
+		const resultKey = result[key];
+		if (isModelObject(resultKey)) {
+			resultKey.update(data[key]);
+		} else {
+			result[key] = data[key]!;
+		}
 	}
 	return result;
 }
 
-export default ModelObject

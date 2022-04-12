@@ -82,3 +82,19 @@ export class ModelCollection<T extends IModelObject> extends Array<T> implements
 }
 
 export default ModelCollection
+
+/**
+ * Initialize a model collection from the given data
+ * @param itemType Item type to create
+ * @param data Data to assign
+ * @returns Initialized model collection
+ */
+export function initCollection<T extends IModelObject>(itemType: { new(): T }, data: Array<{ [Property in keyof T]?: T[Property]; }>): ModelCollection<T> {
+	const result = new ModelCollection(itemType);
+	for (let presetItem of data) {
+		const item = new itemType();
+		item.update(presetItem);
+		result.push(item);
+	}
+	return result;
+}

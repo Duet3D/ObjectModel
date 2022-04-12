@@ -70,3 +70,24 @@ export class ModelDictionary<T> extends Map<string, T | null> implements IModelO
 }
 
 export default ModelDictionary
+
+/**
+ * Initialize a model dictionary from the given data
+ * @param nullDeletesKeys Defines whether setting values to null deletes the corresponding key
+ * @param itemConstructor Item constructor
+ * @param data Data to assign
+ * @returns Initialized model dictionary
+ */
+export function initDictionary<T>(nullDeletesKeys: boolean, itemConstructor: { new(): T }, data: Record<string, { [Property in keyof T]?: T[Property]; }>): ModelDictionary<T> {
+	const result = new ModelDictionary(nullDeletesKeys, itemConstructor);
+	for (let key in data) {
+		const item = new itemConstructor();
+		if (isModelObject(item)) {
+			item.update(data[key]);
+			result.set(key, item);
+		} else {
+			result.set(key, data[key] as T);
+		}
+	}
+	return result;
+}
