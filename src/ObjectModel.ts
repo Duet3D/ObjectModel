@@ -13,6 +13,7 @@ import Job from "./job";
 import Limits from "./limits";
 import Message from "./messages";
 import Move from "./move";
+import Network from "./network";
 import Plugin from "./plugins";
 import Scanner from "./scanner";
 import Sensors from "./sensors";
@@ -35,6 +36,7 @@ export class ObjectModel extends ModelObject {
 	readonly limits: Limits = new Limits();
 	readonly messages: ModelCollection<Message> = new ModelCollection(Message);         // must be manually cleared after updates
 	readonly move: Move = new Move();
+	readonly network: Network = new Network();
 	readonly plugins: ModelDictionary<Plugin> = new ModelDictionary(true, Plugin);
 	readonly scanner: Scanner = new Scanner();
 	readonly sensors: Sensors = new Sensors();
