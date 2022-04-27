@@ -4,7 +4,7 @@ import { setArrayItem } from "./index";
 /**
  * Class for storing model object items in an array
  */
-export class ModelCollection<T extends IModelObject> extends Array<T> implements IModelObject {
+export class ModelCollection<T extends IModelObject | null> extends Array<T> implements IModelObject {
     private readonly itemConstructor: { new(): T };
 
     /**
@@ -30,7 +30,7 @@ export class ModelCollection<T extends IModelObject> extends Array<T> implements
                 super.push(item);
             } else {
                 const newItem: T = new this.itemConstructor();
-                super.push(newItem.update(item) as T);
+                super.push(newItem!.update(item) as T);
             }
         }
         return this.length;
@@ -58,7 +58,7 @@ export class ModelCollection<T extends IModelObject> extends Array<T> implements
                     setArrayItem(this, i, jsonElement[i]);
                 } else {
                     const refItem = new this.itemConstructor();
-                    setArrayItem(this, i, refItem.update(newItem));
+                    setArrayItem(this, i, refItem!.update(newItem));
                 }
             } else if (isModelObject(currentItem)) {
                 const newItem = currentItem.update(jsonElement[i]);

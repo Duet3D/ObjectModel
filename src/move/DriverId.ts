@@ -1,11 +1,11 @@
 import ModelObject, { IModelObject } from "../ModelObject";
 
 export function isDriverId(value: any): value is DriverId {
-	return (value instanceof Object) && (typeof value.board === "number") && (typeof value.driver === "number");
+	return (value instanceof Object) && value.board !== undefined && value.driver !== undefined;
 }
 
 export class DriverId extends ModelObject {
-    board: number = 0;
+    board: number | null = null;
     driver: number = 0;
 
 	equals(value?: DriverId | null) {
@@ -24,7 +24,7 @@ export class DriverId extends ModelObject {
                 this.board = Number(matches[1]);
                 this.driver = Number(matches[2]);
             } else {
-                this.board = 0;
+                this.board = null;
                 this.driver = Number(jsonElement);
             }
             return this;
@@ -34,7 +34,7 @@ export class DriverId extends ModelObject {
     }
 
     override toString() {
-        return `${this.board}.${this.driver}`;
+        return (this.board === null) ? this.driver.toString() : `${this.board}.${this.driver}`;
     }
 }
 

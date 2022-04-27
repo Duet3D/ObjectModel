@@ -27,11 +27,11 @@ import Volume from "./volumes";
 export class ObjectModel extends ModelObject {
 	readonly boards: ModelCollection<Board> = new ModelCollection(Board);
 	readonly directories: Directories = new Directories();
-	readonly fans: ModelCollection<Fan> = new ModelCollection(Fan);
+	readonly fans: ModelCollection<Fan | null> = new ModelCollection(Fan);
 	readonly global: ModelDictionary<any> = new ModelDictionary(false);
 	readonly heat: Heat = new Heat();
 	readonly httpEndpoints: ModelCollection<HttpEndpoint> = new ModelCollection(HttpEndpoint);
-	readonly inputs: ModelCollection<InputChannel> = new ModelCollection(InputChannel);
+	readonly inputs: ModelCollection<InputChannel | null> = new ModelCollection(InputChannel);
 	readonly job: Job = new Job();
 	readonly limits: Limits = new Limits();
 	readonly messages: ModelCollection<Message> = new ModelCollection(Message);         // must be manually cleared after updates
@@ -40,7 +40,7 @@ export class ObjectModel extends ModelObject {
 	readonly plugins: ModelDictionary<Plugin> = new ModelDictionary(true, Plugin);
 	readonly scanner: Scanner = new Scanner();
 	readonly sensors: Sensors = new Sensors();
-	readonly spindles: ModelCollection<Spindle> = new ModelCollection(Spindle);
+	readonly spindles: ModelCollection<Spindle | null> = new ModelCollection(Spindle);
 	readonly state: State = new State();
 	readonly userSessions: ModelCollection<UserSession> = new ModelCollection(UserSession);
 	readonly volumes: ModelCollection<Volume> = new ModelCollection(Volume);

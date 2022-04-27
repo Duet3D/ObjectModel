@@ -9,12 +9,12 @@ export class GpInputPort extends ModelObject {
     value: number = 0;
 }
 
-export class Sensors extends  ModelObject {
-    readonly analog: ModelCollection<AnalogSensor> = new ModelCollection(AnalogSensor);
-    readonly endstops: ModelCollection<Endstop> = new ModelCollection(Endstop);
-    readonly filamentMonitors: ModelCollection<FilamentMonitor> = new ModelCollection(FilamentMonitor);
-    readonly gpIn: ModelCollection<GpInputPort> = new ModelCollection(GpInputPort);
-    readonly probes: ModelCollection<Probe> = new ModelCollection(Probe);
+export class Sensors extends ModelObject {
+    readonly analog: ModelCollection<AnalogSensor | null> = new ModelCollection(AnalogSensor);
+    readonly endstops: ModelCollection<Endstop | null> = new ModelCollection(Endstop);
+    readonly filamentMonitors: ModelCollection<FilamentMonitor | null> = new ModelCollection(FilamentMonitor);
+    readonly gpIn: ModelCollection<GpInputPort | null> = new ModelCollection(GpInputPort);
+    readonly probes: ModelCollection<Probe | null> = new ModelCollection(Probe);
 }
 
 export default Sensors
