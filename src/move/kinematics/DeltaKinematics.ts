@@ -1,4 +1,4 @@
-import ModelCollection from "../../ModelCollection";
+import ModelCollection, { initCollection } from "../../ModelCollection";
 import ModelObject, { IModelObject } from "../../ModelObject";
 import KinematicsBase from "./KinematicsBase";
 import { getKinematics } from "./index";
@@ -15,7 +15,7 @@ export class DeltaKinematics extends KinematicsBase {
     deltaRadius: number = 0;
     homedHeight: number = 0;
     printRadius: number = 0;
-    readonly towers: ModelCollection<DeltaTower> = new ModelCollection(DeltaTower);
+    readonly towers: ModelCollection<DeltaTower> = initCollection(DeltaTower, [{}, {}, {}]);
     xTilt: number = 0;
     yTilt: number = 0;
 
