@@ -19,6 +19,7 @@ export * from "./plugins";
 export * from "./scanner";
 export * from "./sensors";
 export * from "./spindles";
+export * from "./tools";
 export * from "./userSessions";
 export * from "./volumes";
 
