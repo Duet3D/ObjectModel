@@ -9,6 +9,18 @@ export enum NetworkProtocol {
     SSH = "ssh"
 }
 
+export enum NetworkInterfaceState {
+	disabled = "disabled",
+	enabled = "enabled",
+	starting1 = "starting1",
+	starting2 = "starting2",
+	changingMode = "changingMode",
+	establishingLink = "establishingLink",
+	obtainingIP = "obtainingIP",
+	connected = "connected",
+	active = "active"
+}
+
 export enum NetworkInterfaceType {
     lan = "lan",
     wifi = "wifi"
@@ -25,6 +37,7 @@ export class NetworkInterface extends ModelObject {
     numReconnects: number | null = null;
     signal: number | null = null;
     speed: number | null = null;
+	state: NetworkInterfaceState | null = null;
     subnet: string | null = null;
     type: NetworkInterfaceType = NetworkInterfaceType.wifi;
 }
