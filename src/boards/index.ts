@@ -43,7 +43,7 @@ export class Board extends ModelObject {
 
     accelerometer: Accelerometer | null = null;
     bootloaderFileName: string | null = null;
-    canAddress: number | null = 0;
+    canAddress: number | null = null;
     closedLoop: ClosedLoop | null = null;
     directDisplay: DirectDisplay | null = null;
     firmwareDate: string = "";
