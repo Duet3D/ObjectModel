@@ -75,7 +75,13 @@ export class ModelCollection<T extends IModelObject | null> extends Array<T> imp
 
         // Add new items
         for (let i = this.length; i < jsonElement.length; i++) {
-            this.push(jsonElement[i]);
+			const itemToAdd = jsonElement[i];
+			if (itemToAdd === null) {
+				super.push(itemToAdd);
+			} else {
+				const newItem: T = new this.itemConstructor();
+				super.push(newItem!.update(itemToAdd) as T);
+			}
         }
         return this;
     }
