@@ -16,6 +16,7 @@ export class DriverId extends ModelObject {
 		if (isDriverId(jsonElement)) {
 			this.board = jsonElement.board;
 			this.driver = jsonElement.driver;
+			return this;
 		}
 
 	    if (typeof jsonElement === "string") {
