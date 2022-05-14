@@ -52,6 +52,8 @@ export abstract class ModelObject implements IModelObject {
                             } else if (process.env.NODE_ENV !== "production") {
                                 console.warn(`Model object ${key} changed but it could not be set due to missing setter`);
                             }
+						} else if (process.env.NODE_ENV !== "production") {
+	                        console.warn(`Model object ${key} changed but it lacks the property descriptor`);
                         }
                     }
                 } else if (prop instanceof Array) {
@@ -181,7 +183,21 @@ export function initObject<T>(itemType: { new(): T }, data: { [Property in keyof
 	for (let key in data) {
 		const resultKey = result[key];
 		if (isModelObject(resultKey)) {
-			resultKey.update(data[key]);
+			const updatedObject = resultKey.update(data[key]);
+			if (resultKey !== updatedObject) {
+				const propDescriptor = Object.getOwnPropertyDescriptor(result, key);
+				if (propDescriptor !== undefined) {
+					if (propDescriptor.writable) {
+						result[key] = updatedObject as any;
+					} else if (propDescriptor.set !== undefined) {
+						propDescriptor.set(updatedObject);
+					} else if (process.env.NODE_ENV !== "production") {
+						console.warn(`Model object ${key} changed but it could not be set due to missing setter`);
+					}
+				} else if (process.env.NODE_ENV !== "production") {
+					console.warn(`Model object ${key} changed but it lacks the property descriptor`);
+				}
+			}
 		} else {
 			result[key] = data[key]!;
 		}
