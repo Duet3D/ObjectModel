@@ -7,8 +7,8 @@ import ScaraKinematics from "./ScaraKinematics";
 import PolarKinematics from "./PolarKinematics";
 
 export class Kinematics extends KinematicsBase {
-    constructor() {
-        super(KinematicsName.unknown);
+    constructor(name: KinematicsName = KinematicsName.unknown) {
+        super(name);
     }
 
     override update(jsonElement: any): IModelObject | null {
@@ -35,8 +35,9 @@ export function getKinematics(name: KinematicsName): KinematicsBase {
         case KinematicsName.markForged:
             return new CoreKinematics(name);
         case KinematicsName.delta:
-        case KinematicsName.rotaryDelta:
             return new DeltaKinematics(name);
+	    case KinematicsName.rotaryDelta:
+		    return new Kinematics(name);
         case KinematicsName.hangprinter:
             return new HangprinterKinematics();
         case KinematicsName.fiveBarScara:
@@ -44,7 +45,7 @@ export function getKinematics(name: KinematicsName): KinematicsBase {
             return new ScaraKinematics(name);
         case KinematicsName.polar:
             return new PolarKinematics();
-        default:
+	    default:
             return name as never;
     }
 }
