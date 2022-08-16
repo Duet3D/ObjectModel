@@ -9,7 +9,13 @@ export class DriverId extends ModelObject {
     driver: number = 0;
 
 	equals(value?: DriverId | null) {
-		return isDriverId(value) && value.board === this.board && value.driver === this.driver;
+        if (isDriverId(value)) {
+            if (!this.board && !value.board) {
+                return this.driver === value.driver;
+            }
+            return (value.board === this.board) && (value.driver === this.driver);
+        }
+        return false;
 	}
 
     override update(jsonElement: any): IModelObject | null {

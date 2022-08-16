@@ -14,7 +14,7 @@ export enum SbcPermission {
     readFilaments = "readFilaments",
     writeFilaments = "writeFilaments",
     readFirmware = "readFirmware",
-    writeFirmware = "writeFilaments",
+    writeFirmware = "writeFirmware",
     readGCodes = "readGCodes",
     writeGCodes = "writeGCodes",
     readMacros = "readMacros",
@@ -64,6 +64,7 @@ export class PluginManifest extends ModelObject {
     version: string = "1.0.0";
     license: string = "LGPL-3.0-or-later"
     homepage: string | null = null;
+    tags: Array<string> = [];
     dwcVersion: string | null = null;
     dwcDependencies: Array<string> = [];
     sbcRequired: boolean = false;
