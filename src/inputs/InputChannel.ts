@@ -3,7 +3,7 @@ import Compatibility from "./Compatibility";
 
 export enum DistanceUnit {
     mm ="mm",
-    inch = "inch"
+    inch = "in"
 }
 
 export enum InputChannelState {
