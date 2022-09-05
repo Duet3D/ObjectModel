@@ -1,8 +1,8 @@
 import ModelObject from "../ModelObject";
 
 export class Volume extends ModelObject {
-    capacity: bigint | null = null;
-    freeSpace: bigint | null = null;
+    capacity: number | bigint | null = null;
+    freeSpace: number | bigint | null = null;
     mounted: boolean = false;
     name: string | null = null;
     openFiles: number | null = null;

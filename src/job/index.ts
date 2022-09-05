@@ -28,7 +28,7 @@ export class Job extends ModelObject {
     build: Build = new Build();
     duration: number | null = null;
     file: GCodeFileInfo | null = null;
-    filePosition: bigint | null = null;
+    filePosition: number | bigint | null = null;
     lastDuration: number | null = null;
     lastFileName: string | null = null;
     lastFileAborted: boolean = false;

@@ -25,7 +25,7 @@ export class InputChannel extends ModelObject {
     name: string = "";
     stackDepth: number = 0;
     state: InputChannelState = InputChannelState.idle;
-    lineNumber: bigint = 0n;
+    lineNumber: number | bigint = 0;
     volumetric: boolean = false;
 }
 

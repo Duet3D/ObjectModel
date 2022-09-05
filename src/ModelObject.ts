@@ -116,7 +116,7 @@ export abstract class ModelObject implements IModelObject {
                             console.warn(`Incompatible bool target type ${typeof value} for property ${key}`);
                         }
                     } else if (propType === "number") {
-                        if (typeof value === "number") {
+                        if (typeof value === "number" || typeof value === "bigint") {
                             this[ownKey] = value as any;
                         } else if (process.env.NODE_ENV !== "production") {
                             console.warn(`Incompatible number target type ${typeof value} for property ${key}`);

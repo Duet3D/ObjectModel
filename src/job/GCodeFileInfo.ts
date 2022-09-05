@@ -10,9 +10,9 @@ export class GCodeFileInfo extends ModelObject {
     lastModified: string | null = null;
     layerHeight: number = 0;
     numLayers: number = 0;
-    printTime: bigint | null = null;
-    simulatedTime: bigint | null = null;
-    size: bigint = 0n;
+    printTime: number | bigint | null = null;
+    simulatedTime: number | bigint | null = null;
+    size: number | bigint = 0;
     readonly thumbnails: ModelCollection<ThumbnailInfo> = new ModelCollection(ThumbnailInfo);
 }
 
