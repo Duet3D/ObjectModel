@@ -18,7 +18,7 @@ export class HeaterModel extends ModelObject {
     inverted: boolean = false;
     maxPwm: number = 1;
     readonly pid: HeaterModelPID = new HeaterModelPID();
-    standardVoltage: number | null = null;
+    standardVoltage: number = 0;
 }
 
 export default HeaterModel
