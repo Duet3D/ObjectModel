@@ -7,7 +7,6 @@ export enum AnalogSensorType {
     max31855 = "thermocouplemax31855",
     max31856 = "thermocouplemax31856",
     linearAnalog = "linearanalog",
-    dht11 = "dht11",
     dht21 = "dht21",
     dht22 = "dht22",
     dhtHumidity = "dhthumidity",

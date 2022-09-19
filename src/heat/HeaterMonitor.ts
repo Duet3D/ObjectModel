@@ -14,9 +14,9 @@ export enum HeaterMonitorCondition {
 }
 
 export class HeaterMonitor extends ModelObject {
-    action: HeaterMonitorAction = HeaterMonitorAction.generateFault;
+    action: HeaterMonitorAction | null = null;
     condition: HeaterMonitorCondition = HeaterMonitorCondition.disabled;
-    limit: number = 2000;
+    limit: number | null = null;
 }
 
 export default HeaterMonitor
