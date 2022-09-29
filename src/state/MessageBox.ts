@@ -4,12 +4,20 @@ export enum MessageBoxMode {
     noButtons,
     closeOnly,
     okOnly,
-    okCancel
+    okCancel,
+    multipleChoice,
+	intInput,
+	floatInput,
+	stringInput
 }
 
 export class MessageBox extends ModelObject {
-    axisControls: number = 0;
+    axisControls: number | null = null;
+    cancelButton: boolean = false;
+    default: number | string | null = null;
+    max: number | null = null;
     message: string = "";
+    min: number | null = null;
     mode: MessageBoxMode = MessageBoxMode.okOnly;
     seq: number = -1;
     timeout: number = 0;

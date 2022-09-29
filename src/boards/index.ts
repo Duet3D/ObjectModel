@@ -61,6 +61,7 @@ export class Board extends ModelObject {
     uniqueId: string | null = null;
     v12: MinMaxCurrent | null = null;
     vIn: MinMaxCurrent | null = null;
+    wifiFirmwareFileName: string | null = null;
 }
 
 export default Board
