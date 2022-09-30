@@ -14,6 +14,7 @@ export enum MessageBoxMode {
 export class MessageBox extends ModelObject {
     axisControls: number | null = null;
     cancelButton: boolean = false;
+    choices: Array<string> | null = null;
     default: number | string | null = null;
     max: number | null = null;
     message: string = "";

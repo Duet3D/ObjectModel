@@ -17,6 +17,9 @@ export class Heater extends ModelObject {
     avgPwm: number = 0;
     current: number = -273.15;
     max: number = 285;
+    maxBadReadings: number = 3;
+    maxHeatingFaultTime: number = 5;
+    maxTempExcursion: number = 15;
     min: number = -10;
     readonly model: HeaterModel = new HeaterModel();
     readonly monitors: ModelCollection<HeaterMonitor> = new ModelCollection(HeaterMonitor);

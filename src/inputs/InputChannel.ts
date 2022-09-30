@@ -22,7 +22,9 @@ export class InputChannel extends ModelObject {
     feedRate: number = 50;
     inMacro: boolean = false;
     macroRestartable: boolean = false;
+    motionSystem: number = 0;
     name: string = "";
+    selectedPlane: number = 0;
     stackDepth: number = 0;
     state: InputChannelState = InputChannelState.idle;
     lineNumber: number | bigint = 0;
