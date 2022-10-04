@@ -9,7 +9,7 @@ export enum MachineStatus {
     resuming = "resuming",
     cancelling = "cancelling",
     processing = "processing",
-    simulating = "processing",
+    simulating = "simulating",
     busy = "busy",
     changingTool = "changingTool",
     idle = "idle"
