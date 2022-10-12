@@ -139,6 +139,12 @@ export abstract class ModelObject implements IModelObject {
                         } else if (process.env.NODE_ENV !== "production") {
                             console.warn(`Incompatible function target type ${typeof value} for property ${key}`);
                         }
+                    } else if (propType === "object") {
+                        if (typeof value === "object") {
+                            this[ownKey] = value as any;
+                        } else if (process.env.NODE_ENV !== "production") {
+                            console.warn(`Incompatible object target type ${typeof value} for property ${key}`);
+                        }
                     } else if (process.env.NODE_ENV !== "production") {
                         console.warn(`Incompatible type ${propType} for property ${key} (${typeof value})`);
                     }

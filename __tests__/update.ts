@@ -53,6 +53,7 @@ const patch = {
 test("patch", () => {
     const model = new ObjectModel();
     model.update(fullModel);
+
     model.update(patch);
     expect(model.boards[0]).toBeInstanceOf(Board);
     expect(model.boards[0]).toBeInstanceOf(Board);
@@ -65,6 +66,14 @@ test("patch", () => {
     expect(model.plugins.get("foobar")!.name).toBe("Foo 123");
     expect(model.sensors.filamentMonitors.length).toBe(1);
     expect(model.sensors.filamentMonitors[0]).toBeInstanceOf(LaserFilamentMonitor);
+
+    const otherModel = new ObjectModel();
+    otherModel.update(model);
+    expect(otherModel.plugins.size).toBe(1);
+    expect(otherModel.plugins.get("foobar")).toBeInstanceOf(Plugin);
+    expect(otherModel.plugins.get("foobar")!.id).toBe("foobar");
+    expect(otherModel.plugins.get("foobar")!.name).toBe("Foo 123");
+
     model.update({"plugins": null});
     expect(model.plugins.size).toBe(0);
 });

@@ -60,6 +60,10 @@ export class ModelDictionary<T> extends Map<string, T | null> implements IModelO
     update(jsonElement: any): IModelObject | null {
         if (jsonElement === null) {
             this.clear();
+        } else if (jsonElement instanceof Map) {
+            for (const [key, value] of jsonElement.entries()) {
+                this.set(key, value as T | null);
+            }
         } else {
             for (const [key, value] of Object.entries(jsonElement)) {
                 this.set(key, value as T | null);
