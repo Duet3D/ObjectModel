@@ -4,7 +4,6 @@ export * from "./ModelDictionary";
 export * from "./ModelObject";
 
 export * from "./boards";
-export * from "./state";
 export * from "./directories";
 export * from "./fans";
 export * from "./heat";
@@ -19,6 +18,7 @@ export * from "./plugins";
 export * from "./scanner";
 export * from "./sensors";
 export * from "./spindles";
+export * from "./state";
 export * from "./tools";
 export * from "./userSessions";
 export * from "./volumes";
@@ -33,6 +33,8 @@ export default ObjectModel;
 // This will become obsolete as soon as DWC is upgraded to Vue 3, but that isn't going to happen anytime soon.
 // Until then a Vue 2 user would have to call something like this on initialization to work around this limitation:
 // globalThis._duetModelSetArray = (array, index, value) => Vue.set(array, index, value);
+// or in TypeScript
+// (globalThis as any)._duetModelSetArray = (array: object, index: string | number, value: any) => Vue.set(array, index, value);
 (globalThis as any)._duetModelSetArray = (array: Array<any>, index: number, value: any) => array[index] = value;
 export function setArrayItem(array: Array<any>, index: number, value: any) {
 	(globalThis as any)._duetModelSetArray(array, index, value);

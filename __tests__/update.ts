@@ -1,4 +1,4 @@
-import ObjectModel from "../src";
+import ObjectModel, { Heater } from "../src";
 import { initObject } from "../src/ModelObject";
 import Board from "../src/boards";
 import Plugin from "../src/plugins";
@@ -22,6 +22,13 @@ const patch = {
             "firmwareFileName": "Test"
         }
     ],
+    "heat": {
+        "heaters": [
+            {
+                "current": 12.34
+            }
+        ]
+    },
     "move": {
         "kinematics": {
             "name": "delta",
@@ -49,6 +56,7 @@ test("patch", () => {
     model.update(patch);
     expect(model.boards[0]).toBeInstanceOf(Board);
     expect(model.boards[0]).toBeInstanceOf(Board);
+    expect(model.heat.heaters[0]).toBeInstanceOf(Heater);
     expect(model.move.kinematics).toBeInstanceOf(DeltaKinematics);
     expect((model.move.kinematics as DeltaKinematics).deltaRadius).toBe(123);
     expect(model.plugins.size).toBe(1);
