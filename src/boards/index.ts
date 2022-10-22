@@ -48,6 +48,7 @@ export class Board extends ModelObject {
     directDisplay: DirectDisplay | null = null;
     firmwareDate: string = "";
     firmwareFileName: string = "";
+    firmwareName: string = "";
     firmwareVersion: string = "";
     iapFileNameSBC: string | null = null;
     iapFileNameSD: string | null = null;
