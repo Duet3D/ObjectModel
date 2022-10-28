@@ -11,7 +11,9 @@ export enum CodeChannel {
     daemon = 9,
     aux2 = 10,
     autopause = 11,
-    unknown = 12
+    file2 = 12,
+    queue2 = 13,
+    unknown = 14
 }
 
 export default CodeChannel
