@@ -14,7 +14,6 @@ export class Layer extends ModelObject {
 export class TimesLeft extends ModelObject {
     filament: number | null = null;
     file: number | null = null;
-    layer: number | null = null;
     slicer: number | null = null;
 }
 
