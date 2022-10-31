@@ -15,7 +15,6 @@ export * from "./messages";
 export * from "./move";
 export * from "./network";
 export * from "./plugins";
-export * from "./scanner";
 export * from "./sensors";
 export * from "./spindles";
 export * from "./state";

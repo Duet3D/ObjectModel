@@ -39,7 +39,6 @@ export class ObjectModel extends ModelObject {
 	readonly move: Move = new Move();
 	readonly network: Network = new Network();
 	readonly plugins: ModelDictionary<Plugin> = new ModelDictionary(true, Plugin);
-	readonly scanner: Scanner = new Scanner();
 	readonly sensors: Sensors = new Sensors();
 	readonly spindles: ModelCollection<Spindle | null> = new ModelCollection(Spindle);
 	readonly state: State = new State();
