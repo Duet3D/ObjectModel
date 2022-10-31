@@ -14,7 +14,6 @@ import Message from "./messages";
 import Move from "./move";
 import Network from "./network";
 import Plugin from "./plugins";
-import Scanner from "./scanner";
 import Sensors from "./sensors";
 import Spindle from "./spindles";
 import State from "./state";
