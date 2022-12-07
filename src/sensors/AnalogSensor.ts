@@ -17,9 +17,32 @@ export enum AnalogSensorType {
     unknown = "unknown"
 }
 
+export enum TemperatureError {
+	ok = "ok",
+	shortCircuit = "shortCircuit",
+	shortToVcc = "shortToVcc",
+	shortToGround = "shortToGround",
+	openCircuit = "openCircuit",
+	timeout = "timeout",
+	ioError = "ioError",
+	hardwareError = "hardwareError",
+	notReady = "notReady",
+	invalidOutputNumber = "invalidOutputNumber",
+	busBusy = "busBusy",
+	badResponse = "badResponse",
+	unknownPort = "unknownPort",
+	notInitialised = "notInitialised",
+	unknownSensor = "unknownSensor",
+	overOrUnderVoltage = "overOrUnderVoltage",
+	badVref = "badVref",
+	badVssa = "badVssa",
+	unknownError = "unknownError"
+}
+
 export class AnalogSensor extends ModelObject {
     lastReading: number | null = null;
     name: string | null = null;
+    state: TemperatureError = TemperatureError.ok;
     type: AnalogSensorType = AnalogSensorType.unknown;
 }
 
