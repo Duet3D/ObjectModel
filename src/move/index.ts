@@ -36,6 +36,7 @@ export class Move extends ModelObject {
     readonly calibration: MoveCalibration = new MoveCalibration();
     readonly compensation: MoveCompensation = new MoveCompensation();
     readonly currentMove: CurrentMove = new CurrentMove();
+    currentZHop: number = 0;
     readonly extruders: ModelCollection<Extruder> = new ModelCollection(Extruder);
     readonly idle: MotorsIdleControl = new MotorsIdleControl();
     kinematics: Kinematics = new Kinematics();

@@ -2,17 +2,17 @@ import ModelObject from "../../ModelObject";
 
 export enum KinematicsName {
     cartesian = "cartesian",
-    coreXY = "corexy",
-    coreXYU = "corexyu",
-    coreXYUV = "corexyuv",
-    coreXZ = "corexz",
-    markForged = "markforged",
-    fiveBarScara = "fivebarscara",
-    hangprinter = "hangprinter",
+    coreXY = "coreXY",
+    coreXYU = "coreXYU",
+    coreXYUV = "coreXYUV",
+    coreXZ = "coreXZ",
+    markForged = "markForged",
+    fiveBarScara = "FiveBarScara",
+    hangprinter = "Hangprinter",
     delta = "delta",
-    polar = "polar",
-    rotaryDelta = "rotary delta",
-    scara = "scara",
+    polar = "Polar",
+    rotaryDelta = "Rotary delta",
+    scara = "Scara",
     unknown = "unknown"
 }
 
