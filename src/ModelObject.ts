@@ -39,7 +39,12 @@ export abstract class ModelObject implements IModelObject {
                 const ownKey = key as keyof this;
                 const prop = this[ownKey];
 
-                 if (isModelObject(prop)) {
+                 if (prop === null || value === null) {
+                    // Unfortunately we cannot do type checks during runtime without excessive extra work and possibly
+                    // third-party libraries, so skip them for null values until there is a better solution.
+                    // FWIW, we would need something like "typeof prop" but TS does not seem to be capable of providing this (yet).
+                    this[ownKey] = value as any;
+                 } else if (isModelObject(prop)) {
                     // Update model objects
                     const updatedObject = prop.update(value);
                     if (prop !== updatedObject) {
@@ -99,11 +104,6 @@ export abstract class ModelObject implements IModelObject {
 					 } else if (process.env.NODE_ENV !== "production") {
 						 console.warn(`Model set ${key} could not be changed because the target type ${typeof value} is invalid`);
 					 }
-                 } else if (prop === null || value === null) {
-                    // Unfortunately we cannot do type checks during runtime without excessive extra work and possibly
-                    // third-party libraries, so skip them for null values until there is a better solution.
-                    // FWIW, we would just need "typeof prop" but TS does not seem to be capable of providing this.
-                    this[ownKey] = value as any;
                 } else {
                     const propType = typeof prop;
                     if (propType === "boolean") {
