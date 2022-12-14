@@ -23,6 +23,10 @@ export class MessageBox extends ModelObject {
     seq: number = -1;
     timeout: number = 0;
     title: string = "";
+
+    protected override checkDivergingDataType<K extends keyof this>(key: K, oldValue: this[K], newValue: any): boolean {
+        return key === "default" && (typeof newValue === "number" || typeof newValue === "string");
+    }
 }
 
 export default MessageBox

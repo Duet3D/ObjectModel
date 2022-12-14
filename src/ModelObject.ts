@@ -109,38 +109,38 @@ export abstract class ModelObject implements IModelObject {
                     if (propType === "boolean") {
                         if (typeof value === "boolean") {
                             this[ownKey] = value as any;
-                        } else if (typeof value === "number") {
+                        } else if (typeof value === "number" || this.checkDivergingDataType(ownKey, prop, value)) {
                             // RRF used to report booleans as integers so convert them if necessary
                             this[ownKey] = Boolean(value) as any;
                         } else if (process.env.NODE_ENV !== "production") {
                             console.warn(`Incompatible bool target type ${typeof value} for property ${key}`);
                         }
                     } else if (propType === "number") {
-                        if (typeof value === "number" || typeof value === "bigint") {
+                        if (typeof value === "number" || typeof value === "bigint" || this.checkDivergingDataType(ownKey, prop, value)) {
                             this[ownKey] = value as any;
                         } else if (process.env.NODE_ENV !== "production") {
                             console.warn(`Incompatible number target type ${typeof value} for property ${key}`);
                         }
                     } else if (propType === "bigint") {
-                        if (typeof value === "number" || typeof value === "bigint") {
+                        if (typeof value === "number" || typeof value === "bigint" || this.checkDivergingDataType(ownKey, prop, value)) {
                             this[ownKey] = value as any;
                         } else if (process.env.NODE_ENV !== "production") {
                             console.warn(`Incompatible bigint target type ${typeof value} for property ${key}`);
                         }
                     } else if (propType === "string") {
-                        if (typeof value === "string") {
+                        if (typeof value === "string" || this.checkDivergingDataType(ownKey, prop, value)) {
                             this[ownKey] = value as any;
                         } else if (process.env.NODE_ENV !== "production") {
                             console.warn(`Incompatible string target type ${typeof value} for property ${key}`);
                         }
                     } else if (propType === "function") {
-                        if (typeof value === "function") {
+                        if (typeof value === "function" || this.checkDivergingDataType(ownKey, prop, value)) {
                             this[ownKey] = value as any;
                         } else if (process.env.NODE_ENV !== "production") {
                             console.warn(`Incompatible function target type ${typeof value} for property ${key}`);
                         }
                     } else if (propType === "object") {
-                        if (typeof value === "object") {
+                        if (typeof value === "object" || this.checkDivergingDataType(ownKey, prop, value)) {
                             this[ownKey] = value as any;
                         } else if (process.env.NODE_ENV !== "production") {
                             console.warn(`Incompatible object target type ${typeof value} for property ${key}`);
@@ -155,11 +155,23 @@ export abstract class ModelObject implements IModelObject {
     }
 
     /**
+     * Called to check if a diverging property type may be set.
+     * Note that this is not applicable to null values; null is always legit
+     * @param key Property key
+     * @param oldValue Old member value
+     * @param newValue New member value
+     * @returns True if the value can be set by the update call
+     */
+    protected checkDivergingDataType<K extends keyof this>(key: K, oldValue: typeof this[K], newValue: any): boolean {
+        return false;
+    }
+
+    /**
      * Wrap a nullable model object property so that type checks can be performed
      * @param key Property key of the derived class
      * @param constructor Constructor for creating new elements
      */
-    wrapModelProperty<K extends keyof this, T extends IModelObject>(key: K, constructor: { new(): T }): void {
+    protected wrapModelProperty<K extends keyof this, T extends IModelObject>(key: K, constructor: { new(): T }): void {
         let propertyValue: any = this[key];
         Object.defineProperty(this, key, {
             get() { return propertyValue; },
