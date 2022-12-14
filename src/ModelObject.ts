@@ -39,12 +39,7 @@ export abstract class ModelObject implements IModelObject {
                 const ownKey = key as keyof this;
                 const prop = this[ownKey];
 
-                 if (prop === null || value === null) {
-                    // Unfortunately we cannot do type checks during runtime without excessive extra work and possibly
-                    // third-party libraries, so skip them for null values until there is a better solution.
-                    // FWIW, we would need something like "typeof prop" but TS does not seem to be capable of providing this (yet).
-                    this[ownKey] = value as any;
-                 } else if (isModelObject(prop)) {
+                if (isModelObject(prop)) {
                     // Update model objects
                     const updatedObject = prop.update(value);
                     if (prop !== updatedObject) {
@@ -57,53 +52,64 @@ export abstract class ModelObject implements IModelObject {
                             } else if (process.env.NODE_ENV !== "production") {
                                 console.warn(`Model object ${key} changed but it could not be set due to missing setter`);
                             }
-						} else if (process.env.NODE_ENV !== "production") {
-	                        console.warn(`Model object ${key} changed but it lacks the property descriptor`);
+                        } else if (process.env.NODE_ENV !== "production") {
+                            console.warn(`Model object ${key} changed but it lacks the property descriptor`);
                         }
                     }
                 } else if (prop instanceof Array) {
-	                 if (value instanceof Array) {
-		                 // Remove deleted items
-		                 prop.splice(value.length);
+                    if (value instanceof Array) {
+                        // Remove deleted items
+                        prop.splice(value.length);
 
-		                 // Update existing items
-		                 for (let i = 0; i < Math.min(prop.length, value.length); i++) {
-			                 const propItem = prop[i];
-			                 if (propItem === null) {
-				                 setArrayItem(prop, i, value[i]);
-			                 } else {
-				                 const newItem = value[i];
-				                 if (propItem !== newItem) {
-					                 setArrayItem(prop, i, newItem);
-				                 }
-			                 }
-		                 }
+                        // Update existing items
+                        for (let i = 0; i < Math.min(prop.length, value.length); i++) {
+                            const propItem = prop[i];
+                            if (propItem === null) {
+                                setArrayItem(prop, i, value[i]);
+                            } else {
+                                const newItem = value[i];
+                                if (propItem !== newItem) {
+                                    setArrayItem(prop, i, newItem);
+                                }
+                            }
+                        }
 
-		                 // Add new items
-		                 for (let i = prop.length; i < value.length; i++) {
-			                 prop.push(value[i]);
-		                 }
-	                 } else if (process.env.NODE_ENV !== "production") {
-		                 console.warn(`Model array ${key} could not be changed because the target type ${typeof value} is invalid`);
-	                 }
+                        // Add new items
+                        for (let i = prop.length; i < value.length; i++) {
+                            prop.push(value[i]);
+                        }
+                    } else if (value === null) {
+                        // Arrays may be assignable to null
+                        this[ownKey] = value as any;
+                    } else if (process.env.NODE_ENV !== "production") {
+                        console.warn(`Model array ${key} could not be changed because the target type ${typeof value} is invalid`);
+                    }
                 } else if (prop instanceof Set) {
-					 if (value instanceof Array || value instanceof Set) {
-						 // Remove deleted items
-						 for (let item of new Set(prop)) {
-							 if (!prop.has(item)) {
-								 prop.delete(item);
-							 }
-						 }
+                    if (value instanceof Array || value instanceof Set) {
+                        // Remove deleted items
+                        for (let item of new Set(prop)) {
+                            if (!prop.has(item)) {
+                                prop.delete(item);
+                            }
+                        }
 
-						 // Add new items
-						 for (let item of value) {
-							 if (!prop.has(item)) {
-								 prop.add(item);
-							 }
-						 }
-					 } else if (process.env.NODE_ENV !== "production") {
-						 console.warn(`Model set ${key} could not be changed because the target type ${typeof value} is invalid`);
-					 }
+                        // Add new items
+                        for (let item of value) {
+                            if (!prop.has(item)) {
+                                prop.add(item);
+                            }
+                        }
+                    } else if (value === null) {
+                        // Sets may be assignable to null
+                        this[ownKey] = value as any;
+                    } else if (process.env.NODE_ENV !== "production") {
+                        console.warn(`Model set ${key} could not be changed because the target type ${typeof value} is invalid`);
+                    }
+                } else if (prop === null || value === null) {
+                    // Unfortunately we cannot do type checks during runtime without excessive extra work and possibly
+                    // third-party libraries, so skip them for null values until there is a better solution.
+                    // FWIW, we would just need "typeof prop" but TS does not seem to be capable of providing this.
+                    this[ownKey] = value as any;
                 } else {
                     const propType = typeof prop;
                     if (propType === "boolean") {
