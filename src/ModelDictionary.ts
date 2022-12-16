@@ -48,6 +48,7 @@ export class ModelDictionary<T> extends Map<string, T | null> implements IModelO
             if (currentItem !== newItem) {
                 return super.set(key, value);
             }
+            return this;
         }
         return super.set(key, value);
     }

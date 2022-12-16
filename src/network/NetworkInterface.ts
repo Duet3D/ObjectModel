@@ -1,4 +1,5 @@
 import ModelObject from "../ModelObject";
+import ModelSet from "../ModelSet";
 
 export enum NetworkProtocol {
     HTTP = "http",
@@ -27,7 +28,7 @@ export enum NetworkInterfaceType {
 }
 
 export class NetworkInterface extends ModelObject {
-    activeProtocols: Set<NetworkProtocol> = new Set<NetworkProtocol>();
+    activeProtocols: ModelSet<NetworkProtocol> = new ModelSet<NetworkProtocol>();
     actualIP: string | null = null;
     configuredIP: string | null = null;
     dnsServer: string | null = null;

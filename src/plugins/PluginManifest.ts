@@ -1,4 +1,5 @@
 import ModelObject from "../ModelObject";
+import ModelSet from "../ModelSet";
 
 export enum SbcPermission {
     none = "none",
@@ -91,7 +92,7 @@ export class PluginManifest extends ModelObject {
     sbcExecutableArguments: string | null = null;
     sbcExtraExecutables: Array<string> = [];
     sbcOutputRedirected: boolean = true;
-    sbcPermissions: Set<SbcPermission> = new Set<SbcPermission>();
+    sbcPermissions: ModelSet<SbcPermission> = new ModelSet<SbcPermission>();
     sbcPackageDependencies: Array<string> = [];
     sbcPluginDependencies: Array<string> = [];
     sbcPythonDependencies: Array<string> = [];
