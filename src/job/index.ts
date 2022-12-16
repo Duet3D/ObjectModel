@@ -33,6 +33,7 @@ export class Job extends ModelObject {
     lastFileAborted: boolean = false;
     lastFileCancelled: boolean = false;
     lastFileSimulated: boolean = false;
+    lastWarmUpDuration: number | null = null;
     layer: number | null = null;
     readonly layers: ModelCollection<Layer> = new ModelCollection(Layer);
     layerTime: number | null = null;
