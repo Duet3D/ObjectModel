@@ -71,6 +71,18 @@ export class ModelDictionary<T> extends Map<string, T | null> implements IModelO
         }
         return this;
     }
+
+    /**
+     * Convert this object to JSON
+     * @returns JSON object
+     */
+    toJSON() {
+        const json: Record<string, T | null> = {};
+        for (const [key, value] of this) {
+            json[key] = value;
+        }
+        return json;
+    }
 }
 
 export default ModelDictionary

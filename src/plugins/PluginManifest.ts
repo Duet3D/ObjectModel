@@ -34,32 +34,50 @@ export enum SbcPermission {
 }
 
 export class PluginManifest extends ModelObject {
-    #id: string = "";
-    get id() { return this.#id; }
-    set id(value) {
-        if (!value || value.length > 32) {
-            throw new Error("Invalid plugin identifier");
-        }
-        for (const c in value.split("")) {
-            if (!/\w/.test(c)) {
-                throw new Error("Illegal plugin identifier");
+    /**
+     * Constructor of this class
+     * @param itemConstructor Item constructor type that items must derive from
+     */
+    constructor() {
+        super();
+
+        let id = "";
+        Object.defineProperty(this, "id", {
+            enumerable: true,
+            get(): string { return id; },
+            set(value: string) {
+                if (!value || value.length > 32) {
+                    throw new Error("Invalid plugin identifier");
+                }
+                for (const c in value.split("")) {
+                    if (!/\w/.test(c)) {
+                        throw new Error("Illegal plugin identifier");
+                    }
+                }
+                id = value;
             }
-        }
-        this.#id = value;
-    }
-    #name: string = "";
-    get name() { return this.#name; }
-    set name(value) {
-        if (!value || value.length > 64) {
-            throw new Error("Invalid plugin name");
-        }
-        for (const c in value.split("")) {
-            if (!/[\w -_]/.test(c)) {
-                throw new Error("Illegal plugin name");
+        });
+
+        let name = "";
+        Object.defineProperty(this, "name", {
+            enumerable: true,
+            get(): string { return name; },
+            set(value: string) {
+                if (!value || value.length > 64) {
+                    throw new Error("Invalid plugin name");
+                }
+                for (const c in value.split("")) {
+                    if (!/[\w -_]/.test(c)) {
+                        throw new Error("Illegal plugin name");
+                    }
+                }
+                name = value;
             }
-        }
-        this.#name = value;
+        });
     }
+
+    id: string = "";
+    name: string = "";
     author: string = "";
     version: string = "1.0.0";
     license: string = "LGPL-3.0-or-later"
