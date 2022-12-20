@@ -1,8 +1,8 @@
-import ObjectModel, { Heater } from "../src";
+import ObjectModel, { Heater, initCollection } from "../src";
 import { initObject } from "../src/ModelObject";
 import Board from "../src/boards";
 import Plugin from "../src/plugins";
-import Move, { CoreKinematics, DeltaKinematics, DriverId, Extruder, KinematicsName } from "../src/move";
+import Move, { Axis, CoreKinematics, DeltaKinematics, DriverId, Extruder, KinematicsName } from "../src/move";
 import { MachineStatus, MessageBox } from "../src/state";
 import { LaserFilamentMonitor, RotatingMagnetFilamentMonitor } from "../src/sensors";
 import Volume from "../src/volumes";
@@ -170,4 +170,14 @@ test("updatePlugin", () => {
     expect(model.plugins.get("foobar")?.id).toBe("foobar");
     expect(model.plugins.get("foobar")?.name).toBe("foo bar");
     expect(model.plugins.get("foobar")?.pid).toBe(123);
+});
+
+test("axisDrivers", () => {
+    const model = new ObjectModel();
+    model.move.axes.push(initObject(Axis, { drivers: initCollection(DriverId, [{ board: 1, driver: 12 }]) }));
+    model.move.axes[0].update({ "drivers": ["0.5"] });
+
+    expect(model.move.axes[0].drivers.length).toBe(1);
+    expect(model.move.axes[0].drivers[0].board).toBe(0);
+    expect(model.move.axes[0].drivers[0].driver).toBe(5);
 });
