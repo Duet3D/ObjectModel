@@ -1,7 +1,7 @@
 import ObjectModel, { Heater, initCollection } from "../src";
 import { initObject } from "../src/ModelObject";
 import Board from "../src/boards";
-import Plugin from "../src/plugins";
+import Plugin, { PluginManifest, SbcPermission } from "../src/plugins";
 import Move, { Axis, CoreKinematics, DeltaKinematics, DriverId, Extruder, KinematicsName } from "../src/move";
 import { MachineStatus, MessageBox } from "../src/state";
 import { LaserFilamentMonitor, RotatingMagnetFilamentMonitor } from "../src/sensors";
@@ -180,4 +180,12 @@ test("axisDrivers", () => {
     expect(model.move.axes[0].drivers.length).toBe(1);
     expect(model.move.axes[0].drivers[0].board).toBe(0);
     expect(model.move.axes[0].drivers[0].driver).toBe(5);
+});
+
+test("pluginManifestSet", () => {
+    const pluginManifest = { id: "foo", sbcPermissions: ["commandExecution"] };
+    const manifest = initObject(PluginManifest, pluginManifest as any);
+
+    expect(manifest.id).toBe("foo");
+    expect(manifest.sbcPermissions.has(SbcPermission.commandExecution)).toBeTruthy();
 });

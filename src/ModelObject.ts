@@ -209,29 +209,5 @@ export default ModelObject
  * @returns Initialized model instance
  */
 export function initObject<T>(itemType: { new(): T }, data: { [Property in keyof T]?: T[Property]; }): T {
-	const result = new itemType();
-	for (let key in data) {
-		const resultKey = result[key];
-		if (isModelObject(resultKey)) {
-			const updatedObject = resultKey.update(data[key]);
-			if (resultKey !== updatedObject) {
-				const propDescriptor = Object.getOwnPropertyDescriptor(result, key);
-				if (propDescriptor !== undefined) {
-					if (propDescriptor.writable) {
-						result[key] = updatedObject as any;
-					} else if (propDescriptor.set !== undefined) {
-						propDescriptor.set(updatedObject);
-					} else if (process.env.NODE_ENV !== "production") {
-						console.warn(`Model object ${key} changed but it could not be set due to missing setter`);
-					}
-				} else if (process.env.NODE_ENV !== "production") {
-					console.warn(`Model object ${key} changed but it lacks the property descriptor`);
-				}
-			}
-		} else {
-			result[key] = data[key]!;
-		}
-	}
-	return result;
+    return (new itemType() as IModelObject).update(data as any) as T;
 }
-

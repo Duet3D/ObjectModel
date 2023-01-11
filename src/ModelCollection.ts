@@ -99,8 +99,7 @@ export function initCollection<T extends IModelObject>(itemType: { new(): T }, d
 	const result = new ModelCollection(itemType);
 	for (let presetItem of data) {
 		const item = new itemType();
-		item.update(presetItem);
-		result.push(item);
+		result.push(item.update(presetItem) as any);
 	}
 	return result;
 }
