@@ -4,7 +4,7 @@ export enum InputShapingType {
     none = "none",
     mzv = "mzv",
     zvd = "zvd",
-    zvdd = "zvddd",
+    zvdd = "zvdd",
     zvddd = "zvddd",
     ei2 = "ei2",
     ei3 = "ei3",
