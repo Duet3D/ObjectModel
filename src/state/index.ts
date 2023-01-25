@@ -10,6 +10,7 @@ export class BeepRequest extends ModelObject {
 }
 
 export class GpOutputPort extends ModelObject {
+    freq: number = 0;
     pwm: number = 0;
 }
 
