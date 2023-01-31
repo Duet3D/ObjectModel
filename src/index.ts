@@ -2,6 +2,7 @@
 export * from "./ModelCollection";
 export * from "./ModelDictionary";
 export * from "./ModelObject";
+export * from "./ModelSet";
 
 export * from "./boards";
 export * from "./directories";
