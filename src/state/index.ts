@@ -10,7 +10,7 @@ export class BeepRequest extends ModelObject {
 }
 
 export class ConfigErr extends ModelObject {
-    file: string | null = null;
+    file: string = "";
     line: number = -1;
     message: string = "";
 }
