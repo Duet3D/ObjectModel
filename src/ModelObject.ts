@@ -115,38 +115,38 @@ export abstract class ModelObject implements IModelObject {
                     if (propType === "boolean") {
                         if (typeof value === "boolean") {
                             this[ownKey] = value as any;
-                        } else if (typeof value === "number" || this.checkDivergingDataType(ownKey, prop, value)) {
+                        } else if (typeof value === "number") {
                             // RRF used to report booleans as integers so convert them if necessary
                             this[ownKey] = Boolean(value) as any;
                         } else if (process.env.NODE_ENV !== "production") {
                             console.warn(`Incompatible bool target type ${typeof value} for property ${key}`);
                         }
                     } else if (propType === "number") {
-                        if (typeof value === "number" || typeof value === "bigint" || this.checkDivergingDataType(ownKey, prop, value)) {
+                        if (typeof value === "number" || typeof value === "bigint") {
                             this[ownKey] = value as any;
                         } else if (process.env.NODE_ENV !== "production") {
                             console.warn(`Incompatible number target type ${typeof value} for property ${key}`);
                         }
                     } else if (propType === "bigint") {
-                        if (typeof value === "number" || typeof value === "bigint" || this.checkDivergingDataType(ownKey, prop, value)) {
+                        if (typeof value === "number" || typeof value === "bigint") {
                             this[ownKey] = value as any;
                         } else if (process.env.NODE_ENV !== "production") {
                             console.warn(`Incompatible bigint target type ${typeof value} for property ${key}`);
                         }
                     } else if (propType === "string") {
-                        if (typeof value === "string" || this.checkDivergingDataType(ownKey, prop, value)) {
+                        if (typeof value === "string") {
                             this[ownKey] = value as any;
                         } else if (process.env.NODE_ENV !== "production") {
                             console.warn(`Incompatible string target type ${typeof value} for property ${key}`);
                         }
                     } else if (propType === "function") {
-                        if (typeof value === "function" || this.checkDivergingDataType(ownKey, prop, value)) {
+                        if (typeof value === "function") {
                             this[ownKey] = value as any;
                         } else if (process.env.NODE_ENV !== "production") {
                             console.warn(`Incompatible function target type ${typeof value} for property ${key}`);
                         }
                     } else if (propType === "object") {
-                        if (typeof value === "object" || this.checkDivergingDataType(ownKey, prop, value)) {
+                        if (typeof value === "object") {
                             this[ownKey] = value as any;
                         } else if (process.env.NODE_ENV !== "production") {
                             console.warn(`Incompatible object target type ${typeof value} for property ${key}`);
@@ -158,18 +158,6 @@ export abstract class ModelObject implements IModelObject {
             }
         }
         return this;
-    }
-
-    /**
-     * Called to check if a diverging property type may be set.
-     * Note that this is not applicable to null values; null is always legit
-     * @param key Property key
-     * @param oldValue Old member value
-     * @param newValue New member value
-     * @returns True if the value can be set by the update call
-     */
-    protected checkDivergingDataType<K extends keyof this>(key: K, oldValue: typeof this[K], newValue: any): boolean {
-        return false;
     }
 
     /**

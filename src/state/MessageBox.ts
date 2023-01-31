@@ -1,4 +1,4 @@
-import ModelObject from "../ModelObject";
+import ModelObject, { IModelObject } from "../ModelObject";
 
 export enum MessageBoxMode {
     noButtons,
@@ -24,8 +24,11 @@ export class MessageBox extends ModelObject {
     timeout: number = 0;
     title: string = "";
 
-    protected override checkDivergingDataType<K extends keyof this>(key: K, oldValue: this[K], newValue: any): boolean {
-        return key === "default" && (typeof newValue === "number" || typeof newValue === "string");
+    override update(jsonElement: any): IModelObject | null {
+        if (jsonElement instanceof Object && (typeof jsonElement.default === "number" || typeof jsonElement.default === "string")) {
+            this.default = jsonElement;
+        }
+        return super.update(jsonElement);
     }
 }
 
