@@ -9,6 +9,12 @@ export class BeepRequest extends ModelObject {
     frequency: number = 0;
 }
 
+export class ConfigErr extends ModelObject {
+    file: string | null = null;
+    line: number = -1;
+    message: string = "";
+}
+
 export class GpOutputPort extends ModelObject {
     freq: number = 0;
     pwm: number = 0;
@@ -30,12 +36,14 @@ export enum MachineMode {
 export class State extends ModelObject {
     constructor() {
         super();
-        this.wrapModelProperty("beep", BeepRequest);
-        this.wrapModelProperty("messageBox", MessageBox);
+        ModelObject.wrapModelProperty(this, "beep", BeepRequest);
+        ModelObject.wrapModelProperty(this, "configErr", ConfigErr);
+        ModelObject.wrapModelProperty(this, "messageBox", MessageBox);
     }
     atxPower: boolean | null = null;
     atxPowerPort: string | null = null;
     beep: BeepRequest | null = null;
+    configErr: ConfigErr | null = null;
     currentTool: number = -1;
     deferredPowerDown: boolean | null = null;
     displayMessage: string = "";

@@ -33,12 +33,12 @@ export class DirectDisplay extends ModelObject {
 export class Board extends ModelObject {
     constructor() {
         super();
-        this.wrapModelProperty("accelerometer", Accelerometer);
-        this.wrapModelProperty("closedLoop", ClosedLoop);
-        this.wrapModelProperty("directDisplay", DirectDisplay);
-        this.wrapModelProperty("mcuTemp", MinMaxCurrent);
-        this.wrapModelProperty("v12", MinMaxCurrent);
-        this.wrapModelProperty("vIn", MinMaxCurrent);
+        ModelObject.wrapModelProperty(this, "accelerometer", Accelerometer);
+        ModelObject.wrapModelProperty(this, "closedLoop", ClosedLoop);
+        ModelObject.wrapModelProperty(this, "directDisplay", DirectDisplay);
+        ModelObject.wrapModelProperty(this, "mcuTemp", MinMaxCurrent);
+        ModelObject.wrapModelProperty(this, "v12", MinMaxCurrent);
+        ModelObject.wrapModelProperty(this, "vIn", MinMaxCurrent);
     }
 
     accelerometer: Accelerometer | null = null;

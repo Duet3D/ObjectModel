@@ -19,7 +19,7 @@ export class PulsedFilamentMonitorConfigured extends ModelObject {
 export class PulsedFilamentMonitor extends FilamentMonitorBase {
     constructor() {
         super(FilamentMonitorType.pulsed);
-        this.wrapModelProperty("calibrated", PulsedFilamentMonitorCalibrated);
+        ModelObject.wrapModelProperty(this, "calibrated", PulsedFilamentMonitorCalibrated);
     }
 
     calibrated: PulsedFilamentMonitorCalibrated | null = new PulsedFilamentMonitorCalibrated();

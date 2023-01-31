@@ -24,8 +24,8 @@ export enum MoveCompensationType {
 export class MoveCompensation extends ModelObject {
     constructor() {
         super();
-        this.wrapModelProperty("liveGrid", ProbeGrid);
-        this.wrapModelProperty("meshDeviation", MoveDeviations);
+        ModelObject.wrapModelProperty(this, "liveGrid", ProbeGrid);
+        ModelObject.wrapModelProperty(this, "meshDeviation", MoveDeviations);
     }
     fadeHeight: number | null = null;
     file: string | null = null;

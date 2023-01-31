@@ -11,7 +11,7 @@ export class ExtruderNonlinear extends ModelObject {
 export class Extruder extends ModelObject {
     constructor() {
         super();
-        this.wrapModelProperty("driver", DriverId);
+        ModelObject.wrapModelProperty(this, "driver", DriverId);
     }
 
     acceleration: number = 500;

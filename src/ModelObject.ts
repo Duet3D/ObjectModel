@@ -165,9 +165,9 @@ export abstract class ModelObject implements IModelObject {
      * @param key Property key of the derived class
      * @param constructor Constructor for creating new elements
      */
-    protected wrapModelProperty<K extends keyof this, T extends IModelObject>(key: K, constructor: { new(): T }): void {
-        let propertyValue: any = this[key];
-        Object.defineProperty(this, key, {
+    static wrapModelProperty<S extends IModelObject, K extends keyof S, T extends IModelObject>(self: S, key: K, constructor: { new(): T }): void {
+        let propertyValue: any = self[key];
+        Object.defineProperty(self, key, {
             get() { return propertyValue; },
             set(newValue) {
                 if (newValue === null) {

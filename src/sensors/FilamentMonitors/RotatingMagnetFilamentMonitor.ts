@@ -20,7 +20,7 @@ export class RotatingMagnetFilamentMonitorConfigured extends ModelObject {
 export class RotatingMagnetFilamentMonitor extends FilamentMonitorBase {
     constructor() {
         super(FilamentMonitorType.rotatingMagnet);
-        this.wrapModelProperty("calibrated", RotatingMagnetFilamentMonitorCalibrated);
+        ModelObject.wrapModelProperty(this, "calibrated", RotatingMagnetFilamentMonitorCalibrated);
     }
 
     calibrated: RotatingMagnetFilamentMonitorCalibrated | null = new RotatingMagnetFilamentMonitorCalibrated();

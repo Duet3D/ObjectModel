@@ -20,8 +20,8 @@ export class TimesLeft extends ModelObject {
 export class Job extends ModelObject {
     constructor() {
         super();
-        this.wrapModelProperty("build", Build);
-        this.wrapModelProperty("file", GCodeFileInfo);
+        ModelObject.wrapModelProperty(this, "build", Build);
+        ModelObject.wrapModelProperty(this, "file", GCodeFileInfo);
     }
 
     build: Build = new Build();

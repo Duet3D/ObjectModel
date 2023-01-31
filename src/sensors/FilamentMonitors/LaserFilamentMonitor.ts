@@ -20,7 +20,7 @@ export class LaserFilamentMonitorConfigured extends ModelObject {
 export class LaserFilamentMonitor extends FilamentMonitorBase {
     constructor() {
         super(FilamentMonitorType.laser);
-        this.wrapModelProperty("calibrated", LaserFilamentMonitorCalibrated);
+        ModelObject.wrapModelProperty(this, "calibrated", LaserFilamentMonitorCalibrated);
     }
 
     calibrated: LaserFilamentMonitorCalibrated | null = new LaserFilamentMonitorCalibrated();
