@@ -9,12 +9,6 @@ export class BeepRequest extends ModelObject {
     frequency: number = 0;
 }
 
-export class ConfigErr extends ModelObject {
-    file: string = "";
-    line: number = -1;
-    message: string = "";
-}
-
 export class GpOutputPort extends ModelObject {
     freq: number = 0;
     pwm: number = 0;
@@ -33,17 +27,22 @@ export enum MachineMode {
     laser = "Laser"
 }
 
+export class StartupErr extends ModelObject {
+    file: string = "";
+    line: number = -1;
+    message: string = "";
+}
+
 export class State extends ModelObject {
     constructor() {
         super();
         ModelObject.wrapModelProperty(this, "beep", BeepRequest);
-        ModelObject.wrapModelProperty(this, "configErr", ConfigErr);
+        ModelObject.wrapModelProperty(this, "startupErr", StartupErr);
         ModelObject.wrapModelProperty(this, "messageBox", MessageBox);
     }
     atxPower: boolean | null = null;
     atxPowerPort: string | null = null;
     beep: BeepRequest | null = null;
-    configErr: ConfigErr | null = null;
     currentTool: number = -1;
     deferredPowerDown: boolean | null = null;
     displayMessage: string = "";
@@ -63,6 +62,7 @@ export class State extends ModelObject {
     powerFailScript: string = "";
     previousTool: number = -1;
     readonly restorePoints: ModelCollection<RestorePoint> = new ModelCollection(RestorePoint);
+    startupErr: StartupErr | null = null;
     status: MachineStatus = MachineStatus.starting;
     thisInput: number | null = null;
     time: string | null = null;
