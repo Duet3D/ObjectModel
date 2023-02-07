@@ -27,7 +27,7 @@ export class Probe extends ModelObject {
     temperatureCoefficients: Array<number> = [0, 0];
     threshold: number = 500;
     tolerance: number = 0.03;
-    travelSpeed: number = 100;
+    travelSpeed: number = 6000;
     triggerHeight: number = 0.7;
     type: ProbeType = ProbeType.none;
     value: Array<number> = [];

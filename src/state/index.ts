@@ -27,7 +27,7 @@ export enum MachineMode {
     laser = "Laser"
 }
 
-export class StartupErr extends ModelObject {
+export class StartupError extends ModelObject {
     file: string = "";
     line: number = -1;
     message: string = "";
@@ -62,7 +62,7 @@ export class State extends ModelObject {
     powerFailScript: string = "";
     previousTool: number = -1;
     readonly restorePoints: ModelCollection<RestorePoint> = new ModelCollection(RestorePoint);
-    startupErr: StartupErr | null = null;
+    startupError: StartupError | null = null;
     status: MachineStatus = MachineStatus.starting;
     thisInput: number | null = null;
     time: string | null = null;
