@@ -37,7 +37,7 @@ export class State extends ModelObject {
     constructor() {
         super();
         ModelObject.wrapModelProperty(this, "beep", BeepRequest);
-        ModelObject.wrapModelProperty(this, "startupErr", StartupErr);
+        ModelObject.wrapModelProperty(this, "startupError", StartupError);
         ModelObject.wrapModelProperty(this, "messageBox", MessageBox);
     }
     atxPower: boolean | null = null;
