@@ -189,3 +189,23 @@ test("pluginManifestSet", () => {
     expect(manifest.id).toBe("foo");
     expect(manifest.sbcPermissions.has(SbcPermission.commandExecution)).toBeTruthy();
 });
+
+test("messageBoxDefault", () => {
+    const model = new ObjectModel();
+
+    // Initial assignment
+    model.update({ state: { messageBox: { default: 123 }}});
+    expect(model.state.messageBox?.default).toBe(123);
+
+    // Reset
+    model.update({ state: { messageBox: { default: null }}});
+    expect(model.state.messageBox?.default).toBeNull();
+
+    // Set to string
+    model.update({ state: { messageBox: { default: "foobar" }}});
+    expect(model.state.messageBox?.default).toBe("foobar");
+
+    // Set to number
+    model.update({ state: { messageBox: { default: 456 } }});
+    expect(model.state.messageBox?.default).toBe(456);
+});

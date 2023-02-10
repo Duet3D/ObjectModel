@@ -26,7 +26,7 @@ export class MessageBox extends ModelObject {
 
     override update(jsonElement: any): IModelObject | null {
         if (jsonElement instanceof Object && (typeof jsonElement.default === "number" || typeof jsonElement.default === "string")) {
-            this.default = jsonElement;
+            this.default = jsonElement.default;
         }
         return super.update(jsonElement);
     }
