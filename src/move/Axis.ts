@@ -26,6 +26,7 @@ export enum AxisLetter {
 export class Axis extends ModelObject {
     acceleration: number = 0;
     babystep: number = 0;
+    backlash: number = 0;
     current: number = 0;
     readonly drivers: ModelCollection<DriverId> = new ModelCollection(DriverId);
     homed: boolean = false;
