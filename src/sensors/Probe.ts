@@ -20,7 +20,7 @@ export class Probe extends ModelObject {
     disablesHeaters: boolean = false;
     diveHeight: number = 0;
     lastStopHeight: number = 0;
-    maxProbeCount: number = -1;
+    maxProbeCount: number = 1;
     offsets: Array<number> = [0, 0];
     recoveryTime: number = 0;
     speeds: Array<number> = [2, 2];
