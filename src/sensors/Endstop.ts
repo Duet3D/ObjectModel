@@ -10,6 +10,7 @@ export enum EndstopType {
 
 export class Endstop extends ModelObject {
     highEnd: boolean = false;
+    probe: number | null = null;
     triggered: boolean = false;
     type: EndstopType = EndstopType.unknown;
 }
