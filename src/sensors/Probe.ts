@@ -18,7 +18,7 @@ export class Probe extends ModelObject {
     calibrationTemperature: number = 0;
     deployedByUser: boolean = false;
     disablesHeaters: boolean = false;
-    diveHeight: number = 0;
+    diveHeight: number = 5;
     lastStopHeight: number = 0;
     maxProbeCount: number = 1;
     offsets: Array<number> = [0, 0];
