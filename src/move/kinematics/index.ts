@@ -48,7 +48,7 @@ export function getKinematics(name: KinematicsName): KinematicsBase {
         default:
             const _exhaustiveCheck: never = name;
             console.warn(`Kinematics '${name}' is not supported, falling back to cartesian`);
-            return new CoreKinematics(KinematicsName.cartesian);
+            return new CoreKinematics(name);
     }
 }
 
