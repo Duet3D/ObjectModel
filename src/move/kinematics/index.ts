@@ -1,5 +1,5 @@
 import { IModelObject } from "../../ModelObject";
-import KinematicsBase, { KinematicsName } from "./KinematicsBase";
+import KinematicsBase, { KinematicsName, ZLeadscrewKinematics } from "./KinematicsBase";
 import CoreKinematics from "./CoreKinematics";
 import DeltaKinematics from "./DeltaKinematics";
 import HangprinterKinematics from "./HangprinterKinematics";
@@ -7,7 +7,7 @@ import ScaraKinematics from "./ScaraKinematics";
 import PolarKinematics from "./PolarKinematics";
 
 export class Kinematics extends KinematicsBase {
-    constructor(name: KinematicsName = KinematicsName.unknown) {
+    constructor(name: KinematicsName = KinematicsName.cartesian) {
         super(name);
     }
 
@@ -26,7 +26,7 @@ export class Kinematics extends KinematicsBase {
 export default Kinematics
 
 export function getKinematics(name: KinematicsName): KinematicsBase {
-    switch (name as KinematicsName) {
+    switch (name) {
         case KinematicsName.cartesian:
         case KinematicsName.coreXY:
         case KinematicsName.coreXYU:
@@ -45,8 +45,10 @@ export function getKinematics(name: KinematicsName): KinematicsBase {
             return new ScaraKinematics(name);
         case KinematicsName.polar:
             return new PolarKinematics();
-	    default:
-            return name as never;
+        default:
+            const _exhaustiveCheck: never = name;
+            console.warn(`Kinematics '${name}' is not supported, falling back to cartesian`);
+            return new CoreKinematics(name);
     }
 }
 

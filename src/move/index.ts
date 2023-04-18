@@ -1,14 +1,14 @@
 import ModelObject from "../ModelObject";
 import ModelCollection from "../ModelCollection";
 
-import Kinematics from "./kinematics";
-
 import Axis from "./Axis";
 import Extruder from "./Extruder";
 import InputShaping from "./InputShaping";
 import KeepoutZone from "./KeepoutZone";
 import MoveCalibration from "./MoveCalibration";
 import MoveCompensation from "./MoveCompensation";
+
+import Kinematics, { CoreKinematics, KinematicsName } from "./kinematics";
 
 export class CurrentMove extends ModelObject {
     acceleration: number = 0;
@@ -43,7 +43,7 @@ export class Move extends ModelObject {
     readonly extruders: ModelCollection<Extruder> = new ModelCollection(Extruder);
     readonly idle: MotorsIdleControl = new MotorsIdleControl();
     readonly keepout: ModelCollection<KeepoutZone | null> = new ModelCollection(KeepoutZone);
-    kinematics: Kinematics = new Kinematics();
+    kinematics: Kinematics = new CoreKinematics(KinematicsName.cartesian);
     limitAxes: boolean = true;
     noMovesBeforeHoming: boolean = true;
     printingAcceleration: number = 10000;

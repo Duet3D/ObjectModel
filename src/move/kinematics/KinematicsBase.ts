@@ -12,8 +12,7 @@ export enum KinematicsName {
     delta = "delta",
     polar = "Polar",
     rotaryDelta = "Rotary delta",
-    scara = "Scara",
-    unknown = "unknown"
+    scara = "Scara"
 }
 
 export class MoveSegmentation extends ModelObject {
