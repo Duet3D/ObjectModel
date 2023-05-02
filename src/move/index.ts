@@ -48,6 +48,7 @@ export class Move extends ModelObject {
     noMovesBeforeHoming: boolean = true;
     printingAcceleration: number = 10000;
     readonly queue: ModelCollection<MoveQueueItem> = new ModelCollection(MoveQueueItem);
+    reducedAcceleration: number = 10000;
     readonly rotation: MoveRotation = new MoveRotation();
     readonly shaping: InputShaping = new InputShaping();
     speedFactor: number = 1;
