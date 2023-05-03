@@ -46,9 +46,6 @@ export class State extends ModelObject {
     currentTool: number = -1;
     deferredPowerDown: boolean | null = null;
     displayMessage: string = "";
-    dsfVersion: string | null = null;       // deprecated; will be moved to separate dsf main key in v3.5
-    dsfPluginSupport: boolean = false;      // deprecated; will be moved to separate dsf main key in v3.5
-    dsfRootPluginSupport: boolean = false;  // deprecated; will be moved to separate dsf main key in v3.5
     readonly gpOut: ModelCollection<GpOutputPort | null> = new ModelCollection(GpOutputPort);
     laserPwm: number | null = null;
     logFile: string | null = null;
