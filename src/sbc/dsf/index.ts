@@ -1,5 +1,3 @@
-import packageInfo from "../../../package.json";
-
 import ModelCollection from "../../ModelCollection";
 import ModelObject from "../../ModelObject";
 
@@ -9,7 +7,7 @@ export class SBC extends ModelObject {
     readonly httpEndpoints: ModelCollection<HttpEndpoint> = new ModelCollection(HttpEndpoint);
     pluginSupport: boolean = false;
     rootPluginSupport: boolean = false;
-    version: string = packageInfo.version;
+    version: string = "";
 }
 
 export default SBC;
