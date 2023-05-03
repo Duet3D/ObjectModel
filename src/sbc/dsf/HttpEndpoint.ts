@@ -1,4 +1,4 @@
-import ModelObject from "../ModelObject";
+import ModelObject from "../../ModelObject";
 
 export enum HttpEndpointType {
     GET = "GET",
@@ -19,4 +19,4 @@ export class HttpEndpoint extends ModelObject {
     unixSocket: string = "";
 }
 
-export default HttpEndpoint
+export default HttpEndpoint;
