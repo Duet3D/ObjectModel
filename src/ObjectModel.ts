@@ -36,12 +36,6 @@ export class ObjectModel extends ModelObject {
 	readonly fans: ModelCollection<Fan | null> = new ModelCollection(Fan);
 	readonly global: ModelDictionary<any> = new ModelDictionary(false);
 	readonly heat: Heat = new Heat();
-	/**
-	 * @deprecated Will be removed in v3.6, use sbc?.dsf.httpEndpoints instead
-	 */
-	get httpEndpoints(): ModelCollection<HttpEndpoint> | null {
-		return this.sbc?.dsf.httpEndpoints ?? null;
-	}
 	readonly inputs: ModelCollection<InputChannel | null> = new ModelCollection(InputChannel);
 	readonly job: Job = new Job();
 	readonly limits: Limits = new Limits();
