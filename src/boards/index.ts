@@ -13,7 +13,21 @@ export enum BoardState {
     running = "running"
 }
 
+export class ClosedLoopPid extends ModelObject {
+    p: number = 0;
+    i: number = 0;
+    d: number = 0;
+    a: number = 0;
+    v: number = 0;
+}
+
+
 export class ClosedLoop extends ModelObject {
+    constructor() {
+        super();
+        ModelObject.wrapModelProperty(this, "pid", ClosedLoopPid);
+    }
+    pid : ClosedLoopPid | null = null;
     points: number = 0;
     runs: number = 0;
 }
