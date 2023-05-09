@@ -17,6 +17,7 @@ export class HeaterMonitor extends ModelObject {
     action: HeaterMonitorAction | null = null;
     condition: HeaterMonitorCondition = HeaterMonitorCondition.disabled;
     limit: number | null = null;
+    sensor: number = -1;
 }
 
 export default HeaterMonitor
