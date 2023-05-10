@@ -26,7 +26,8 @@ export class MinMaxCurrent extends ModelObject {
 
 export enum DirectDisplayController {
     ST7920 = "ST7920",
-    ST7567 = "ST7567"
+    ST7567 = "ST7567",
+    ILI9488 = "ILI9488"
 }
 
 export class DirectDisplayEncoder extends ModelObject {
