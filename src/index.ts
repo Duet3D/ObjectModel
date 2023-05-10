@@ -10,6 +10,7 @@ export * from "./fans";
 export * from "./heat";
 export * from "./inputs";
 export * from "./job";
+export * from "./ledStrips";
 export * from "./limits";
 export * from "./messages";
 export * from "./move";
