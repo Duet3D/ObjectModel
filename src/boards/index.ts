@@ -1,5 +1,7 @@
 import ModelObject from "../ModelObject";
 
+import DirectDisplay from "./directDisplay";
+
 export class Accelerometer extends ModelObject {
     points: number = 0;
     runs: number = 0;
@@ -24,34 +26,6 @@ export class MinMaxCurrent extends ModelObject {
     max: number = 0;
 }
 
-export enum DirectDisplayController {
-    ST7920 = "ST7920",
-    ST7567 = "ST7567",
-    ILI9488 = "ILI9488"
-}
-
-export class DirectDisplayEncoder extends ModelObject {
-    pulsesPerClick: number = 1;
-}
-
-export class DirectDisplayScreen extends ModelObject {
-    colourBits: number = 1;
-    contrast: number | null = null;
-    resistorRatio: number | null = null;
-    controller: DirectDisplayController = DirectDisplayController.ST7567;
-    height: number = 64;
-    spiFreq: number = 2000000;
-    width: number = 128;
-}
-
-export class DirectDisplay extends ModelObject {
-    constructor() {
-        super();
-        ModelObject.wrapModelProperty(this, "encoder", DirectDisplayEncoder);
-    }
-    encoder: DirectDisplayEncoder | null = null;
-    screen: DirectDisplayScreen = new DirectDisplayScreen();
-}
 
 export class Board extends ModelObject {
     constructor() {
