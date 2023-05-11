@@ -7,8 +7,8 @@ export class DirectDisplayScreenST7567 extends DirectDisplayScreenBase {
     constructor() {
         super(DirectDisplayController.ST7567);
     }
-    contrast: number | null = null;
-    resistorRatio: number | null = null;
+    contrast: number = 30;
+    resistorRatio: number = 6;
 
     override update(jsonElement: any): IModelObject | null {
         if (jsonElement === null) {

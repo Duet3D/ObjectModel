@@ -1,6 +1,6 @@
-import ModelObject, { IModelObject } from "../../ModelObject";
+import ModelObject from "../../ModelObject";
 
-import { DirectDisplayController, getDirectDisplayScreen } from ".";
+import { DirectDisplayController } from ".";
 
 export class DirectDisplayScreenBase extends ModelObject {
     constructor(type: DirectDisplayController) {
