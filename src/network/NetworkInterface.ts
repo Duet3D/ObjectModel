@@ -38,6 +38,7 @@ export class NetworkInterface extends ModelObject {
     numReconnects: number | null = null;
     signal: number | null = null;
     speed: number | null = null;
+    ssid: string | null = null;
 	state: NetworkInterfaceState | null = null;
     subnet: string | null = null;
     type: NetworkInterfaceType = NetworkInterfaceType.wifi;
