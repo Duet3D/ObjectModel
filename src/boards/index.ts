@@ -63,3 +63,5 @@ export class Board extends ModelObject {
 }
 
 export default Board
+
+export * from "./directDisplay"
