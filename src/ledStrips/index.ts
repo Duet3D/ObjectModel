@@ -7,8 +7,10 @@ export enum LedStripType {
 }
 
 export class LedStrip extends ModelObject {
-    type: LedStripType = LedStripType.DotStar;
+    board: number = 0;
+    pin: string = "";
     stopMovement: boolean = false;
+    type: LedStripType = LedStripType.DotStar;
 }
 
 export default LedStrip
