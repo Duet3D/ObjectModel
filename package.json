@@ -1,6 +1,6 @@
 {
   "name": "@duet3d/objectmodel",
-  "version": "3.5.0-beta.51",
+  "version": "3.5.0-beta.52",
   "description": "TypeScript implementation of the Duet3D Object Model",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
