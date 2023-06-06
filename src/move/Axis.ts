@@ -40,6 +40,7 @@ export class Axis extends ModelObject {
     minProbed: boolean = false;
     percentCurrent: number = 100;
     percentStstCurrent: number | null = null;
+    reducedAcceleration: number = 0;
     speed: number = 100;
     stepsPerMm: number = 80;
     userPosition: number | null = null;
