@@ -21,6 +21,7 @@ import State from "./state";
 import Tool from "./tools";
 import UserSession from "./userSessions";
 import Volume from "./volumes";
+import LedStrip from "./ledStrips";
 
 /**
  * Refer to the DSF/RRF documentation for descriptions of the object model fields
@@ -38,6 +39,7 @@ export class ObjectModel extends ModelObject {
 	readonly heat: Heat = new Heat();
 	readonly inputs: ModelCollection<InputChannel | null> = new ModelCollection(InputChannel);
 	readonly job: Job = new Job();
+	readonly ledStrips: ModelCollection<LedStrip> = new ModelCollection(LedStrip);
 	readonly limits: Limits = new Limits();
 	readonly messages: ModelCollection<Message> = new ModelCollection(Message);         // must be manually cleared after updates
 	readonly move: Move = new Move();
