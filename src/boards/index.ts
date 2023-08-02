@@ -26,7 +26,6 @@ export class MinMaxCurrent extends ModelObject {
     max: number = 0;
 }
 
-
 export class Board extends ModelObject {
     constructor() {
         super();

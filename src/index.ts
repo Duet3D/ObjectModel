@@ -21,7 +21,6 @@ export * from "./spindles";
 export * from "./sbc";
 export * from "./state";
 export * from "./tools";
-export * from "./userSessions";
 export * from "./volumes";
 
 export * from "./ObjectModel";

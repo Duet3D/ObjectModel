@@ -1,4 +1,4 @@
-import ModelObject from "../ModelObject";
+import ModelObject from "../../ModelObject";
 
 export enum AccessLevel {
     readOnly = "readOnly",

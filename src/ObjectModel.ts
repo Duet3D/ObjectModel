@@ -6,7 +6,6 @@ import Board from "./boards";
 import Directories from "./directories";
 import Fan from "./fans";
 import Heat from "./heat";
-import HttpEndpoint from "./sbc/dsf/HttpEndpoint";
 import InputChannel from "./inputs/InputChannel";
 import Job from "./job";
 import Limits from "./limits";
@@ -19,7 +18,6 @@ import Sensors from "./sensors";
 import Spindle from "./spindles";
 import State from "./state";
 import Tool from "./tools";
-import UserSession from "./userSessions";
 import Volume from "./volumes";
 import LedStrip from "./ledStrips";
 
@@ -50,7 +48,6 @@ export class ObjectModel extends ModelObject {
 	readonly spindles: ModelCollection<Spindle | null> = new ModelCollection(Spindle);
 	readonly state: State = new State();
 	readonly tools: ModelCollection<Tool | null> = new ModelCollection(Tool);
-	readonly userSessions: ModelCollection<UserSession> = new ModelCollection(UserSession);
 	readonly volumes: ModelCollection<Volume> = new ModelCollection(Volume);
 }
 
