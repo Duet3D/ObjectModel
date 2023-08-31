@@ -19,7 +19,8 @@ export enum NetworkInterfaceState {
 	establishingLink = "establishingLink",
 	obtainingIP = "obtainingIP",
 	connected = "connected",
-	active = "active"
+    active = "active",
+    idle = "idle"
 }
 
 export enum NetworkInterfaceType {

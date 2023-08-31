@@ -18,8 +18,19 @@ export enum FilamentMonitorType {
     unknown = "unknown"
 }
 
+export enum FilamentMonitorEnableMode {
+    disabled = 0,
+    enabled = 1,
+    alwaysEnabled = 2
+}
+
 export class FilamentMonitorBase extends ModelObject {
+    /**
+     * @deprecated use enableMode instead
+     */
     enabled: boolean = false;
+
+    enableMode: FilamentMonitorEnableMode = FilamentMonitorEnableMode.disabled;
     status: FilamentMonitorStatus = FilamentMonitorStatus.noDataReceived;
     type: FilamentMonitorType;
 

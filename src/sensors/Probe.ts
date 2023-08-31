@@ -20,12 +20,19 @@ export class Probe extends ModelObject {
     calibrationTemperature: number = 0;
     deployedByUser: boolean = false;
     disablesHeaters: boolean = false;
+
+    /**
+     * @deprecated use diveHeights[0] instead
+     */
     diveHeight: number = 5;
+
+    diveHeights: Array<number> = [0, 0];
     isCalibrated: boolean | null = null;
     lastStopHeight: number = 0;
     maxProbeCount: number = 1;
     offsets: Array<number> = [0, 0];
     recoveryTime: number = 0;
+    scanCoefficients: Array<number> | null = null;
     speeds: Array<number> = [2, 2];
     temperatureCoefficients: Array<number> = [0, 0];
     threshold: number = 500;

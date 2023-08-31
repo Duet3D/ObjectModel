@@ -43,8 +43,13 @@ export enum TemperatureError {
 }
 
 export class AnalogSensor extends ModelObject {
+	beta: number | null = null;
+	c: number | null = null;
     lastReading: number | null = null;
     name: string | null = null;
+    port: string | null = null;
+	r25: number | null = null;
+	rRef: number | null = null;
     state: TemperatureError = TemperatureError.ok;
     type: AnalogSensorType = AnalogSensorType.unknown;
 }
