@@ -45,7 +45,7 @@ export class Board extends ModelObject {
     canAddress: number | null = null;
     closedLoop: BoardClosedLoop | null = null;
     directDisplay: DirectDisplay | null = null;
-    drivers: ModelCollection<Driver> = new ModelCollection(Driver);
+    drivers: ModelCollection<Driver> | null = null;
     firmwareDate: string = "";
     firmwareFileName: string = "";
     firmwareName: string = "";
