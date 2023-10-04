@@ -8,5 +8,5 @@ export class KeepoutZoneCoordinates extends ModelObject {
 
 export default class KeepoutZone extends ModelObject {
     active: boolean = true;
-    coords: ModelCollection<KeepoutZoneCoordinates | null> = new ModelCollection(KeepoutZoneCoordinates);
+    readonly coords: ModelCollection<KeepoutZoneCoordinates | null> = new ModelCollection(KeepoutZoneCoordinates);
 }

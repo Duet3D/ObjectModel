@@ -1,4 +1,4 @@
-import { setArrayItem } from "./index";
+import { ModelCollection, setArrayItem } from "./index";
 
 /**
  * Interface for updating model objects using JSON data
@@ -158,6 +158,33 @@ export abstract class ModelObject implements IModelObject {
             }
         }
         return this;
+    }
+
+    /**
+     * Wrap a nullable model object property so that type checks can be performed
+     * @param key Property key of the derived class
+     * @param constructor Constructor for creating new elements
+     */
+    static wrapModelCollectionProperty<S extends IModelObject, K extends keyof S, T extends IModelObject | null>(self: S, key: K, itemConstructor: { new(): T }): void {
+        let propertyValue: any = self[key];
+        Object.defineProperty(self, key, {
+            get() { return propertyValue; },
+            set(newValue) {
+                if (newValue === null) {
+                    propertyValue = null;
+                } else if (propertyValue !== null) {
+                    const newModel = propertyValue.update(newValue);
+                    if (propertyValue !== newModel) {
+                        propertyValue = newModel;
+                    }
+                } else {
+                    const newModel = new ModelCollection(itemConstructor);
+                    propertyValue = newModel.update(newValue);
+                }
+            },
+            configurable: true,
+            enumerable: true
+        });
     }
 
     /**

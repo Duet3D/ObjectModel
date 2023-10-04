@@ -1,8 +1,15 @@
+import ModelCollection from "../ModelCollection";
 import ModelObject from "../ModelObject";
 
 import DirectDisplay from "./directDisplay";
+import Driver from "./Driver";
 
 export class Accelerometer extends ModelObject {
+    points: number = 0;
+    runs: number = 0;
+}
+
+export class BoardClosedLoop extends ModelObject {
     points: number = 0;
     runs: number = 0;
 }
@@ -15,11 +22,6 @@ export enum BoardState {
     running = "running"
 }
 
-export class ClosedLoop extends ModelObject {
-    points: number = 0;
-    runs: number = 0;
-}
-
 export class MinMaxCurrent extends ModelObject {
     current: number = 0;
     min: number = 0;
@@ -30,8 +32,9 @@ export class Board extends ModelObject {
     constructor() {
         super();
         ModelObject.wrapModelProperty(this, "accelerometer", Accelerometer);
-        ModelObject.wrapModelProperty(this, "closedLoop", ClosedLoop);
+        ModelObject.wrapModelProperty(this, "closedLoop", BoardClosedLoop);
         ModelObject.wrapModelProperty(this, "directDisplay", DirectDisplay);
+        ModelObject.wrapModelCollectionProperty(this, "drivers", Driver);
         ModelObject.wrapModelProperty(this, "mcuTemp", MinMaxCurrent);
         ModelObject.wrapModelProperty(this, "v12", MinMaxCurrent);
         ModelObject.wrapModelProperty(this, "vIn", MinMaxCurrent);
@@ -40,8 +43,9 @@ export class Board extends ModelObject {
     accelerometer: Accelerometer | null = null;
     bootloaderFileName: string | null = null;
     canAddress: number | null = null;
-    closedLoop: ClosedLoop | null = null;
+    closedLoop: BoardClosedLoop | null = null;
     directDisplay: DirectDisplay | null = null;
+    drivers: ModelCollection<Driver> = new ModelCollection(Driver);
     firmwareDate: string = "";
     firmwareFileName: string = "";
     firmwareName: string = "";
@@ -64,3 +68,4 @@ export class Board extends ModelObject {
 export default Board
 
 export * from "./directDisplay"
+export * from "./Driver"
