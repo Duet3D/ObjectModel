@@ -42,6 +42,9 @@ export class ModelCollection<T extends IModelObject | null> extends Array<T> imp
      * @returns Updated instance
      */
     update(jsonElement: any): IModelObject | null {
+        if (jsonElement === null) {
+            return null;
+        }
         if (!(jsonElement instanceof Array)) {
             throw new Error(`Invalid JSON element type for model collection ${typeof jsonElement}`);
         }
