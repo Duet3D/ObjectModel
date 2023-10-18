@@ -1,6 +1,6 @@
 import ModelObject, { IModelObject } from "../../ModelObject";
-import FilamentMonitorBase, { FilamentMonitorType } from "./FilamentMonitorBase";
-import { getFilamentMonitor } from "./index";
+import { FilamentMonitorType } from "./FilamentMonitorBase";
+import { Duet3DFilamentMonitor, getFilamentMonitor } from "./index";
 
 export class RotatingMagnetFilamentMonitorCalibrated extends ModelObject {
     mmPerPulse: number = 0;
@@ -17,7 +17,7 @@ export class RotatingMagnetFilamentMonitorConfigured extends ModelObject {
     sampleDistance: number = 0;
 }
 
-export class RotatingMagnetFilamentMonitor extends FilamentMonitorBase {
+export class RotatingMagnetFilamentMonitor extends Duet3DFilamentMonitor {
     constructor() {
         super(FilamentMonitorType.rotatingMagnet);
         ModelObject.wrapModelProperty(this, "calibrated", RotatingMagnetFilamentMonitorCalibrated);

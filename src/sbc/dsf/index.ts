@@ -5,6 +5,7 @@ import HttpEndpoint from "./HttpEndpoint";
 import UserSession from "./UserSession";
 
 export class SBC extends ModelObject {
+    buildDateTime: string = "";
     readonly httpEndpoints: ModelCollection<HttpEndpoint> = new ModelCollection(HttpEndpoint);
     pluginSupport: boolean = false;
     rootPluginSupport: boolean = false;

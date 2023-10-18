@@ -1,6 +1,6 @@
 import ModelObject, { IModelObject } from "../../ModelObject";
-import FilamentMonitorBase, { FilamentMonitorType } from "./FilamentMonitorBase";
-import { getFilamentMonitor } from "./index";
+import { FilamentMonitorType } from "./FilamentMonitorBase";
+import { Duet3DFilamentMonitor, getFilamentMonitor } from "./index";
 
 export class LaserFilamentMonitorCalibrated extends ModelObject {
     calibrationFactor: number = 0;
@@ -17,7 +17,7 @@ export class LaserFilamentMonitorConfigured extends ModelObject {
     sampleDistance: number = 0;
 }
 
-export class LaserFilamentMonitor extends FilamentMonitorBase {
+export class LaserFilamentMonitor extends Duet3DFilamentMonitor {
     constructor() {
         super(FilamentMonitorType.laser);
         ModelObject.wrapModelProperty(this, "calibrated", LaserFilamentMonitorCalibrated);

@@ -32,6 +32,7 @@ export function getFilamentMonitor(type: FilamentMonitorType): FilamentMonitorBa
     }
 }
 
+export * from "./Duet3DFilamentMonitor";
 export * from "./FilamentMonitorBase";
 export * from "./LaserFilamentMonitor";
 export * from "./PulsedFilamentMonitor";
