@@ -1,6 +1,7 @@
 import ModelObject, { IModelObject } from "../../ModelObject";
 import { FilamentMonitorType } from "./FilamentMonitorBase";
-import { Duet3DFilamentMonitor, getFilamentMonitor } from "./index";
+import { Duet3DFilamentMonitor } from "./Duet3DFilamentMonitor";
+import { getFilamentMonitor } from "./index";
 
 export class RotatingMagnetFilamentMonitorCalibrated extends ModelObject {
     mmPerPulse: number = 0;

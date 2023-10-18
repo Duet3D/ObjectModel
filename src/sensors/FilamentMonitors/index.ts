@@ -1,4 +1,5 @@
 import { IModelObject } from "../../ModelObject";
+
 import FilamentMonitorBase, { FilamentMonitorType } from "./FilamentMonitorBase";
 import LaserFilamentMonitor from "./LaserFilamentMonitor";
 import PulsedFilamentMonitor from "./PulsedFilamentMonitor";
@@ -32,8 +33,8 @@ export function getFilamentMonitor(type: FilamentMonitorType): FilamentMonitorBa
     }
 }
 
-export * from "./Duet3DFilamentMonitor";
 export * from "./FilamentMonitorBase";
+export * from "./Duet3DFilamentMonitor";
 export * from "./LaserFilamentMonitor";
 export * from "./PulsedFilamentMonitor";
 export * from "./RotatingMagnetFilamentMonitor";
