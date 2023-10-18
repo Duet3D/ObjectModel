@@ -4,7 +4,7 @@ import ModelObject from "../../ModelObject";
 import HttpEndpoint from "./HttpEndpoint";
 import UserSession from "./UserSession";
 
-export class SBC extends ModelObject {
+export class DSF extends ModelObject {
     buildDateTime: string = "";
     readonly httpEndpoints: ModelCollection<HttpEndpoint> = new ModelCollection(HttpEndpoint);
     pluginSupport: boolean = false;
@@ -13,6 +13,6 @@ export class SBC extends ModelObject {
     version: string = "";
 }
 
-export default SBC;
+export default DSF;
 
 export * from "./HttpEndpoint";
