@@ -91,6 +91,7 @@ export class PluginManifest extends ModelObject {
     sbcExecutable: string | null = null;
     sbcExecutableArguments: string | null = null;
     sbcExtraExecutables: Array<string> = [];
+    sbcAutoRestart: boolean = false;
     sbcOutputRedirected: boolean = true;
     sbcPermissions: ModelSet<SbcPermission> = new ModelSet<SbcPermission>();
     sbcPackageDependencies: Array<string> = [];
