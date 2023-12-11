@@ -11,7 +11,8 @@ export enum ProbeType {
     zSwitch_obsolete = 7,
     unfilteredDigital = 8,
     blTouch = 9,
-    zMotorStall = 10
+    zMotorStall = 10,
+    scanningAnalog = 11
 }
 
 export class Probe extends ModelObject {
