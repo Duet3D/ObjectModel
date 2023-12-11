@@ -11,7 +11,7 @@ export enum FilamentMonitorStatus {
 }
 
 export enum FilamentMonitorType {
-    switch = "switch",
+    simple = "simple",
     laser = "laser",
     pulsed = "pulsed",
     rotatingMagnet = "rotatingMagnet",
