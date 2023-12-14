@@ -16,7 +16,7 @@ export class InputShaping extends ModelObject {
     damping: number = 0.1;
     durations: Array<number> = [];
     frequency: number = 40;
-    minAcceleration: number = 10;
+    reductionLimit: number = 10;
     type: InputShapingType = InputShapingType.none;
 }
 
