@@ -31,6 +31,7 @@ export class Probe extends ModelObject {
     isCalibrated: boolean | null = null;
     lastStopHeight: number = 0;
     maxProbeCount: number = 1;
+    measuredHeight: number | null = null;
     offsets: Array<number> = [0, 0];
     recoveryTime: number = 0;
     scanCoefficients: Array<number> | null = null;

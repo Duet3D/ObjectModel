@@ -15,6 +15,7 @@ export enum InputChannelState {
 }
 
 export class InputChannel extends ModelObject {
+    active: boolean = true;
     axesRelative: boolean = false;
     compatibility: Compatibility = Compatibility.RepRapFirmware;
     distanceUnit: DistanceUnit = DistanceUnit.mm;
