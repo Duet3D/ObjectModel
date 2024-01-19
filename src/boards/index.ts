@@ -50,6 +50,7 @@ export class Board extends ModelObject {
     firmwareFileName: string = "";
     firmwareName: string = "";
     firmwareVersion: string = "";
+    freeRam: number | null = null;
     iapFileNameSBC: string | null = null;
     iapFileNameSD: string | null = null;
     maxHeaters: number = 0;
