@@ -81,7 +81,7 @@ export class PluginManifest extends ModelObject {
     name: string = "";
     author: string = "";
     version: string = "1.0.0";
-    license: string = "LGPL-3.0-or-later"
+    license: string = "LGPL-3.0-or-later";
     homepage: string | null = null;
     tags: Array<string> = [];
     dwcVersion: string | null = null;
@@ -94,6 +94,7 @@ export class PluginManifest extends ModelObject {
     sbcAutoRestart: boolean = false;
     sbcOutputRedirected: boolean = true;
     sbcPermissions: ModelSet<SbcPermission> = new ModelSet<SbcPermission>();
+    sbcConfigFiles: Array<string> = [];
     sbcPackageDependencies: Array<string> = [];
     sbcPluginDependencies: Array<string> = [];
     sbcPythonDependencies: Array<string> = [];
