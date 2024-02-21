@@ -7,6 +7,7 @@ import UserSession from "./UserSession";
 export class DSF extends ModelObject {
     buildDateTime: string = "";
     readonly httpEndpoints: ModelCollection<HttpEndpoint> = new ModelCollection(HttpEndpoint);
+    is64Bit: boolean = false;
     pluginSupport: boolean = false;
     rootPluginSupport: boolean = false;
 	readonly userSessions: ModelCollection<UserSession> = new ModelCollection(UserSession);
