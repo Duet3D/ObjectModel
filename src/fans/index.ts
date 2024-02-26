@@ -16,6 +16,7 @@ export class Fan extends ModelObject {
     name: string = "";
     requestedValue: number = 0;
     rpm: number = -1;
+    tachoPpr: number = 2.0;
     readonly thermostatic: FanThermostaticControl = new FanThermostaticControl();
 }
 

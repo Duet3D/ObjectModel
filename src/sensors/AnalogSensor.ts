@@ -46,10 +46,12 @@ export class AnalogSensor extends ModelObject {
 	beta: number | null = null;
 	c: number | null = null;
     lastReading: number | null = null;
-    name: string | null = null;
+	name: string | null = null;
+	offsetAdj: number = 0;
     port: string | null = null;
 	r25: number | null = null;
 	rRef: number | null = null;
+	slopeAdj: number = 0;
     state: TemperatureError = TemperatureError.ok;
     type: AnalogSensorType = AnalogSensorType.unknown;
 }
