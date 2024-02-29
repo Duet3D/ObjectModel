@@ -39,6 +39,7 @@ export class Board extends ModelObject {
         ModelObject.wrapModelProperty(this, "closedLoop", BoardClosedLoop);
         ModelObject.wrapModelProperty(this, "directDisplay", DirectDisplay);
         ModelObject.wrapModelCollectionProperty(this, "drivers", Driver);
+        ModelObject.wrapModelProperty(this, "inductiveSensor", InductiveSensor);
         ModelObject.wrapModelProperty(this, "mcuTemp", MinMaxCurrent);
         ModelObject.wrapModelProperty(this, "v12", MinMaxCurrent);
         ModelObject.wrapModelProperty(this, "vIn", MinMaxCurrent);
