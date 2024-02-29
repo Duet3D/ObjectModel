@@ -53,6 +53,7 @@ export class Board extends ModelObject {
     freeRam: number | null = null;
     iapFileNameSBC: string | null = null;
     iapFileNameSD: string | null = null;
+    inductiveSensor: Object | null = null;
     maxHeaters: number = 0;
     maxMotors: number = 0;
     mcuTemp: MinMaxCurrent | null = null;
