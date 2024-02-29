@@ -22,6 +22,10 @@ export enum BoardState {
     running = "running"
 }
 
+export class InductiveSensor extends ModelObject {
+    // still empty
+}
+
 export class MinMaxCurrent extends ModelObject {
     current: number = 0;
     min: number = 0;
@@ -53,7 +57,7 @@ export class Board extends ModelObject {
     freeRam: number | null = null;
     iapFileNameSBC: string | null = null;
     iapFileNameSD: string | null = null;
-    inductiveSensor: Object | null = null;
+    inductiveSensor: InductiveSensor | null = null;
     maxHeaters: number = 0;
     maxMotors: number = 0;
     mcuTemp: MinMaxCurrent | null = null;
