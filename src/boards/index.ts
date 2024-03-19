@@ -5,6 +5,7 @@ import DirectDisplay from "./directDisplay";
 import Driver from "./Driver";
 
 export class Accelerometer extends ModelObject {
+    orientation: number = 20;
     points: number = 0;
     runs: number = 0;
 }
