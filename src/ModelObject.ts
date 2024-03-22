@@ -105,25 +105,6 @@ export abstract class ModelObject implements IModelObject {
                     } else if (process.env.NODE_ENV !== "production") {
                         console.warn(`Model set ${key} could not be changed because the target type ${typeof value} is invalid`);
                     }
-                } else if (prop instanceof Map) {
-                    if (value instanceof Object) {
-                        // Remove deleted items
-                        for (let item in prop) {
-                            if (!(item in value)) {
-                                prop.delete(item);
-                            }
-                        }
-
-                        // Add new items
-                        for (let item in value) {
-                            prop.set(item, (value as any)[item]);
-                        }
-                    } else if (value === null) {
-                        // Sets may be assignable to null
-                        this[ownKey] = value as any;
-                    } else if (process.env.NODE_ENV !== "production") {
-                        console.warn(`Model map ${key} could not be changed because the target type ${typeof value} is invalid`);
-                    }
                 } else if (prop === null || value === null) {
                     // Unfortunately we cannot do type checks during runtime without excessive extra work and possibly
                     // third-party libraries, so skip them for null values until there is a better solution.
