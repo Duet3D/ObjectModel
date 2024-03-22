@@ -31,7 +31,10 @@ export const patch = {
     "plugins": {
         "foobar": {
             "id": "foobar",
-            "name": "Foo 123"
+            "name": "Foo 123",
+            "data": {
+                "testData": 123
+            }
         }
     },
     "sensors": {
@@ -74,6 +77,7 @@ test("patch", () => {
     expect(otherModel.plugins.get("foobar")).toBeInstanceOf(Plugin);
     expect(otherModel.plugins.get("foobar")!.id).toBe("foobar");
     expect(otherModel.plugins.get("foobar")!.name).toBe("Foo 123");
+    expect(otherModel.plugins.get("foobar")!.data).toBeInstanceOf(Map);
 
     model.update({"plugins": null});
     expect(model.plugins.size).toBe(0);
