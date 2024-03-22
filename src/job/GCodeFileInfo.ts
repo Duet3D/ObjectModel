@@ -1,5 +1,6 @@
 import ModelCollection from "../ModelCollection";
 import ModelObject from "../ModelObject";
+
 import ThumbnailInfo from "./ThumbnailInfo";
 
 export class GCodeFileInfo extends ModelObject {
