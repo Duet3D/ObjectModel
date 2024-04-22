@@ -35,7 +35,7 @@ export class Probe extends ModelObject {
     offsets: Array<number> = [0, 0];
     recoveryTime: number = 0;
     scanCoefficients: Array<number> | null = null;
-    speeds: Array<number> = [2, 2, 2];
+    speeds: Array<number> = [2, 2];
     temperatureCoefficients: Array<number> = [0, 0];
     threshold: number = 500;
     tolerance: number = 0.03;
