@@ -1,5 +1,7 @@
 import ModelObject from "../ModelObject";
 
+import ToolRetraction from "./ToolRetraction";
+
 export enum ToolState {
     off = "off",
     active = "active",
@@ -20,6 +22,7 @@ export class Tool extends ModelObject {
     number: number = 0;
     offsets: Array<number> = [];
     offsetsProbed: boolean = false;
+    retraction: ToolRetraction = new ToolRetraction();
     spindle: number = -1;
     spindleRpm: number = 0;
     standby: Array<number> = [];
