@@ -5,6 +5,7 @@ export class Duet3DFilamentMonitor extends FilamentMonitorBase {
     lastPercentage: number | null = null;
     maxPercentage: number | null = null;
     minPercentage: number | null = null;
+    position: number = 0;
     totalExtrusion: number = 0;
 
     constructor(type: FilamentMonitorType = FilamentMonitorType.unknown) {
