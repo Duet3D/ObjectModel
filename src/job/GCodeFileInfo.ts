@@ -1,9 +1,11 @@
 import ModelCollection from "../ModelCollection";
+import ModelDictionary from "../ModelDictionary";
 import ModelObject from "../ModelObject";
 
 import ThumbnailInfo from "./ThumbnailInfo";
 
 export class GCodeFileInfo extends ModelObject {
+    readonly customInfo: ModelDictionary<any> = new ModelDictionary(false);
     filament: Array<number> = new Array<number>();
     fileName: string = "";
     generatedBy: string = "";
