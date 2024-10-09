@@ -45,10 +45,8 @@ export abstract class ModelObject implements IModelObject {
                     if (prop !== updatedObject) {
                         const propDescriptor = Object.getOwnPropertyDescriptor(this, key);
                         if (propDescriptor !== undefined) {
-                            if (propDescriptor.writable) {
+                            if (propDescriptor.writable || propDescriptor.set !== undefined) {
                                 this[ownKey] = updatedObject as any;
-                            } else if (propDescriptor.set !== undefined) {
-                                propDescriptor.set(updatedObject);
                             } else if (process.env.NODE_ENV !== "production") {
                                 console.warn(`Model object ${key} changed but it could not be set due to missing setter`);
                             }
