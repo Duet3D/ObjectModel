@@ -27,6 +27,7 @@ export class Extruder extends ModelObject {
     percentStstCurrent: number | null = null;
     position: number = 0;
     pressureAdvance: number = 0;
+    printingJerk: number = 15;
     rawPosition: number = 0;
     speed: number = 100;
     stepsPerMm: number = 420;

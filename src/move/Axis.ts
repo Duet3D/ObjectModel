@@ -60,6 +60,7 @@ export class Axis extends ModelObject {
     minProbed: boolean = false;
     percentCurrent: number = 100;
     percentStstCurrent: number | null = null;
+    printingJerk: number = 15;
     reducedAcceleration: number = 0;
     speed: number = 100;
     stepsPerMm: number = 80;
