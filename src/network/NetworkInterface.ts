@@ -43,6 +43,7 @@ export class NetworkInterface extends ModelObject {
 	state: NetworkInterfaceState | null = null;
     subnet: string | null = null;
     type: NetworkInterfaceType = NetworkInterfaceType.wifi;
+    wifiCountry: string | null = null;
 }
 
 export default NetworkInterface
