@@ -37,6 +37,8 @@ export class NetworkInterface extends ModelObject {
     gateway: string | null = null;
     mac: string | null = null;
     numReconnects: number | null = null;
+    rssi: number | null = null;
+    /** @deprecated use rssi instead */
     signal: number | null = null;
     speed: number | null = null;
     ssid: string | null = null;
