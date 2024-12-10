@@ -191,6 +191,16 @@ test("pluginManifestSet", () => {
     expect(manifest.sbcPermissions.has(SbcPermission.commandExecution)).toBeTruthy();
 });
 
+test("plguinData", () => {
+    const model = new ObjectModel();
+    model.update({ plugins: { foo: { data: { keyA: 123, keyB: 456 } } } });
+
+    model.update({ plugins: { foo: { data: { keyA: 789 } } } });
+
+    expect(Array.from(model.plugins.get("foo")!.data.keys()).length).toBe(2);
+    expect(model.plugins.get("foo")!.data.get("keyA")).toBe(789);
+});
+
 test("messageBoxDefault", () => {
     const model = new ObjectModel();
 

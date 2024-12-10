@@ -1,4 +1,4 @@
-import ModelObject from "../ModelObject";
+import ModelObject, { IModelObject } from "../ModelObject";
 import ModelSet from "../ModelSet";
 
 export enum SbcPermission {
@@ -112,6 +112,16 @@ export class PluginManifest extends ModelObject {
             }
         }
         return true;
+    }
+
+    public override update(jsonElement: any): IModelObject | null {
+        if (typeof jsonElement.data === "object") {
+            for (const key in jsonElement.data) {
+                this.data.set(key, jsonElement.data[key]);
+            }
+            delete jsonElement.data;
+        }
+        return super.update(jsonElement);
     }
 }
 
