@@ -45,7 +45,9 @@ export enum TemperatureError {
 export class AnalogSensor extends ModelObject {
 	beta: number | null = null;
 	c: number | null = null;
-    lastReading: number | null = null;
+	highReading: number | null = null;
+	lastReading: number | null = null;
+	lowReading: number | null = null;
 	name: string | null = null;
 	offsetAdj: number = 0;
     port: string | null = null;
