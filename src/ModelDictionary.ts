@@ -4,19 +4,13 @@ import { IModelObject, isModelObject } from "./ModelObject";
  * Dictionary class to map object model data
  */
 export class ModelDictionary<T> extends Map<string, T | null> implements IModelObject {
-    private readonly nullDeletesKeys: boolean;
-    private readonly itemConstructor: { new(): T } | null;
-
     /**
      * Constructor of this class
      * @param nullDeletesKeys Whether setting null to items effectively deletes them
      * @param itemConstructor Item constructor type to use for type-checking
      */
-    constructor(nullDeletesKeys: boolean, itemConstructor: { new(): T } | null = null) {
+    constructor(public readonly nullDeletesKeys: boolean, public readonly itemConstructor: { new(): T } | null = null) {
         super();
-        this.itemConstructor = itemConstructor;
-        this.nullDeletesKeys = nullDeletesKeys;
-
         Object.setPrototypeOf(this, ModelDictionary.prototype);
     }
 
