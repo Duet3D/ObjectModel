@@ -5,16 +5,12 @@ import { setArrayItem } from "./index";
  * Class for storing model object items in an array
  */
 export class ModelCollection<T extends IModelObject | null> extends Array<T> implements IModelObject {
-    private readonly itemConstructor: { new(): T };
-
     /**
      * Constructor of this class
      * @param itemConstructor Item constructor type that items must derive from
      */
-    constructor(itemConstructor: { new(): T }) {
+    constructor(public readonly itemConstructor: { new(): T }) {
         super();
-        this.itemConstructor = itemConstructor;
-
         Object.setPrototypeOf(this, ModelCollection.prototype);
     }
 
