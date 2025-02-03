@@ -15,7 +15,19 @@ export enum ProbeType {
     scanningAnalog = 11
 }
 
+export class ProbeTouchMode extends ModelObject {
+    active: boolean = false;
+    sensivity: number = 0;
+    speed: number = 0;
+    triggerHeight: number = 0;
+}
+
 export class Probe extends ModelObject {
+    constructor() {
+        super();
+        ModelObject.wrapModelProperty(this, "touchMode", ProbeTouchMode);
+    }
+
     calibA: number | null = null;
     calibB: number | null = null;
     calibrationTemperature: number = 0;
@@ -39,6 +51,7 @@ export class Probe extends ModelObject {
     temperatureCoefficients: Array<number> = [0, 0];
     threshold: number = 500;
     tolerance: number = 0.03;
+    touchMode: ProbeTouchMode | null = null;
     travelSpeed: number = 6000;
     triggerHeight: number = 0.7;
     type: ProbeType = ProbeType.none;
