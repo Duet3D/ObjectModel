@@ -18,6 +18,7 @@ export class Limits extends ModelObject {
     ledStrips: number | null = null;
     monitorsPerHeater: number | null = null;
     portsPerHeater: number | null = null;
+    reportedAxes: number | null = null;
     restorePoints: number | null = null;
     sensors: number | null = null;
     spindles: number | null = null;
