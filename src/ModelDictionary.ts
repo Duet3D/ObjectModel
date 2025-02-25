@@ -1,6 +1,14 @@
 import { IModelObject, isModelObject } from "./ModelObject";
 
 /**
+ * Internal wrapper interface for the model dictionary class
+ */
+interface IModelDictionary {
+    $nullDeletesKeys: boolean;
+    $itemConstructor: { new(): any } | null;
+}
+
+/**
  * Dictionary class to map object model data
  */
 export class ModelDictionary<T> extends Map<string, T | null> implements IModelObject {
@@ -9,9 +17,12 @@ export class ModelDictionary<T> extends Map<string, T | null> implements IModelO
      * @param nullDeletesKeys Whether setting null to items effectively deletes them
      * @param itemConstructor Item constructor type to use for type-checking
      */
-    constructor(public readonly nullDeletesKeys: boolean, public readonly itemConstructor: { new(): T } | null = null) {
+    constructor(nullDeletesKeys: boolean, itemConstructor: { new(): T } | null = null) {
         super();
         Object.setPrototypeOf(this, ModelDictionary.prototype);
+
+        Object.defineProperty(this, "$nullDeletesKeys", { enumerable: false, value: nullDeletesKeys });
+        Object.defineProperty(this, "$itemConstructor", { enumerable: false, value: itemConstructor });
     }
 
     /**
@@ -20,8 +31,10 @@ export class ModelDictionary<T> extends Map<string, T | null> implements IModelO
      * @param value Value to set
      */
     override set(key: string, value: T | null): this {
+        const that = this as any as IModelDictionary;
+
         if (value === null) {
-            if (this.nullDeletesKeys) {
+            if (that.$nullDeletesKeys) {
                 this.delete(key);
                 return this;
             }
@@ -30,8 +43,8 @@ export class ModelDictionary<T> extends Map<string, T | null> implements IModelO
 
         const currentItem = this.get(key);
         if (currentItem == null) {
-            if (this.itemConstructor !== null && !(value instanceof this.itemConstructor)) {
-                const newItem: T = new this.itemConstructor();
+            if (that.$itemConstructor !== null && !(value instanceof that.$itemConstructor)) {
+                const newItem: T = new that.$itemConstructor();
                 if (isModelObject(newItem)) {
                     const updatedItem: any = newItem.update(value);
                     return super.set(key, updatedItem as T | null);

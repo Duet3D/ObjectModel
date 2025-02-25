@@ -2,6 +2,13 @@ import { IModelObject, isModelObject } from "./ModelObject";
 import { setArrayItem } from "./index";
 
 /**
+ * Internal interface for the model collection class
+ */
+interface IModelCollection {
+    $itemConstructor: { new(): IModelObject | null };
+}
+
+/**
  * Class for storing model object items in an array
  */
 export class ModelCollection<T extends IModelObject | null> extends Array<T> implements IModelObject {
@@ -9,9 +16,11 @@ export class ModelCollection<T extends IModelObject | null> extends Array<T> imp
      * Constructor of this class
      * @param itemConstructor Item constructor type that items must derive from
      */
-    constructor(public readonly itemConstructor: { new(): T }) {
+    constructor(itemConstructor: { new(): T }) {
         super();
         Object.setPrototypeOf(this, ModelCollection.prototype);
+
+        Object.defineProperty(this, "$itemConstructor", { enumerable: false, value: itemConstructor });
     }
 
     // Unfortunately it isn't possible to override index operators in JS/TS
@@ -21,11 +30,13 @@ export class ModelCollection<T extends IModelObject | null> extends Array<T> imp
      * @param items Items to add
      */
     override push(...items: T[]): number {
+        const that = this as any as IModelCollection;
+
         for (const item of items) {
-            if (item === null || item instanceof this.itemConstructor) {
+            if (item === null || item instanceof that.$itemConstructor) {
                 super.push(item);
             } else {
-                const newItem: T = new this.itemConstructor();
+                const newItem: T = new that.$itemConstructor() as T;
                 super.push(newItem!.update(item) as T);
             }
         }
@@ -44,6 +55,7 @@ export class ModelCollection<T extends IModelObject | null> extends Array<T> imp
         if (!(jsonElement instanceof Array)) {
             throw new Error(`Invalid JSON element type for model collection ${typeof jsonElement}`);
         }
+        const that = this as any as IModelCollection;
 
         // Remove deleted items
         this.splice(jsonElement.length);
@@ -53,10 +65,10 @@ export class ModelCollection<T extends IModelObject | null> extends Array<T> imp
             const currentItem = this[i];
             if (currentItem === null) {
                 const newItem = jsonElement[i];
-                if (newItem instanceof this.itemConstructor) {
+                if (newItem instanceof that.$itemConstructor) {
                     setArrayItem(this, i, jsonElement[i]);
                 } else {
-                    const refItem = new this.itemConstructor();
+                    const refItem = new that.$itemConstructor();
                     setArrayItem(this, i, refItem!.update(newItem));
                 }
             } else if (isModelObject(currentItem)) {
@@ -78,7 +90,7 @@ export class ModelCollection<T extends IModelObject | null> extends Array<T> imp
 			if (itemToAdd === null) {
 				super.push(itemToAdd);
 			} else {
-				const newItem: T = new this.itemConstructor();
+				const newItem: T = new that.$itemConstructor() as T;
 				super.push(newItem!.update(itemToAdd) as T);
 			}
         }
