@@ -7,6 +7,12 @@ export class PolarKinematics extends KinematicsBase {
         super(KinematicsName.polar);
     }
 
+    radiusHomed: number = 0;
+    radiusMax: number = 0;
+    radiusMin: number = 0;
+    ttAccMax: number = 0;
+    ttSpeedMax: number = 0;
+
     override update(jsonElement: any): IModelObject | null {
         if (jsonElement === null) {
             throw new Error("Kinematics must not be null");
