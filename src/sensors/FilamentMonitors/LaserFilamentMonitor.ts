@@ -26,7 +26,6 @@ export class LaserFilamentMonitor extends Duet3DFilamentMonitor {
 
     calibrated: LaserFilamentMonitorCalibrated | null = new LaserFilamentMonitorCalibrated();
     readonly configured: LaserFilamentMonitorConfigured = new LaserFilamentMonitorConfigured();
-    position: number = 0;
 
     override update(jsonElement: any): IModelObject | null {
         if (jsonElement === null) {
