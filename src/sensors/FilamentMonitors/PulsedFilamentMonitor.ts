@@ -24,6 +24,7 @@ export class PulsedFilamentMonitor extends FilamentMonitorBase {
 
     calibrated: PulsedFilamentMonitorCalibrated | null = new PulsedFilamentMonitorCalibrated();
     readonly configured: PulsedFilamentMonitorConfigured = new PulsedFilamentMonitorConfigured();
+    position: number = 0;
 
     override update(jsonElement: any): IModelObject | null {
         if (jsonElement === null) {
