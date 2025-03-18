@@ -16,6 +16,8 @@ export class Heater extends ModelObject {
     active: number = 0;
     avgPwm: number = 0;
     current: number = -273.15;
+    extrPwmBoost: number | null = null;
+    extrTempBoost: number | null = null;
     max: number = 285;
     maxBadReadings: number = 3;
     maxHeatingFaultTime: number = 5;
