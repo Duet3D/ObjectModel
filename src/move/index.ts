@@ -35,6 +35,7 @@ export class MoveRotation extends ModelObject {
 }
 
 export class Move extends ModelObject {
+    accelerationTime: number | null = null;
     readonly axes: ModelCollection<Axis> = new ModelCollection(Axis);
     backlashFactor: number = 10;
     readonly calibration: MoveCalibration = new MoveCalibration();
@@ -52,6 +53,7 @@ export class Move extends ModelObject {
     readonly shaping: InputShaping = new InputShaping();
     speedFactor: number = 1;
     travelAcceleration: number = 10000;
+    usingSCurve: boolean | null = null;
     virtualEPos: number = 0;
     workplaceNumber: number = 0;
 }

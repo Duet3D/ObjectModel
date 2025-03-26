@@ -25,6 +25,7 @@ export class Extruder extends ModelObject {
     readonly nonlinear: ExtruderNonlinear = new ExtruderNonlinear();
     percentCurrent: number = 100;
     percentStstCurrent: number | null = null;
+    phaseStep: boolean | null = null;
     position: number = 0;
     pressureAdvance: number = 0;
     printingJerk: number = 15;
