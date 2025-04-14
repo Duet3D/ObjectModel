@@ -2,7 +2,7 @@ import { ModelObject } from "..";
 
 export class BoardClosedLoopCurrentFraction extends ModelObject {
     avg: number = 0;
-    positionError: number = 0;
+    max: number = 0;
 }
 
 export class BoardClosedLoopPositionError extends ModelObject {
