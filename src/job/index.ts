@@ -15,6 +15,7 @@ export class TimesLeft extends ModelObject {
     filament: number | null = null;
     file: number | null = null;
     slicer: number | null = null;
+    toPause: number | null = null;
 }
 
 export class Job extends ModelObject {
