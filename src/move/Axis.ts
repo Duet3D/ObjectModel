@@ -65,6 +65,7 @@ export class Axis extends ModelObject {
     reducedAcceleration: number = 0;
     speed: number = 100;
     stepsPerMm: number = 80;
+    stepPos: number = 0;
     userPosition: number | null = null;
     visible: boolean = true;
     workplaceOffsets: Array<number> = new Array<number>();
