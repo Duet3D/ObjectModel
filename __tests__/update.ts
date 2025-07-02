@@ -24,7 +24,7 @@ export const patch = {
     },
     "move": {
         "kinematics": {
-            "name": "delta",
+            "name": "linearDelta",
             "deltaRadius": 123
         }
     },
@@ -151,8 +151,8 @@ test("updateKinematics", () => {
 	});
 	expect(model.move.kinematics.name).toBe(KinematicsName.coreXY);
 
-	model.update({ move: { kinematics: { name: KinematicsName.delta } } })
-	expect(model.move.kinematics.name).toBe(KinematicsName.delta);
+	model.update({ move: { kinematics: { name: KinematicsName.linearDelta } } })
+	expect(model.move.kinematics.name).toBe(KinematicsName.linearDelta);
 });
 
 test("updatePlugin", () => {
