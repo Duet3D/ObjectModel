@@ -20,7 +20,8 @@ export enum BoardState {
     flashing = "flashing",
     flashFailed = "flashFailed",
     resetting = "resetting",
-    running = "running"
+    running = "running",
+    timedOut = "timedOut"
 }
 
 export class InductiveSensor extends ModelObject {
