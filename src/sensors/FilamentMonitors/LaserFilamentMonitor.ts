@@ -4,7 +4,6 @@ import { Duet3DFilamentMonitor } from "./Duet3DFilamentMonitor";
 import { getFilamentMonitor } from "./index";
 
 export class LaserFilamentMonitorCalibrated extends ModelObject {
-    calibrationFactor: number = 0;
     percentMax: number = 0;
     percentMin: number = 0;
     sensivity: number = 0;
@@ -13,6 +12,7 @@ export class LaserFilamentMonitorCalibrated extends ModelObject {
 
 export class LaserFilamentMonitorConfigured extends ModelObject {
     allMoves: boolean = false;
+    calibrationFactor: number = 0;
     percentMax: number = 0;
     percentMin: number = 0;
     sampleDistance: number = 0;
