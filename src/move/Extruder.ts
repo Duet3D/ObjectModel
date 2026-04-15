@@ -9,7 +9,7 @@ export class ExtruderNonlinear extends ModelObject {
 }
 
 export class ExtruderPressureAdvance extends ModelObject {
-    d: number = 0;
+    d: number | null = null;
     k0: number = 0;
     k1: number = 0;
 }
