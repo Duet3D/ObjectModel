@@ -24,7 +24,7 @@ export enum NetworkInterfaceState {
 }
 
 export enum NetworkInterfaceType {
-    lan = "lan",
+    ethernet = "ethernet",
     wifi = "wifi"
 }
 
