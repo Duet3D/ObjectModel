@@ -1,6 +1,6 @@
 {
   "name": "@duet3d/objectmodel",
-  "version": "3.7.0-alpha.6",
+  "version": "3.7.0-alpha.7",
   "description": "TypeScript implementation of the Duet3D Object Model",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -22,10 +22,11 @@
   "homepage": "https://github.com/Duet3D/ObjectModel#readme",
   "devDependencies": {
     "@types/jest": "^30.0.0",
+    "@types/node": "^25.0.0",
     "jest": "^30.2.0",
     "ts-jest": "^29.1.2",
     "ts-node": "^10.9.2",
-    "typescript": "^5.4.5"
+    "typescript": "^6.0.3"
   },
   "files": [
     "/dist"
