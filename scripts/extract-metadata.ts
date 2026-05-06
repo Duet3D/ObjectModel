@@ -14,7 +14,10 @@
  */
 import * as fs from "fs";
 import * as path from "path";
+import { fileURLToPath } from "url";
 import * as ts from "typescript";
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 type Deprecations = Record<string, string>;
 type EnumValues = Record<string, string[]>;

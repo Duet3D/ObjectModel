@@ -1,12 +1,21 @@
 {
   "name": "@duet3d/objectmodel",
-  "version": "3.7.0-alpha.7",
+  "version": "3.7.0-alpha.8",
   "description": "TypeScript implementation of the Duet3D Object Model",
+  "type": "module",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./deprecations.json": "./dist/deprecations.json",
+    "./enums.json": "./dist/enums.json"
+  },
   "scripts": {
     "test": "jest --config jestconfig.json",
-    "build": "tsc && ts-node scripts/extract-metadata.ts",
+    "build": "tsc && tsx scripts/extract-metadata.ts",
     "prepare": "npm run build",
     "prepublishOnly": "npm test"
   },
@@ -25,7 +34,7 @@
     "@types/node": "^25.0.0",
     "jest": "^30.2.0",
     "ts-jest": "^29.1.2",
-    "ts-node": "^10.9.2",
+    "tsx": "^4.20.0",
     "typescript": "^6.0.3"
   },
   "files": [
