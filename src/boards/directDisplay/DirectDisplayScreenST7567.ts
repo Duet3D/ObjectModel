@@ -1,4 +1,4 @@
-import { IModelObject } from "../../ModelObject";
+import type { IModelObject } from "../../ModelObject";
 
 import DirectDisplayScreenBase from "./DirectDisplayScreen";
 import { DirectDisplayController, getDirectDisplayScreen } from ".";

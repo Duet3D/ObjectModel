@@ -1,4 +1,4 @@
-import { IModelObject } from "../../ModelObject";
+import type { IModelObject } from "../../ModelObject";
 
 import FilamentMonitorBase, { FilamentMonitorType } from "./FilamentMonitorBase";
 import LaserFilamentMonitor from "./LaserFilamentMonitor";

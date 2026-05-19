@@ -1,4 +1,5 @@
-import ModelObject, { IModelObject } from "../ModelObject";
+import ModelObject from "../ModelObject";
+import type { IModelObject } from "../ModelObject";
 
 export function isDriverId(value: any): value is DriverId {
 	return (value instanceof Object) && value.board !== undefined && value.driver !== undefined;

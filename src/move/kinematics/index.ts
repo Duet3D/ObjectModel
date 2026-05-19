@@ -1,4 +1,4 @@
-import { IModelObject } from "../../ModelObject";
+import type { IModelObject } from "../../ModelObject";
 import KinematicsBase, { KinematicsName } from "./KinematicsBase";
 import CoreKinematics from "./CoreKinematics";
 import DeltaKinematics from "./DeltaKinematics";

@@ -1,4 +1,5 @@
-import { IModelObject, isModelObject } from "./ModelObject";
+import { isModelObject } from "./ModelObject";
+import type { IModelObject } from "./ModelObject";
 
 /**
  * Internal wrapper interface for the model dictionary class

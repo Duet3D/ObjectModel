@@ -11,7 +11,7 @@ export class Message extends ModelObject {
     time: Date = new Date();
     type: MessageType = MessageType.success;
 
-    toString(): string {
+    override toString(): string {
         switch (this.type) {
             case MessageType.success: return this.content;
             case MessageType.warning: return "Warning: " + this.content;

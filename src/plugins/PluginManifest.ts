@@ -1,4 +1,5 @@
-import ModelObject, { IModelObject } from "../ModelObject";
+import ModelObject from "../ModelObject";
+import type { IModelObject } from "../ModelObject";
 import ModelSet from "../ModelSet";
 
 export enum SbcPermission {

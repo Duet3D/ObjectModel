@@ -1,4 +1,5 @@
-import ModelObject, { IModelObject } from "../../ModelObject";
+import ModelObject from "../../ModelObject";
+import type { IModelObject } from "../../ModelObject";
 import { FilamentMonitorType } from "./FilamentMonitorBase";
 import { Duet3DFilamentMonitor } from "./Duet3DFilamentMonitor";
 import { getFilamentMonitor } from "./index";

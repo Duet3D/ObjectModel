@@ -1,4 +1,4 @@
-import { IModelObject } from "../../ModelObject";
+import type { IModelObject } from "../../ModelObject";
 import { ZLeadscrewKinematics } from "./KinematicsBase";
 import { getKinematics } from "./index";
 

@@ -1,5 +1,6 @@
 import ModelCollection, { initCollection } from "../../ModelCollection";
-import ModelObject, { IModelObject } from "../../ModelObject";
+import ModelObject from "../../ModelObject";
+import type { IModelObject } from "../../ModelObject";
 import KinematicsBase from "./KinematicsBase";
 import { getKinematics } from "./index";
 
