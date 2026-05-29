@@ -5,7 +5,7 @@ import { Duet3DFilamentMonitor } from "./Duet3DFilamentMonitor";
 import { getFilamentMonitor } from "./index";
 
 export class RotatingMagnetFilamentMonitorCalibrated extends ModelObject {
-    mmPerPulse: number = 0;
+    mmPerRev: number = 0;
     percentMax: number = 0;
     percentMin: number = 0;
     totalDistance: number = 0;
