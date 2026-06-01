@@ -19,6 +19,7 @@ export class InputChannel extends ModelObject {
     active: boolean = true;
     axesRelative: boolean = false;
     compatibility: Compatibility = Compatibility.RepRapFirmware;
+    currentFile: string | null = null;
     distanceUnit: DistanceUnit = DistanceUnit.mm;
     drivesRelative: boolean = true;
     feedRate: number = 50;
