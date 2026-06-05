@@ -35,7 +35,7 @@ export class Extruder extends ModelObject {
     position: number = 0;
     readonly pressAdv: ExtruderPressureAdvance = new ExtruderPressureAdvance();
     /**
-     * @deprecated use pressAdv instead
+     * @deprecated use pressAdv.k0 instead
      */
     pressureAdvance: number = 0;
     printingJerk: number = 15;

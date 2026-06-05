@@ -11,7 +11,8 @@
       "import": "./dist/index.js"
     },
     "./deprecations.json": "./dist/deprecations.json",
-    "./enums.json": "./dist/enums.json"
+    "./enums.json": "./dist/enums.json",
+    "./documentation.json": "./dist/documentation.json"
   },
   "scripts": {
     "test": "jest --config jestconfig.json",
