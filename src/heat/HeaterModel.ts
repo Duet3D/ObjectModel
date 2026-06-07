@@ -3,7 +3,6 @@ import ModelObject from "../ModelObject";
 export class HeaterModelPID extends ModelObject {
     d: number = 0;
     i: number = 0;
-    overridden: boolean = false;
     p: number = 0;
     used: boolean = true;
 }

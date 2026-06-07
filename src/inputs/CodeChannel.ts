@@ -13,7 +13,8 @@ export enum CodeChannel {
     autopause = 11,
     file2 = 12,
     queue2 = 13,
-    unknown = 14
+    usb2 = 14,
+    unknown = 15
 }
 
 export default CodeChannel

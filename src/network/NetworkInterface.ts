@@ -13,6 +13,7 @@ export enum NetworkProtocol {
 export enum NetworkInterfaceState {
 	disabled = "disabled",
 	enabled = "enabled",
+	initFailed = "initFailed",
 	starting1 = "starting1",
 	starting2 = "starting2",
 	changingMode = "changingMode",
@@ -36,7 +37,6 @@ export class NetworkInterface extends ModelObject {
     firmwareVersion: string | null = null;
     gateway: string | null = null;
     mac: string | null = null;
-    numReconnects: number | null = null;
     rssi: number | null = null;
     /** @deprecated use rssi instead */
     signal: number | null = null;

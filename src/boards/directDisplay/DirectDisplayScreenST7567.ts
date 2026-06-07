@@ -16,7 +16,7 @@ export class DirectDisplayScreenST7567 extends DirectDisplayScreenBase {
         }
 
         if (typeof jsonElement.controller === "string" && jsonElement.controller !== this.controller) {
-            return getDirectDisplayScreen(jsonElement.type).update(jsonElement);
+            return getDirectDisplayScreen(jsonElement.controller).update(jsonElement);
         }
         return super.update(jsonElement);
     }

@@ -387,6 +387,19 @@ function enumDetailsOf(type: ts.Type, checker: ts.TypeChecker): EnumDetails | nu
 	// Union of string/numeric literals (either a named `type Foo = "a" | "b"` or inline on a property)
 	if (naked.isUnion())
 	{
+		// A nullable enum (`Foo | null`) reaches here as a union of the enum's literal members plus null, which
+		// unwrapNullable cannot collapse to a single type. Recover the backing enum from any literal member so the
+		// field is still harvested with its proper type name.
+		const nonNull = naked.types.filter(t => (t.flags & (ts.TypeFlags.Null | ts.TypeFlags.Undefined)) === 0);
+		if (nonNull.length > 0 && nonNull.every(t => (t.flags & ts.TypeFlags.EnumLiteral) !== 0))
+		{
+			const base = checker.getBaseTypeOfLiteralType(nonNull[0]);
+			if (base !== naked)
+			{
+				return enumDetailsOf(base, checker);
+			}
+		}
+
 		const pairs: EnumPair[] = [];
 		for (const member of naked.types)
 		{

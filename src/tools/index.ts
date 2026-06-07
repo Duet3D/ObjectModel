@@ -25,7 +25,7 @@ export class Tool extends ModelObject {
     name: string = "";
     number: number = 0;
     offsets: Array<number> = [];
-    offsetsProbed: boolean = false;
+    offsetsProbed: number = 0;
     retraction: ToolRetraction = new ToolRetraction();
     spindle: number = -1;
     spindleRpm: number = 0;

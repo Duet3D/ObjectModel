@@ -28,8 +28,6 @@ export class Probe extends ModelObject {
         ModelObject.wrapModelProperty(this, "touchMode", ProbeTouchMode);
     }
 
-    calibA: number | null = null;
-    calibB: number | null = null;
     calibrationTemperature: number = 0;
     deployedByUser: boolean = false;
     disablesHeaters: boolean = false;

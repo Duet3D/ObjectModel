@@ -13,8 +13,13 @@ export enum AnalogSensorType {
 	bme280 = "bme280",
 	bme280pressure = "bmepressure",
 	bme280humidity = "bmehumidity",
-	currentLoop = "currentloooppyro",
-	ads131chan0 = "ads131.chan0",
+	bme68x = "bme68x",
+	bme68xpressure = "bme68xpressure",
+	bme68xhumidity = "bme68xhumidity",
+	bme68xgas = "bme68xgas",
+	currentLoop = "currentloop",
+	ads131chan0Unipolar = "ads131.chan0.u",
+	ads131chan0Bipolar = "ads131.chan0.b",
 	ads131chan1 = "ads131.chan1",
     mcuTemp = "mcutemp",
     drivers = "drivers",
@@ -41,6 +46,10 @@ export enum TemperatureError {
 	overOrUnderVoltage = "overOrUnderVoltage",
 	badVref = "badVref",
 	badVssa = "badVssa",
+	readingTooLow = "readingTooLow",
+	readingTooHigh = "readingTooHigh",
+	ambientReadingTooLow = "ambientReadingTooLow",
+	ambientReadingTooHigh = "ambientReadingTooHigh",
 	unknownError = "unknownError"
 }
 
