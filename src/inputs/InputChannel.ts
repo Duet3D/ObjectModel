@@ -24,6 +24,7 @@ export class InputChannel extends ModelObject {
     drivesRelative: boolean = true;
     feedRate: number = 50;
     inMacro: boolean = false;
+    inverseTimeMode: boolean = false;
     macroRestartable: boolean = false;
     motionSystem: number = 0;
     name: string = "";

@@ -5,6 +5,7 @@ export class Plugin extends PluginManifest {
     dwcFiles: Array<string> = [];
     sdFiles: Array<string> = [];
     pid: number = -1;
+    started: boolean = false;
 }
 
 export default Plugin

@@ -70,6 +70,7 @@ export class State extends ModelObject {
     readonly restorePoints: ModelCollection<RestorePoint> = new ModelCollection(RestorePoint);
     startupError: StartupError | null = null;
     status: MachineStatus = MachineStatus.starting;
+    thisActive: boolean | null = null;
     thisInput: number | null = null;
     time: string | null = null;
     upTime: number = 0;

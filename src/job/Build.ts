@@ -10,8 +10,8 @@ export class BuildObject extends ModelObject {
 
 export class Build extends ModelObject {
     currentObject: number = -1;
-    m486names: boolean = false;
-    m486numbers: boolean = false;
+    m486Names: boolean = false;
+    m486Numbers: boolean = false;
     readonly objects: ModelCollection<BuildObject> = new ModelCollection(BuildObject);
 }
 

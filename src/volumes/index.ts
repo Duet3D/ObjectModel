@@ -6,6 +6,7 @@ export class Volume extends ModelObject {
     mounted: boolean = false;
     name: string | null = null;
     openFiles: number | null = null;
+    partitionSize: number | bigint | null = null;
     path: string | null = null;
     speed: number | null = null;
 }

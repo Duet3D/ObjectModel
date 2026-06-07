@@ -14,6 +14,8 @@ import Kinematics, { CoreKinematics, KinematicsName } from "./kinematics";
 export class CurrentMove extends ModelObject {
     acceleration: number = 0;
     deceleration: number = 0;
+    distance: number = 0;
+    duration: number = 0;
     extrusionRate: number = 0;
     laserPwm: number | null = null;
     requestedSpeed: number = 0;

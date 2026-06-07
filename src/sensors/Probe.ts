@@ -17,7 +17,7 @@ export enum ProbeType {
 
 export class ProbeTouchMode extends ModelObject {
     active: boolean = false;
-    sensitivity: number = 0;
+    speed: number = 0;
     triggerHeight: number = 0;
     threshold: number = 0;
 }
