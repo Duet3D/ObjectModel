@@ -23,11 +23,12 @@ export class MoveSegmentation extends ModelObject {
 
 export abstract class KinematicsBase extends ModelObject {
     readonly name: KinematicsName;
-    readonly segmentation: MoveSegmentation = new MoveSegmentation();
+    segmentation: MoveSegmentation | null = null;
 
     constructor(name: KinematicsName) {
         super();
         this.name = name;
+        ModelObject.wrapModelProperty(this, "segmentation", MoveSegmentation);
     }
 }
 

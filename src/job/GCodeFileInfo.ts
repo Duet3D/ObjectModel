@@ -8,7 +8,7 @@ export class GCodeFileInfo extends ModelObject {
     readonly customInfo: ModelDictionary<any> = new ModelDictionary(false);
     filament: Array<number> = new Array<number>();
     fileName: string = "";
-    generatedBy: string = "";
+    generatedBy: string | null = null;
     height: number = 0;
     lastModified: string | null = null;
     layerHeight: number = 0;

@@ -12,7 +12,7 @@ export class Layer extends ModelObject {
     filamentUsage: number = 0;
     fractionPrinted: number = 0;
     height: number = 0;
-    temperatures: Array<number> = new Array<number>();
+    temperatures: Array<number | null> = new Array<number | null>();
 }
 
 export class TimesLeft extends ModelObject {
@@ -26,12 +26,11 @@ export class Job extends ModelObject {
     constructor() {
         super();
         ModelObject.wrapModelProperty(this, "build", Build);
-        ModelObject.wrapModelProperty(this, "file", GCodeFileInfo);
     }
 
-    build: Build = new Build();
+    build: Build | null = null;
     duration: number | null = null;
-    file: GCodeFileInfo | null = null;
+    readonly file: GCodeFileInfo = new GCodeFileInfo();
     filePosition: number | bigint | null = null;
     lastDuration: number | null = null;
     lastFileName: string | null = null;

@@ -20,3 +20,4 @@ export default DSF;
 
 export * from "./CommunicationMethod";
 export * from "./HttpEndpoint";
+export * from "./UserSession";

@@ -17,7 +17,7 @@ export enum LedStripColorOrder {
 
 export class LedStrip extends ModelObject {
     board: number = 0;
-    colorOrder: LedStripColorOrder = LedStripColorOrder.GRB;
+    colorOrder: LedStripColorOrder = LedStripColorOrder.BGR;
     maxLeds: number = 0;
     pin: string = "";
     stopMovement: boolean = false;

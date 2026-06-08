@@ -14,7 +14,7 @@ export enum SessionType {
 export class UserSession extends ModelObject {
     accessLevel: AccessLevel = AccessLevel.readOnly;
     id: number = 0;
-    origin: string | null = null;
+    origin: string = "";
     originId: number = -1;
     sessionType: SessionType = SessionType.local;
 }

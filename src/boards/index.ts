@@ -48,7 +48,6 @@ export class Board extends ModelObject {
     }
 
     accelerometer: Accelerometer | null = null;
-    bootloaderFileName: string | null = null;
     canAddress: number | null = null;
     closedLoop: BoardClosedLoop | null = null;
     directDisplay: DirectDisplay | null = null;

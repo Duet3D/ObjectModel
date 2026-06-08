@@ -26,7 +26,7 @@ export enum DriverMode {
 
 export class DriverConfig extends ModelObject {
     direction: boolean = true;
-    mode: DriverMode = DriverMode.spreadCycle;
+    mode: DriverMode | null = null;
 }
 
 export default class Driver extends ModelObject {
