@@ -18,7 +18,7 @@ export enum KinematicsName {
 
 export class MoveSegmentation extends ModelObject {
     segmentsPerSec: number = 0;
-    minSegmentLength: number = 0;
+    minSegLength: number = 0;
 }
 
 export abstract class KinematicsBase extends ModelObject {

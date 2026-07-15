@@ -13,6 +13,7 @@ export enum NetworkProtocol {
 export enum NetworkInterfaceState {
 	disabled = "disabled",
 	enabled = "enabled",
+	initFailed = "initFailed",
 	starting1 = "starting1",
 	starting2 = "starting2",
 	changingMode = "changingMode",

@@ -6,7 +6,7 @@ import { getFilamentMonitor } from "./index";
 export class LaserFilamentMonitorCalibrated extends ModelObject {
     percentMax: number = 0;
     percentMin: number = 0;
-    sensivity: number = 0;
+    sensitivity: number = 0;
     totalDistance: number = 0;
 }
 
