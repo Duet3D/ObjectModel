@@ -23,11 +23,16 @@
  *
  * MonacoTokens loads these at runtime to mark deprecated paths, offer the known valid values when the user types
  * `<path> == ` or `<path> != ` in an expression, and show documentation tooltips.
+ *
+ * This runs on the TS7 compiler API (`typescript/unstable/*`): the compiler is a native subprocess and the
+ * Checker / Symbol / Type objects proxy to it. Microsoft marks that API surface as unstable, so TypeScript
+ * upgrades may require adjustments here
  */
 import * as fs from "fs";
 import * as path from "path";
 import { fileURLToPath } from "url";
-import * as ts from "typescript";
+import { API, TypeFlags, type Checker, type Symbol as TsSymbol, type Type } from "typescript/unstable/sync";
+import { SyntaxKind, isClassDeclaration, isEnumDeclaration, isGetAccessorDeclaration, isIdentifier, isPropertyDeclaration, isStringLiteral } from "typescript/unstable/ast";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -68,7 +73,7 @@ interface EnumDetails
 
 interface WalkContext
 {
-	checker: ts.TypeChecker;
+	checker: Checker;
 	deprecations: Deprecations;
 	enumValues: EnumValues;
 	documentation: Documentation;
@@ -94,26 +99,6 @@ function isSkipped(path: string): boolean
 		}
 	}
 	return false;
-}
-
-function findTsFiles(dir: string, out: string[] = []): string[]
-{
-	for (const entry of fs.readdirSync(dir, { withFileTypes: true }))
-	{
-		const full = path.join(dir, entry.name);
-		if (entry.isDirectory())
-		{
-			if (entry.name !== "__tests__")
-			{
-				findTsFiles(full, out);
-			}
-		}
-		else if (entry.isFile() && entry.name.endsWith(".ts") && !entry.name.endsWith(".d.ts"))
-		{
-			out.push(full);
-		}
-	}
-	return out;
 }
 
 // #region DuetAPI.xml parsing
@@ -265,57 +250,37 @@ function buildValueDocs(members: Map<string, XmlMember>, details: EnumDetails): 
 
 // #region ObjectModel class-graph walk
 
-/** Read the @deprecated JSDoc tag (if any) from a property/accessor declaration. */
-function readDeprecation(node: ts.PropertyDeclaration | ts.GetAccessorDeclaration): string | null
+/** Read the @deprecated JSDoc tag (if any) from a property/accessor symbol. */
+function readDeprecation(symbol: TsSymbol, checker: Checker): string | null
 {
-	const jsDoc: any[] = (node as any).jsDoc || [];
-	for (const doc of jsDoc)
+	for (const tag of symbol.getJsDocTags(checker))
 	{
-		for (const tag of doc.tags || [])
+		if (tag.name === "deprecated")
 		{
-			if (tag.tagName && tag.tagName.text === "deprecated")
-			{
-				const raw = tag.comment;
-				if (typeof raw === "string")
-				{
-					return raw.trim();
-				}
-				if (Array.isArray(raw))
-				{
-					return raw.map((c: any) => (c && typeof c.text === "string" ? c.text : "")).join("").trim();
-				}
-				return "";
-			}
+			return (tag.text || "").trim();
 		}
 	}
 	return null;
 }
 
 /** Resolve a TS Type to either a class symbol that we should descend into, or null if it isn't navigable. */
-function classSymbolOf(type: ts.Type): ts.Symbol | null
+function classSymbolOf(type: Type): TsSymbol | null
 {
-	if (!type.symbol)
+	const symbol = type.getSymbol();
+	if (!symbol)
 	{
 		return null;
 	}
-	const decls = type.symbol.declarations || [];
-	for (const decl of decls)
-	{
-		if (ts.isClassDeclaration(decl))
-		{
-			return type.symbol;
-		}
-	}
-	return null;
+	return symbol.declarations.some(decl => decl.kind === SyntaxKind.ClassDeclaration) ? symbol : null;
 }
 
 /** If `type` is a ModelCollection<T>, ModelDictionary<T>, Array<T>, Map<K, V>, or `T | null`, return T (or V). */
-function elementType(type: ts.Type, checker: ts.TypeChecker): ts.Type | null
+function elementType(type: Type, checker: Checker): Type | null
 {
 	// Strip nullability
-	if (type.isUnion())
+	if (type.isUnionType())
 	{
-		const nonNullable = type.types.filter(t => (t.flags & (ts.TypeFlags.Null | ts.TypeFlags.Undefined)) === 0);
+		const nonNullable = type.getTypes().filter(t => (t.flags & (TypeFlags.Null | TypeFlags.Undefined)) === 0);
 		if (nonNullable.length === 1)
 		{
 			type = nonNullable[0];
@@ -325,9 +290,9 @@ function elementType(type: ts.Type, checker: ts.TypeChecker): ts.Type | null
 			return null;
 		}
 	}
-	const sym = type.symbol || type.aliasSymbol;
+	const sym = type.getSymbol() || type.getAliasSymbol();
 	const name = sym ? sym.name : "";
-	const typeArgs = (type as ts.TypeReference).typeArguments || [];
+	const typeArgs = type.isTypeReference() ? checker.getTypeArguments(type) : [];
 	if (name === "ModelCollection" || name === "Array" || name === "ReadonlyArray" || name === "ModelSet" || name === "ReadonlySet" || name === "Set")
 	{
 		return typeArgs[0] || null;
@@ -336,17 +301,16 @@ function elementType(type: ts.Type, checker: ts.TypeChecker): ts.Type | null
 	{
 		return typeArgs[name === "ModelDictionary" ? 0 : 1] || null;
 	}
-	void checker;
 	return null;
 }
 
-function unwrapNullable(type: ts.Type): ts.Type
+function unwrapNullable(type: Type): Type
 {
-	if (!type.isUnion())
+	if (!type.isUnionType())
 	{
 		return type;
 	}
-	const nonNullable = type.types.filter(t => (t.flags & (ts.TypeFlags.Null | ts.TypeFlags.Undefined)) === 0);
+	const nonNullable = type.getTypes().filter(t => (t.flags & (TypeFlags.Null | TypeFlags.Undefined)) === 0);
 	return nonNullable.length === 1 ? nonNullable[0] : type;
 }
 
@@ -354,18 +318,18 @@ function unwrapNullable(type: ts.Type): ts.Type
  * If `type` is an enum or a union of string/numeric literals, return its member name/value pairs along with the
  * backing enum type name (null for an inline literal union). Returns null otherwise.
  */
-function enumDetailsOf(type: ts.Type, checker: ts.TypeChecker): EnumDetails | null
+function enumDetailsOf(type: Type, checker: Checker): EnumDetails | null
 {
 	const naked = unwrapNullable(type);
 
 	// Real `enum` declarations: collect their members' names and initializer values
-	if (naked.flags & ts.TypeFlags.EnumLike)
+	if (naked.flags & TypeFlags.EnumLike)
 	{
-		const sym = naked.symbol || naked.aliasSymbol;
+		const sym = naked.getSymbol() || naked.getAliasSymbol();
 		if (sym)
 		{
-			const decl = (sym.declarations || []).find(ts.isEnumDeclaration);
-			if (decl)
+			const decl = sym.declarations.find(handle => handle.kind === SyntaxKind.EnumDeclaration)?.resolve();
+			if (decl && isEnumDeclaration(decl))
 			{
 				const pairs: EnumPair[] = [];
 				for (const member of decl.members)
@@ -375,7 +339,7 @@ function enumDetailsOf(type: ts.Type, checker: ts.TypeChecker): EnumDetails | nu
 					// keeps the value list purely to real choices the user would want to compare against.
 					if ((typeof value === "string" || typeof value === "number") && String(value).length > 0)
 					{
-						const name = (ts.isIdentifier(member.name) || ts.isStringLiteral(member.name)) ? member.name.text : member.name.getText();
+						const name = (isIdentifier(member.name) || isStringLiteral(member.name)) ? member.name.text : member.name.getText();
 						pairs.push({ name, value: String(value) });
 					}
 				}
@@ -385,25 +349,25 @@ function enumDetailsOf(type: ts.Type, checker: ts.TypeChecker): EnumDetails | nu
 	}
 
 	// Union of string/numeric literals (either a named `type Foo = "a" | "b"` or inline on a property)
-	if (naked.isUnion())
+	if (naked.isUnionType())
 	{
 		// A nullable enum (`Foo | null`) reaches here as a union of the enum's literal members plus null, which
 		// unwrapNullable cannot collapse to a single type. Recover the backing enum from any literal member so the
 		// field is still harvested with its proper type name.
-		const nonNull = naked.types.filter(t => (t.flags & (ts.TypeFlags.Null | ts.TypeFlags.Undefined)) === 0);
-		if (nonNull.length > 0 && nonNull.every(t => (t.flags & ts.TypeFlags.EnumLiteral) !== 0))
+		const nonNull = naked.getTypes().filter(t => (t.flags & (TypeFlags.Null | TypeFlags.Undefined)) === 0);
+		if (nonNull.length > 0 && nonNull.every(t => (t.flags & TypeFlags.EnumLiteral) !== 0))
 		{
 			const base = checker.getBaseTypeOfLiteralType(nonNull[0]);
-			if (base !== naked)
+			if (base !== undefined && base !== naked)
 			{
 				return enumDetailsOf(base, checker);
 			}
 		}
 
 		const pairs: EnumPair[] = [];
-		for (const member of naked.types)
+		for (const member of naked.getTypes())
 		{
-			if (member.isStringLiteral() || member.isNumberLiteral())
+			if (member.isStringLiteralType() || member.isNumberLiteralType())
 			{
 				const value = String(member.value);
 				if (value.length > 0)
@@ -460,29 +424,29 @@ function recordDocumentation(ctx: WalkContext, fullPath: string, doc: XmlMember 
  * documentation. `containerType` is the concrete type the current path navigates to; it's preserved across
  * `extends` recursion so inherited members can still resolve their docs against the leaf type.
  */
-function walkClass(classSymbol: ts.Symbol, prefix: string, containerType: string, visited: Set<ts.Symbol>, ctx: WalkContext): void
+function walkClass(classSymbol: TsSymbol, prefix: string, containerType: string, visited: Set<TsSymbol>, ctx: WalkContext): void
 {
 	if (visited.has(classSymbol))
 	{
 		return;
 	}
 	visited.add(classSymbol);
-	const decl = (classSymbol.declarations || []).find(ts.isClassDeclaration);
-	if (!decl)
+	const decl = classSymbol.declarations.find(handle => handle.kind === SyntaxKind.ClassDeclaration)?.resolve();
+	if (!decl || !isClassDeclaration(decl))
 	{
 		return;
 	}
 	// Follow `extends` so inherited fields (e.g. FilamentMonitor extending FilamentMonitorBase) are also walked
 	for (const heritage of decl.heritageClauses || [])
 	{
-		if (heritage.token !== ts.SyntaxKind.ExtendsKeyword)
+		if (heritage.token !== SyntaxKind.ExtendsKeyword)
 		{
 			continue;
 		}
 		for (const typeNode of heritage.types)
 		{
 			const baseType = ctx.checker.getTypeAtLocation(typeNode.expression);
-			const baseSymbol = baseType.symbol;
+			const baseSymbol = baseType?.getSymbol();
 			if (baseSymbol)
 			{
 				walkClass(baseSymbol, prefix, containerType, visited, ctx);
@@ -491,11 +455,11 @@ function walkClass(classSymbol: ts.Symbol, prefix: string, containerType: string
 	}
 	for (const member of decl.members)
 	{
-		if (!ts.isPropertyDeclaration(member) && !ts.isGetAccessorDeclaration(member))
+		if (!isPropertyDeclaration(member) && !isGetAccessorDeclaration(member))
 		{
 			continue;
 		}
-		if (!member.name || !ts.isIdentifier(member.name))
+		if (!member.name || !isIdentifier(member.name))
 		{
 			continue;
 		}
@@ -508,13 +472,19 @@ function walkClass(classSymbol: ts.Symbol, prefix: string, containerType: string
 			continue;
 		}
 
-		const deprecation = readDeprecation(member);
+		const memberSymbol = ctx.checker.getSymbolAtLocation(member.name);
+		if (!memberSymbol)
+		{
+			continue;
+		}
+
+		const deprecation = readDeprecation(memberSymbol, ctx.checker);
 		if (deprecation !== null)
 		{
 			ctx.deprecations[fullPath] = deprecation;
 		}
 
-		const memberType = ctx.checker.getTypeOfSymbolAtLocation(ctx.checker.getSymbolAtLocation(member.name)!, member);
+		const memberType = ctx.checker.getTypeOfSymbolAtLocation(memberSymbol, member);
 		const naked = unwrapNullable(memberType);
 
 		// Record enum / literal-union values for this field
@@ -553,47 +523,61 @@ function walkClass(classSymbol: ts.Symbol, prefix: string, containerType: string
 
 function extractAll(srcDir: string, xmlMembers: Map<string, XmlMember>): { deprecations: Deprecations, enumValues: EnumValues, documentation: Documentation }
 {
-	const files = findTsFiles(srcDir);
-	const program = ts.createProgram(files, {
-		target: ts.ScriptTarget.ES2015,
-		module: ts.ModuleKind.CommonJS,
-		strict: true,
-		esModuleInterop: true
-	});
-	const checker = program.getTypeChecker();
-	const ctx: WalkContext = { checker, deprecations: {}, enumValues: {}, documentation: {}, xmlMembers };
-
-	let rootSymbol: ts.Symbol | null = null;
-	for (const sourceFile of program.getSourceFiles())
+	const repoRoot = path.resolve(srcDir, "..");
+	const tsconfigPath = path.join(repoRoot, "tsconfig.json");
+	const api = new API({ cwd: repoRoot });
+	try
 	{
-		if (sourceFile.isDeclarationFile || !sourceFile.fileName.startsWith(srcDir))
+		const snapshot = api.updateSnapshot({ openProjects: [tsconfigPath] });
+		const project = snapshot.getProject(tsconfigPath) ?? snapshot.getProjects()[0];
+		if (!project)
 		{
-			continue;
+			throw new Error(`Could not open TypeScript project ${tsconfigPath}`);
 		}
-		ts.forEachChild(sourceFile, function visit(node)
+		const checker = project.checker;
+		const ctx: WalkContext = { checker, deprecations: {}, enumValues: {}, documentation: {}, xmlMembers };
+
+		let rootSymbol: TsSymbol | null = null;
+		for (const fileName of project.program.getSourceFileNames())
 		{
-			if (rootSymbol)
+			if (!fileName.startsWith(srcDir))
 			{
-				return;
+				continue;
 			}
-			if (ts.isClassDeclaration(node) && node.name && node.name.text === "ObjectModel")
+			const sourceFile = project.program.getSourceFile(fileName);
+			if (!sourceFile || sourceFile.isDeclarationFile)
 			{
-				const sym = checker.getSymbolAtLocation(node.name);
-				if (sym)
+				continue;
+			}
+			for (const statement of sourceFile.statements)
+			{
+				if (isClassDeclaration(statement) && statement.name && statement.name.text === "ObjectModel")
 				{
-					rootSymbol = sym;
+					const sym = checker.getSymbolAtLocation(statement.name);
+					if (sym)
+					{
+						rootSymbol = sym;
+						break;
+					}
 				}
 			}
-			ts.forEachChild(node, visit);
-		});
-	}
-	if (!rootSymbol)
-	{
-		throw new Error("Could not locate ObjectModel root class");
-	}
+			if (rootSymbol)
+			{
+				break;
+			}
+		}
+		if (!rootSymbol)
+		{
+			throw new Error("Could not locate ObjectModel root class");
+		}
 
-	walkClass(rootSymbol, "", (rootSymbol as ts.Symbol).name, new Set(), ctx);
-	return { deprecations: ctx.deprecations, enumValues: ctx.enumValues, documentation: ctx.documentation };
+		walkClass(rootSymbol, "", rootSymbol.name, new Set(), ctx);
+		return { deprecations: ctx.deprecations, enumValues: ctx.enumValues, documentation: ctx.documentation };
+	}
+	finally
+	{
+		api.close();
+	}
 }
 
 // #endregion
