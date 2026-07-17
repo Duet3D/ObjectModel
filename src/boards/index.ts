@@ -67,6 +67,7 @@ export class Board extends ModelObject {
     shortName: string = "";
     state: BoardState = BoardState.unknown;
     supportsDirectDisplay: boolean = false;
+    timeout: number = 10;
     uniqueId: string | null = null;
     v12: MinMaxCurrent | null = null;
     vIn: MinMaxCurrent | null = null;
