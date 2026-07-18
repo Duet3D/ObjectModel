@@ -3,8 +3,14 @@ import ModelObject from "../ModelObject";
 import DSF from "./dsf";
 import CPU from "./CPU";
 import Memory from "./Memory";
+import Upgrade from "./Upgrade";
 
 export class SBC extends ModelObject {
+    constructor() {
+        super();
+        ModelObject.wrapModelProperty(this, "upgrade", Upgrade);
+    }
+
     appArmor: boolean = false;
     readonly cpu: CPU = new CPU();
     readonly dsf: DSF = new DSF();
@@ -13,6 +19,7 @@ export class SBC extends ModelObject {
     readonly memory: Memory = new Memory();
     model: string | null = null;
     serial: string | null = null;
+    upgrade: Upgrade | null = null;
     uptime: number | null = null;
 }
 
@@ -21,3 +28,4 @@ export default SBC;
 export * from "./dsf";
 export * from "./CPU";
 export * from "./Memory";
+export * from "./Upgrade";
