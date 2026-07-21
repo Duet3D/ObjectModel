@@ -17,6 +17,7 @@ export class CurrentMove extends ModelObject {
     distance: number = 0;
     duration: number = 0;
     extrusionRate: number = 0;
+    filePosition: number | null = null;
     laserPwm: number | null = null;
     requestedSpeed: number = 0;
     topSpeed: number = 0;
