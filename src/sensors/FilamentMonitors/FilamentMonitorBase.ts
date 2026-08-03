@@ -31,6 +31,7 @@ export class FilamentMonitorBase extends ModelObject {
     enabled: boolean = false;
 
     enableMode: FilamentMonitorEnableMode = FilamentMonitorEnableMode.disabled;
+    filamentPresent: boolean | null = null;
     status: FilamentMonitorStatus = FilamentMonitorStatus.noDataReceived;
     type: FilamentMonitorType;
 
