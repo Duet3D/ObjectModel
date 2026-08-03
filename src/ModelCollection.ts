@@ -1,6 +1,5 @@
 import { isModelObject } from "./ModelObject";
 import type { IModelObject } from "./ModelObject";
-import { setArrayItem } from "./index";
 
 /**
  * Internal interface for the model collection class
@@ -67,20 +66,20 @@ export class ModelCollection<T extends IModelObject | null> extends Array<T> imp
             if (currentItem === null) {
                 const newItem = jsonElement[i];
                 if (newItem instanceof that.$itemConstructor) {
-                    setArrayItem(this, i, jsonElement[i]);
+                    this[i] = jsonElement[i];
                 } else {
                     const refItem = new that.$itemConstructor();
-                    setArrayItem(this, i, refItem!.update(newItem));
+                    this[i] = refItem!.update(newItem) as T;
                 }
             } else if (isModelObject(currentItem)) {
                 const newItem = currentItem.update(jsonElement[i]);
                 if (currentItem !== newItem) {
-                    setArrayItem(this, i, newItem);
+                    this[i] = newItem as T;
                 }
             } else {
                 const newItem = jsonElement[i];
                 if (currentItem !== newItem) {
-                    setArrayItem(this, i, newItem);
+                    this[i] = newItem;
                 }
             }
         }

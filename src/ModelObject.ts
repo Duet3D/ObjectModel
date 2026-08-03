@@ -1,4 +1,4 @@
-import { ModelCollection, setArrayItem } from "./index";
+import { ModelCollection } from "./index";
 
 /**
  * Interface for updating model objects using JSON data
@@ -63,11 +63,11 @@ export abstract class ModelObject implements IModelObject {
                         for (let i = 0; i < Math.min(prop.length, value.length); i++) {
                             const propItem = prop[i];
                             if (propItem === null) {
-                                setArrayItem(prop, i, value[i]);
+                                prop[i] = value[i];
                             } else {
                                 const newItem = value[i];
                                 if (propItem !== newItem) {
-                                    setArrayItem(prop, i, newItem);
+                                    prop[i] = newItem;
                                 }
                             }
                         }
