@@ -18,7 +18,7 @@
     "test": "tsc -p tsconfig.test.json --noEmit && jest --config jestconfig.json",
     "build": "tsc && node scripts/extract-metadata.ts",
     "prepare": "npm run build",
-    "prepublishOnly": "npm test"
+    "prepublishOnly": "npm test && node scripts/check-metadata.ts"
   },
   "repository": {
     "type": "git",
