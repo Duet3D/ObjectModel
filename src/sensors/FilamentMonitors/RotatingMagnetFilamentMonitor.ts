@@ -29,15 +29,15 @@ export class RotatingMagnetFilamentMonitor extends Duet3DFilamentMonitor {
     calibrated: RotatingMagnetFilamentMonitorCalibrated | null = new RotatingMagnetFilamentMonitorCalibrated();
     readonly configured: RotatingMagnetFilamentMonitorConfigured = new RotatingMagnetFilamentMonitorConfigured();
 
-    override update(jsonElement: any): IModelObject | null {
+    override update(jsonElement: any, authoritative: boolean = false): IModelObject | null {
         if (jsonElement === null) {
             return null;
         }
 
         if (typeof jsonElement.type === "string" && jsonElement.type !== this.type) {
-            return getFilamentMonitor(jsonElement.type).update(jsonElement);
+            return getFilamentMonitor(jsonElement.type).update(jsonElement, authoritative);
         }
-        return super.update(jsonElement);
+        return super.update(jsonElement, authoritative);
     }
 }
 

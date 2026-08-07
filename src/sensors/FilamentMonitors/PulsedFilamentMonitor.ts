@@ -27,15 +27,15 @@ export class PulsedFilamentMonitor extends FilamentMonitorBase {
     readonly configured: PulsedFilamentMonitorConfigured = new PulsedFilamentMonitorConfigured();
     position: number = 0;
 
-    override update(jsonElement: any): IModelObject | null {
+    override update(jsonElement: any, authoritative: boolean = false): IModelObject | null {
         if (jsonElement === null) {
             return null;
         }
 
         if (typeof jsonElement.type === "string" && jsonElement.type !== this.type) {
-            return getFilamentMonitor(jsonElement.type).update(jsonElement);
+            return getFilamentMonitor(jsonElement.type).update(jsonElement, authoritative);
         }
-        return super.update(jsonElement);
+        return super.update(jsonElement, authoritative);
     }
 }
 

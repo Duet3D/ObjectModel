@@ -116,14 +116,14 @@ export class PluginManifest extends ModelObject {
         return true;
     }
 
-    public override update(jsonElement: any): IModelObject | null {
+    public override update(jsonElement: any, authoritative: boolean = false): IModelObject | null {
         if (typeof jsonElement.data === "object") {
             for (const key in jsonElement.data) {
                 this.data.set(key, jsonElement.data[key]);
             }
             delete jsonElement.data;
         }
-        return super.update(jsonElement);
+        return super.update(jsonElement, authoritative);
     }
 }
 

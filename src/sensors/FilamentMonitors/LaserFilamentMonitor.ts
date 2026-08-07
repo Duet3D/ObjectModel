@@ -28,15 +28,15 @@ export class LaserFilamentMonitor extends Duet3DFilamentMonitor {
     calibrated: LaserFilamentMonitorCalibrated | null = new LaserFilamentMonitorCalibrated();
     readonly configured: LaserFilamentMonitorConfigured = new LaserFilamentMonitorConfigured();
 
-    override update(jsonElement: any): IModelObject | null {
+    override update(jsonElement: any, authoritative: boolean = false): IModelObject | null {
         if (jsonElement === null) {
             return null;
         }
 
         if (typeof jsonElement.type === "string" && jsonElement.type !== this.type) {
-            return getFilamentMonitor(jsonElement.type).update(jsonElement);
+            return getFilamentMonitor(jsonElement.type).update(jsonElement, authoritative);
         }
-        return super.update(jsonElement);
+        return super.update(jsonElement, authoritative);
     }
 }
 

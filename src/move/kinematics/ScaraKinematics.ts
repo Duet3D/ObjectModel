@@ -12,15 +12,15 @@ export class ScaraKinematics extends ZLeadscrewKinematics {
     xOffset: number = 0;
     yOffset: number = 0;
 
-    override update(jsonElement: any): IModelObject | null {
+    override update(jsonElement: any, authoritative: boolean = false): IModelObject | null {
         if (jsonElement === null) {
             throw new Error("Kinematics must not be null");
         }
 
         if (typeof jsonElement.name === "string" && this.name !== jsonElement.name) {
-            return getKinematics(jsonElement.name).update(jsonElement);
+            return getKinematics(jsonElement.name).update(jsonElement, authoritative);
         }
-        return super.update(jsonElement);
+        return super.update(jsonElement, authoritative);
     }
 }
 

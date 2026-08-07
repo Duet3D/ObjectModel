@@ -2,7 +2,7 @@ import ModelCollection from "./ModelCollection";
 import ModelDictionary from "./ModelDictionary";
 import ModelObject from "./ModelObject";
 
-import Board from "./boards";
+import Board, { getBoard } from "./boards";
 import Directories from "./directories";
 import Fan from "./fans";
 import Heat from "./heat";
@@ -36,7 +36,7 @@ export class ObjectModel extends ModelObject {
      */
     static override readonly resetsMissingProperties: boolean = false;
 
-	readonly boards: ModelCollection<Board> = new ModelCollection(Board);
+	readonly boards: ModelCollection<Board> = new ModelCollection(Board, getBoard);
 	readonly directories: Directories = new Directories();
 	readonly fans: ModelCollection<Fan | null> = new ModelCollection(Fan);
 	readonly global: ModelDictionary<any> = new ModelDictionary(false);

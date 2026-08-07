@@ -4,8 +4,26 @@ import type { IModelObject } from "./ModelObject";
 /**
  * Internal interface for the model collection class
  */
-interface IModelCollection {
-    $itemConstructor: { new(): IModelObject | null };
+interface IModelCollection<T> {
+    $itemConstructor: { new(): T };
+    $itemFactory: ItemFactory<T> | null;
+}
+
+/**
+ * Factory creating the item for a given index
+ */
+export type ItemFactory<T> = (index: number) => T;
+
+/**
+ * Create the item for a given index. This is deliberately not a method of the collection because
+ * a non-public member would make the class nominally typed, which breaks assignability of the
+ * reactive proxies consumers wrap the object model in
+ * @param collection Collection the item is created for
+ * @param index Index the new item is going to be stored at
+ * @returns New item
+ */
+function createItem<T>(collection: IModelCollection<T>, index: number): T {
+    return (collection.$itemFactory !== null) ? collection.$itemFactory(index) : new collection.$itemConstructor();
 }
 
 /**
@@ -15,12 +33,14 @@ export class ModelCollection<T extends IModelObject | null> extends Array<T> imp
     /**
      * Constructor of this class
      * @param itemConstructor Item constructor type that items must derive from
+     * @param itemFactory Factory to use for collections whose item class depends on the position, e.g. boards
      */
-    constructor(itemConstructor: { new(): T }) {
+    constructor(itemConstructor: { new(): T }, itemFactory: ItemFactory<T> | null = null) {
         super();
         Object.setPrototypeOf(this, ModelCollection.prototype);
 
         Object.defineProperty(this, "$itemConstructor", { enumerable: false, value: itemConstructor });
+        Object.defineProperty(this, "$itemFactory", { enumerable: false, value: itemFactory });
     }
 
     // Unfortunately it isn't possible to override index operators in JS/TS
@@ -30,13 +50,13 @@ export class ModelCollection<T extends IModelObject | null> extends Array<T> imp
      * @param items Items to add
      */
     override push(...items: T[]): number {
-        const that = this as any as IModelCollection;
+        const that = this as any as IModelCollection<T>;
 
         for (const item of items) {
             if (item === null || item instanceof that.$itemConstructor) {
                 super.push(item);
             } else {
-                const newItem: T = new that.$itemConstructor() as T;
+                const newItem = createItem(that, this.length);
                 super.push(newItem!.update(item) as T);
             }
         }
@@ -56,7 +76,7 @@ export class ModelCollection<T extends IModelObject | null> extends Array<T> imp
         if (!(jsonElement instanceof Array)) {
             throw new Error(`Invalid JSON element type for model collection ${typeof jsonElement}`);
         }
-        const that = this as any as IModelCollection;
+        const that = this as any as IModelCollection<T>;
 
         // Remove deleted items
         this.splice(jsonElement.length);
@@ -69,7 +89,7 @@ export class ModelCollection<T extends IModelObject | null> extends Array<T> imp
                 if (newItem instanceof that.$itemConstructor) {
                     this[i] = jsonElement[i];
                 } else {
-                    const refItem = new that.$itemConstructor();
+                    const refItem = createItem(that, i);
                     this[i] = refItem!.update(newItem, authoritative) as T;
                 }
             } else if (isModelObject(currentItem)) {
@@ -91,7 +111,7 @@ export class ModelCollection<T extends IModelObject | null> extends Array<T> imp
 			if (itemToAdd === null) {
 				super.push(itemToAdd);
 			} else {
-				const newItem: T = new that.$itemConstructor() as T;
+				const newItem = createItem(that, i);
 				super.push(newItem!.update(itemToAdd, authoritative) as T);
 			}
         }

@@ -38,10 +38,7 @@ export class Board extends ModelObject {
     constructor() {
         super();
         ModelObject.wrapModelProperty(this, "accelerometer", Accelerometer);
-        ModelObject.wrapModelProperty(this, "closedLoop", BoardClosedLoop);
-        ModelObject.wrapModelProperty(this, "directDisplay", DirectDisplay);
         ModelObject.wrapModelCollectionProperty(this, "drivers", Driver);
-        ModelObject.wrapModelProperty(this, "inductiveSensor", InductiveSensor);
         ModelObject.wrapModelProperty(this, "mcuTemp", MinMaxCurrent);
         ModelObject.wrapModelProperty(this, "v12", MinMaxCurrent);
         ModelObject.wrapModelProperty(this, "vIn", MinMaxCurrent);
@@ -49,32 +46,59 @@ export class Board extends ModelObject {
 
     accelerometer: Accelerometer | null = null;
     canAddress: number | null = null;
-    closedLoop: BoardClosedLoop | null = null;
-    directDisplay: DirectDisplay | null = null;
     drivers: ModelCollection<Driver> | null = null;
     firmwareDate: string = "";
     firmwareFileName: string = "";
-    firmwareName: string = "";
     firmwareVersion: string = "";
     freeRam: number | null = null;
-    iapFileNameSBC: string | null = null;
-    iapFileNameSD: string | null = null;
-    inductiveSensor: InductiveSensor | null = null;
-    maxHeaters: number = 0;
     maxMotors: number = 0;
     mcuTemp: MinMaxCurrent | null = null;
     name: string = "";
     shortName: string = "";
-    state: BoardState = BoardState.unknown;
-    supportsDirectDisplay: boolean = false;
-    timeout: number = 10;
     uniqueId: string | null = null;
     v12: MinMaxCurrent | null = null;
     vIn: MinMaxCurrent | null = null;
+}
+
+export class MainBoard extends Board {
+    constructor() {
+        super();
+        ModelObject.wrapModelProperty(this, "directDisplay", DirectDisplay);
+    }
+
+    directDisplay: DirectDisplay | null = null;
+    firmwareName: string = "";
+    iapFileNameSBC: string | null = null;
+    iapFileNameSD: string | null = null;
+    maxHeaters: number = 0;
+    supportsDirectDisplay: boolean = false;
     wifiFirmwareFileName: string | null = null;
 }
 
+export class ExpansionBoard extends Board {
+    constructor() {
+        super();
+        ModelObject.wrapModelProperty(this, "closedLoop", BoardClosedLoop);
+        ModelObject.wrapModelProperty(this, "inductiveSensor", InductiveSensor);
+    }
+
+    closedLoop: BoardClosedLoop | null = null;
+    inductiveSensor: InductiveSensor | null = null;
+    state: BoardState = BoardState.unknown;
+    timeout: number = 10;
+}
+
 export default Board
+
+/**
+ * Create the board instance for a given index. The first item is always the mainboard,
+ * every other item is an expansion board connected over CAN
+ * @param index Index in the boards array
+ * @returns New board instance
+ */
+export function getBoard(index: number): Board {
+    return (index === 0) ? new MainBoard() : new ExpansionBoard();
+}
 
 export * from "./directDisplay"
 export * from "./Driver"

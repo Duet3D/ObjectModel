@@ -1,6 +1,6 @@
 import ObjectModel, { Heater, initCollection } from "../src";
 import { initObject } from "../src/ModelObject";
-import Board from "../src/boards";
+import Board, { BoardState, ExpansionBoard, MainBoard } from "../src/boards";
 import Plugin, { PluginManifest, SbcPermission } from "../src/plugins";
 import Move, { Axis, CoreKinematics, DeltaKinematics, DriverId, Extruder, KinematicsName } from "../src/move";
 import { MachineStatus, MessageBox } from "../src/state";
@@ -264,4 +264,30 @@ test("authoritativeAppliesToCollectionItems", () => {
     // Not nullable, so an authoritative payload must leave it alone rather than break its type
     expect(model.move.extruders[0].filament).toBe("PLA");
     expect(model.move.extruders[0].factor).toBe(1.5);
+});
+
+test("boardTypes", () => {
+    const model = new ObjectModel();
+    model.update({ boards: [{ canAddress: 0, firmwareName: "RepRapFirmware for Duet 3 MB6HC" }, { canAddress: 1, state: "running" }] });
+
+    expect(model.boards[0]).toBeInstanceOf(MainBoard);
+    expect((model.boards[0] as MainBoard).firmwareName).toBe("RepRapFirmware for Duet 3 MB6HC");
+    expect(model.boards[1]).toBeInstanceOf(ExpansionBoard);
+    expect((model.boards[1] as ExpansionBoard).state).toBe(BoardState.running);
+
+    // Live payloads carry nothing to tell the board types apart, so the classes must survive them
+    model.update({ boards: [{ freeRam: 1234 }, { freeRam: 5678 }] });
+    expect(model.boards[0]).toBeInstanceOf(MainBoard);
+    expect(model.boards[1]).toBeInstanceOf(ExpansionBoard);
+    expect(model.boards[0].freeRam).toBe(1234);
+});
+
+test("authoritativeAppliesToPolymorphicItems", () => {
+    const model = new ObjectModel();
+    model.update({ sensors: { filamentMonitors: [{ type: "rotatingMagnet", agc: 42 }] } });
+    expect(model.sensors.filamentMonitors[0]).toBeInstanceOf(RotatingMagnetFilamentMonitor);
+    expect((model.sensors.filamentMonitors[0] as RotatingMagnetFilamentMonitor).agc).toBe(42);
+
+    model.update({ sensors: { filamentMonitors: [{ type: "rotatingMagnet" }] } }, true);
+    expect((model.sensors.filamentMonitors[0] as RotatingMagnetFilamentMonitor).agc).toBeNull();
 });

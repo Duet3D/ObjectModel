@@ -25,11 +25,11 @@ export class MessageBox extends ModelObject {
     timeout: number = 0;
     title: string = "";
 
-    override update(jsonElement: any): IModelObject | null {
+    override update(jsonElement: any, authoritative: boolean = false): IModelObject | null {
         if (jsonElement instanceof Object && (typeof jsonElement.default === "number" || typeof jsonElement.default === "string")) {
             this.default = jsonElement.default;
         }
-        return super.update(jsonElement);
+        return super.update(jsonElement, authoritative);
     }
 }
 
