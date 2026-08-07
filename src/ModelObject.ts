@@ -59,17 +59,12 @@ export function isModelObject(value: any): value is IModelObject {
  */
 export abstract class ModelObject implements IModelObject {
     /**
-     * Reset the properties that may hold null and are missing from the given authoritative data.
-     * Overridden where an instance never receives a complete snapshot of itself
-     * @param jsonElement JSON data this instance is being updated from
+     * Whether an authoritative update may reset the properties of this class that are missing from it.
+     * Set to false where an instance never receives a complete snapshot of itself. Deliberately static
+     * because an instance member would become part of the structural type and break consumers that hold
+     * a mapped version of the model, such as a Pinia store
      */
-    protected resetMissingProperties(jsonElement: any): void {
-        for (const key of getNullableProperties(this)) {
-            if (!(key in jsonElement)) {
-                this[key as keyof this] = null as any;
-            }
-        }
-    }
+    static readonly resetsMissingProperties: boolean = true;
 
     /**
      * Update this instance from the given data
@@ -82,8 +77,12 @@ export abstract class ModelObject implements IModelObject {
             return null;
         }
 
-        if (authoritative) {
-            this.resetMissingProperties(jsonElement);
+        if (authoritative && (this.constructor as typeof ModelObject).resetsMissingProperties) {
+            for (const key of getNullableProperties(this)) {
+                if (!(key in jsonElement)) {
+                    this[key as keyof this] = null as any;
+                }
+            }
         }
 
         for (const [key, value] of Object.entries(jsonElement)) {

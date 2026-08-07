@@ -34,7 +34,7 @@ export class ObjectModel extends ModelObject {
      * A payload handed to the root always covers a subset of the top-level keys rather than the whole model,
      * so authoritative reconstruction has to start one level below it
      */
-    protected override resetMissingProperties(): void { }
+    static override readonly resetsMissingProperties: boolean = false;
 
 	readonly boards: ModelCollection<Board> = new ModelCollection(Board);
 	readonly directories: Directories = new Directories();
