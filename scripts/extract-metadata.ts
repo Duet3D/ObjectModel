@@ -78,6 +78,10 @@ interface WalkContext
 	enumValues: EnumValues;
 	documentation: Documentation;
 	xmlMembers: Map<string, XmlMember>;
+	/** Model object classes that extend a given class, keyed by the base class name */
+	subclasses: Map<string, Array<TsSymbol>>;
+	/** Name of the class each model object class extends */
+	bases: Map<string, string>;
 }
 
 /**
@@ -388,6 +392,12 @@ function enumDetailsOf(type: Type, checker: Checker): EnumDetails | null
 
 function recordDocumentation(ctx: WalkContext, fullPath: string, doc: XmlMember | null, values: Record<string, string | null> | null): void
 {
+	if (fullPath in ctx.documentation)
+	{
+		// Already recorded, which only happens when concrete types are merged into one path - see walkClass
+		return;
+	}
+
 	const summary = doc && doc.summary ? doc.summary : null;
 	const remarks = doc && doc.remarks ? doc.remarks : null;
 	const hasValues = values !== null && Object.keys(values).length > 0;
@@ -420,11 +430,110 @@ function recordDocumentation(ctx: WalkContext, fullPath: string, doc: XmlMember 
 }
 
 /**
+ * Index the model object classes by the name of the class they extend. The object model declares its
+ * polymorphic nodes with the base type - filament monitors, kinematics, direct display screens - so a walk
+ * that only follows `extends` upwards never sees the members a concrete type adds.
+ */
+function buildSubclassIndex(program: any, srcDir: string, checker: Checker): { subclasses: Map<string, Array<TsSymbol>>, bases: Map<string, string> }
+{
+	const result = new Map<string, Array<TsSymbol>>();
+	const bases = new Map<string, string>();
+	for (const fileName of program.getSourceFileNames())
+	{
+		if (!fileName.startsWith(srcDir))
+		{
+			continue;
+		}
+		const sourceFile = program.getSourceFile(fileName);
+		if (!sourceFile || sourceFile.isDeclarationFile)
+		{
+			continue;
+		}
+		for (const statement of sourceFile.statements)
+		{
+			if (!isClassDeclaration(statement) || !statement.name)
+			{
+				continue;
+			}
+			const symbol = checker.getSymbolAtLocation(statement.name);
+			if (!symbol)
+			{
+				continue;
+			}
+			for (const heritage of statement.heritageClauses || [])
+			{
+				if (heritage.token !== SyntaxKind.ExtendsKeyword)
+				{
+					continue;
+				}
+				for (const typeNode of heritage.types)
+				{
+					const baseName = ctxCheckerSymbolName(checker, typeNode.expression);
+					if (baseName !== null)
+					{
+						bases.set(symbol.name, baseName);
+						const existing = result.get(baseName);
+						if (existing)
+						{
+							existing.push(symbol);
+						}
+						else
+						{
+							result.set(baseName, [symbol]);
+						}
+					}
+				}
+			}
+		}
+	}
+	return { subclasses: result, bases };
+}
+
+/**
+ * Every concrete class that may show up at a node declared with the given type. Walking subclasses alone is
+ * not enough because the object model derives its variants from a shared base rather than from the type the
+ * node is declared with - FilamentMonitor and RotatingMagnetFilamentMonitor are siblings, both extending
+ * FilamentMonitorBase. So climb to the top of the chain first, stopping short of the ModelObject root that
+ * every model class shares, and collect everything below it.
+ */
+function collectConcreteTypes(classSymbol: TsSymbol, ctx: WalkContext): Array<TsSymbol>
+{
+	const queue: Array<string> = [];
+	for (let name: string | undefined = classSymbol.name; name !== undefined && name !== "ModelObject"; name = ctx.bases.get(name))
+	{
+		queue.push(name);
+	}
+
+	const result: Array<TsSymbol> = [];
+	const seen = new Set<string>();
+	while (queue.length > 0)
+	{
+		for (const subclass of ctx.subclasses.get(queue.shift()!) || [])
+		{
+			if (!seen.has(subclass.name))
+			{
+				seen.add(subclass.name);
+				result.push(subclass);
+				queue.push(subclass.name);
+			}
+		}
+	}
+	return result;
+}
+
+/** Resolve the name of the class an `extends` clause refers to. */
+function ctxCheckerSymbolName(checker: Checker, expression: any): string | null
+{
+	const symbol = checker.getTypeAtLocation(expression)?.getSymbol();
+	return symbol ? symbol.name : null;
+}
+
+/**
  * Walk the class graph rooted at the given class symbol, recording deprecated paths, enum value lists and
  * documentation. `containerType` is the concrete type the current path navigates to; it's preserved across
  * `extends` recursion so inherited members can still resolve their docs against the leaf type.
  */
-function walkClass(classSymbol: TsSymbol, prefix: string, containerType: string, visited: Set<TsSymbol>, ctx: WalkContext): void
+function walkClass(classSymbol: TsSymbol, prefix: string, containerType: string, visited: Set<TsSymbol>, ctx: WalkContext, mergeSubclasses: boolean = true): void
 {
 	if (visited.has(classSymbol))
 	{
@@ -449,7 +558,7 @@ function walkClass(classSymbol: TsSymbol, prefix: string, containerType: string,
 			const baseSymbol = baseType?.getSymbol();
 			if (baseSymbol)
 			{
-				walkClass(baseSymbol, prefix, containerType, visited, ctx);
+				walkClass(baseSymbol, prefix, containerType, visited, ctx, false);
 			}
 		}
 	}
@@ -479,7 +588,7 @@ function walkClass(classSymbol: TsSymbol, prefix: string, containerType: string,
 		}
 
 		const deprecation = readDeprecation(memberSymbol, ctx.checker);
-		if (deprecation !== null)
+		if (deprecation !== null && !(fullPath in ctx.deprecations))
 		{
 			ctx.deprecations[fullPath] = deprecation;
 		}
@@ -489,7 +598,7 @@ function walkClass(classSymbol: TsSymbol, prefix: string, containerType: string,
 
 		// Record enum / literal-union values for this field
 		const details = enumDetailsOf(memberType, ctx.checker);
-		if (details !== null)
+		if (details !== null && !(fullPath in ctx.enumValues))
 		{
 			ctx.enumValues[fullPath] = details.pairs.map(pair => pair.value);
 		}
@@ -519,6 +628,18 @@ function walkClass(classSymbol: TsSymbol, prefix: string, containerType: string,
 			walkClass(child, fullPath, child.name, new Set(visited), ctx);
 		}
 	}
+
+	// Merge the concrete types into the same path. A node typed as its base class still reports whatever the
+	// firmware picked at runtime, so its members belong to that path just as much as the inherited ones.
+	// Only for the type the path resolved to - doing it for a base reached through `extends` would pull in
+	// every unrelated class that happens to share it, ModelObject above all
+	if (mergeSubclasses)
+	{
+		for (const concrete of collectConcreteTypes(classSymbol, ctx))
+		{
+			walkClass(concrete, prefix, concrete.name, visited, ctx, false);
+		}
+	}
 }
 
 function extractAll(srcDir: string, xmlMembers: Map<string, XmlMember>): { deprecations: Deprecations, enumValues: EnumValues, documentation: Documentation }
@@ -535,7 +656,7 @@ function extractAll(srcDir: string, xmlMembers: Map<string, XmlMember>): { depre
 			throw new Error(`Could not open TypeScript project ${tsconfigPath}`);
 		}
 		const checker = project.checker;
-		const ctx: WalkContext = { checker, deprecations: {}, enumValues: {}, documentation: {}, xmlMembers };
+		const ctx: WalkContext = { checker, deprecations: {}, enumValues: {}, documentation: {}, xmlMembers, ...buildSubclassIndex(project.program, srcDir, checker) };
 
 		let rootSymbol: TsSymbol | null = null;
 		for (const fileName of project.program.getSourceFileNames())
