@@ -25,6 +25,7 @@ export class RotatingMagnetFilamentMonitor extends Duet3DFilamentMonitor {
         ModelObject.wrapModelProperty(this, "calibrated", RotatingMagnetFilamentMonitorCalibrated);
     }
 
+    agc: number | null = null;
     calibrated: RotatingMagnetFilamentMonitorCalibrated | null = new RotatingMagnetFilamentMonitorCalibrated();
     readonly configured: RotatingMagnetFilamentMonitorConfigured = new RotatingMagnetFilamentMonitorConfigured();
 

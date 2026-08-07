@@ -7,9 +7,43 @@ export interface IModelObject {
     /**
      * Update this instance from the given data
      * @param jsonElement JSON data to upgrade this instance from
+     * @param authoritative Whether the given data is a complete snapshot of this instance and everything below it,
+     * so that properties missing from it are known to be null. Set this only for responses that were not filtered
+     * by the sender, i.e. full object model key queries but never live/patch updates
      * @returns Updated instance (may not equal the original instance)
      */
-    update(jsonElement: any): IModelObject | null;
+    update(jsonElement: any, authoritative?: boolean): IModelObject | null;
+}
+
+/**
+ * Names of the properties that default to null, per model object class. Queried from a pristine instance because
+ * TS types are gone at runtime, so a null default is the only remaining evidence that a property may hold null
+ */
+const nullableProperties = new WeakMap<Function, Set<string>>();
+
+/**
+ * Get the names of the properties of the given instance's class that may hold null
+ * @param instance Instance to inspect the class of
+ */
+function getNullableProperties(instance: object): Set<string> {
+    let result = nullableProperties.get(instance.constructor);
+    if (result === undefined) {
+        result = new Set<string>();
+        try {
+            for (const [key, value] of Object.entries(new (instance.constructor as { new(): object })())) {
+                if (value === null) {
+                    result.add(key);
+                }
+            }
+        } catch (e) {
+            // A class that cannot be constructed without arguments simply opts out of null reconstruction
+            if (process.env.NODE_ENV !== "production") {
+                console.warn(`Failed to determine nullable properties of ${instance.constructor.name}`, e);
+            }
+        }
+        nullableProperties.set(instance.constructor, result);
+    }
+    return result;
 }
 
 /**
@@ -25,13 +59,31 @@ export function isModelObject(value: any): value is IModelObject {
  */
 export abstract class ModelObject implements IModelObject {
     /**
+     * Reset the properties that may hold null and are missing from the given authoritative data.
+     * Overridden where an instance never receives a complete snapshot of itself
+     * @param jsonElement JSON data this instance is being updated from
+     */
+    protected resetMissingProperties(jsonElement: any): void {
+        for (const key of getNullableProperties(this)) {
+            if (!(key in jsonElement)) {
+                this[key as keyof this] = null as any;
+            }
+        }
+    }
+
+    /**
      * Update this instance from the given data
      * @param jsonElement JSON data to upgrade this instance from
+     * @param authoritative Whether the given data is a complete snapshot of this instance and everything below it
      * @returns Updated instance (may not equal the original instance)
      */
-    public update(jsonElement: any): IModelObject | null {
+    public update(jsonElement: any, authoritative: boolean = false): IModelObject | null {
         if (jsonElement === null) {
             return null;
+        }
+
+        if (authoritative) {
+            this.resetMissingProperties(jsonElement);
         }
 
         for (const [key, value] of Object.entries(jsonElement)) {
@@ -41,7 +93,7 @@ export abstract class ModelObject implements IModelObject {
 
                 if (isModelObject(prop)) {
                     // Update model objects
-                    const updatedObject = prop.update(value);
+                    const updatedObject = prop.update(value, authoritative);
                     if (prop !== updatedObject) {
                         const propDescriptor = Object.getOwnPropertyDescriptor(this, key);
                         if (propDescriptor !== undefined) {

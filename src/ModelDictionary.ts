@@ -30,8 +30,9 @@ export class ModelDictionary<T> extends Map<string, T | null> implements IModelO
      * Overridden set method to perform type-checks and update
      * @param key Key to set
      * @param value Value to set
+     * @param authoritative Whether the given value is a complete snapshot of the item and everything below it
      */
-    override set(key: string, value: T | null): this {
+    override set(key: string, value: T | null, authoritative: boolean = false): this {
         const that = this as any as IModelDictionary;
 
         if (value === null) {
@@ -47,12 +48,12 @@ export class ModelDictionary<T> extends Map<string, T | null> implements IModelO
             if (that.$itemConstructor !== null && !(value instanceof that.$itemConstructor)) {
                 const newItem: T = new that.$itemConstructor();
                 if (isModelObject(newItem)) {
-                    const updatedItem: any = newItem.update(value);
+                    const updatedItem: any = newItem.update(value, authoritative);
                     return super.set(key, updatedItem as T | null);
                 }
             }
         } else if (isModelObject(currentItem)) {
-            const newItem = currentItem.update(value);
+            const newItem = currentItem.update(value, authoritative);
             if (currentItem !== newItem) {
                 return super.set(key, value);
             }
@@ -64,18 +65,19 @@ export class ModelDictionary<T> extends Map<string, T | null> implements IModelO
     /**
      * Update this instance from the given data
      * @param jsonElement JSON data to upgrade this instance from
+     * @param authoritative Whether the given data is a complete snapshot of the items and everything below them
      * @returns Updated instance
      */
-    update(jsonElement: any): IModelObject | null {
+    update(jsonElement: any, authoritative: boolean = false): IModelObject | null {
         if (jsonElement === null) {
             this.clear();
         } else if (jsonElement instanceof Map) {
             for (const [key, value] of jsonElement.entries()) {
-                this.set(key, value as T | null);
+                this.set(key, value as T | null, authoritative);
             }
         } else {
             for (const [key, value] of Object.entries(jsonElement)) {
-                this.set(key, value as T | null);
+                this.set(key, value as T | null, authoritative);
             }
         }
         return this;

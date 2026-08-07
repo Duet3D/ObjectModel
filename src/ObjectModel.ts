@@ -30,6 +30,12 @@ export class ObjectModel extends ModelObject {
 		ModelObject.wrapModelProperty(this, "sbc", SBC);
     }
 
+    /**
+     * A payload handed to the root always covers a subset of the top-level keys rather than the whole model,
+     * so authoritative reconstruction has to start one level below it
+     */
+    protected override resetMissingProperties(): void { }
+
 	readonly boards: ModelCollection<Board> = new ModelCollection(Board);
 	readonly directories: Directories = new Directories();
 	readonly fans: ModelCollection<Fan | null> = new ModelCollection(Fan);

@@ -46,9 +46,10 @@ export class ModelCollection<T extends IModelObject | null> extends Array<T> imp
     /**
      * Update this instance from the given data
      * @param jsonElement JSON data to upgrade this instance from
+     * @param authoritative Whether the given data is a complete snapshot of the items and everything below them
      * @returns Updated instance
      */
-    update(jsonElement: any): IModelObject | null {
+    update(jsonElement: any, authoritative: boolean = false): IModelObject | null {
         if (jsonElement === null) {
             return null;
         }
@@ -69,10 +70,10 @@ export class ModelCollection<T extends IModelObject | null> extends Array<T> imp
                     this[i] = jsonElement[i];
                 } else {
                     const refItem = new that.$itemConstructor();
-                    this[i] = refItem!.update(newItem) as T;
+                    this[i] = refItem!.update(newItem, authoritative) as T;
                 }
             } else if (isModelObject(currentItem)) {
-                const newItem = currentItem.update(jsonElement[i]);
+                const newItem = currentItem.update(jsonElement[i], authoritative);
                 if (currentItem !== newItem) {
                     this[i] = newItem as T;
                 }
@@ -91,7 +92,7 @@ export class ModelCollection<T extends IModelObject | null> extends Array<T> imp
 				super.push(itemToAdd);
 			} else {
 				const newItem: T = new that.$itemConstructor() as T;
-				super.push(newItem!.update(itemToAdd) as T);
+				super.push(newItem!.update(itemToAdd, authoritative) as T);
 			}
         }
         return this;

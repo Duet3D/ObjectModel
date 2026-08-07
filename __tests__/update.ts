@@ -220,3 +220,48 @@ test("messageBoxDefault", () => {
     model.update({ state: { messageBox: { default: 456 } }});
     expect(model.state.messageBox?.default).toBe(456);
 });
+
+test("authoritativeResetsMissingProperties", () => {
+    const model = new ObjectModel();
+    model.update({ state: { messageBox: { message: "foo" }, logFile: "0:/sys/log.txt", currentTool: 2 } });
+
+    // A patch leaves properties it does not mention alone
+    model.update({ state: { currentTool: 1 } });
+    expect(model.state.messageBox).not.toBeNull();
+    expect(model.state.logFile).toBe("0:/sys/log.txt");
+
+    // An authoritative payload means the ones it omits are null
+    model.update({ state: { currentTool: 1 } }, true);
+    expect(model.state.messageBox).toBeNull();
+    expect(model.state.logFile).toBeNull();
+    expect(model.state.currentTool).toBe(1);
+});
+
+test("authoritativeKeepsNonNullableProperties", () => {
+    const model = new ObjectModel();
+    model.update({ state: { status: "processing", machineMode: "CNC" } });
+
+    model.update({ state: { status: "idle" } }, true);
+    expect(model.state.machineMode).toBe("CNC");
+});
+
+test("authoritativeSkipsTopLevelKeys", () => {
+    const model = new ObjectModel();
+    model.update({ sbc: { dsf: { version: "3.7.0" } } });
+
+    model.update({ state: { status: "idle" } }, true);
+    expect(model.sbc).not.toBeNull();
+});
+
+test("authoritativeAppliesToCollectionItems", () => {
+    const model = new ObjectModel();
+    model.update({ move: { extruders: [{ percentStstCurrent: 60, filament: "PLA", factor: 1.5 }] } });
+    expect(model.move.extruders[0].percentStstCurrent).toBe(60);
+
+    model.update({ move: { extruders: [{ filament: "PLA", factor: 1.5 }] } }, true);
+    expect(model.move.extruders[0].percentStstCurrent).toBeNull();
+
+    // Not nullable, so an authoritative payload must leave it alone rather than break its type
+    expect(model.move.extruders[0].filament).toBe("PLA");
+    expect(model.move.extruders[0].factor).toBe(1.5);
+});
