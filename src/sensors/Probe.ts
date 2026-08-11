@@ -12,7 +12,8 @@ export enum ProbeType {
     unfilteredDigital = 8,
     blTouch = 9,
     zMotorStall = 10,
-    scanningAnalog = 11
+    scanningAnalog = 11,
+    loadCell = 12
 }
 
 export class ProbeTouchMode extends ModelObject {
@@ -38,6 +39,8 @@ export class Probe extends ModelObject {
     diveHeight: number = 5;
 
     diveHeights: Array<number> = [0, 0];
+    force: number | null = null;
+    gramsPerCount: number | null = null;
     isCalibrated: boolean | null = null;
     lastStopHeight: number = 0;
     maxProbeCount: number = 1;
