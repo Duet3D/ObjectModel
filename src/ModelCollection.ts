@@ -31,16 +31,8 @@ function createItem<T>(collection: IModelCollection<T>, index: number): T {
  */
 export class ModelCollection<T extends IModelObject | null> extends Array<T> implements IModelObject {
     /**
-     * Without this, Array methods that derive a new array from this one (filter, map, slice, concat,
-     * etc.) build the result via the ES2015 species-construction protocol, which for an Array
-     * subclass means calling `new ModelCollection(length)` -- a single numeric argument, matching
-     * the plain Array(length) constructor signature. This class's own constructor instead treats
-     * that first argument as `itemConstructor`, so the derived array ends up with $itemConstructor
-     * set to a number. Any later `.push()` on it then throws "Right-hand side of 'instanceof' is not
-     * an object", since push() checks `item instanceof that.$itemConstructor`. Overriding the species
-     * to plain Array sidesteps this entirely: derived arrays are ordinary Arrays, and only genuine
-     * ModelCollection instances (constructed directly with an item type) get the custom push/update
-     * behaviour.
+     * Derived arrays from filter, map, slice etc. would otherwise be constructed as
+     * new ModelCollection(length), leaving $itemConstructor set to a number
      */
     static override get [Symbol.species](): ArrayConstructor {
         return Array;

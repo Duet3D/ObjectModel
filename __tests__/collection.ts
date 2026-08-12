@@ -19,11 +19,7 @@ test("array methods derived from a ModelCollection return plain arrays", () => {
     const mapped = collection.map((item) => item);
     expect(mapped).not.toBeInstanceOf(ModelCollection);
 
-    // Regression: before overriding Symbol.species, `filtered`/`mapped` were still ModelCollection
-    // instances whose $itemConstructor had been corrupted to a number (the array length) by the
-    // default ES2015 species-construction protocol (`new ModelCollection(length)`). Pushing onto
-    // them then threw "Right-hand side of 'instanceof' is not an object" instead of behaving like
-    // a normal array.
+    // Used to throw because $itemConstructor had been corrupted to the array length
     expect(() => filtered.push(new Item().update({ value: 3 }) as Item)).not.toThrow();
     expect(filtered.length).toBe(3);
 });
