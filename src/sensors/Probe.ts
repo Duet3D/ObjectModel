@@ -46,6 +46,7 @@ export class Probe extends ModelObject {
     maxProbeCount: number = 1;
     measuredHeight: number | null = null;
     offsets: Array<number> = [0, 0];
+    preload: number | null = null;
     recoveryTime: number = 0;
     scanCoefficients: Array<number> | null = null;
     speeds: Array<number> = [2, 2];
