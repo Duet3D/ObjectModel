@@ -16,6 +16,13 @@ export enum ProbeType {
     loadCell = 12
 }
 
+export class ProbeLoadCell extends ModelObject {
+    force: number = 0;
+    gramsPerCount: number = 0;
+    preload: number = 0;
+    preloadWindow: Array<number> = [0, 0];
+}
+
 export class ProbeTouchMode extends ModelObject {
     active: boolean = false;
     speed: number = 0;
@@ -26,6 +33,7 @@ export class ProbeTouchMode extends ModelObject {
 export class Probe extends ModelObject {
     constructor() {
         super();
+        ModelObject.wrapModelProperty(this, "loadCell", ProbeLoadCell);
         ModelObject.wrapModelProperty(this, "touchMode", ProbeTouchMode);
     }
 
@@ -39,14 +47,12 @@ export class Probe extends ModelObject {
     diveHeight: number = 5;
 
     diveHeights: Array<number> = [0, 0];
-    force: number | null = null;
-    gramsPerCount: number | null = null;
     isCalibrated: boolean | null = null;
     lastStopHeight: number = 0;
+    loadCell: ProbeLoadCell | null = null;
     maxProbeCount: number = 1;
     measuredHeight: number | null = null;
     offsets: Array<number> = [0, 0];
-    preload: number | null = null;
     recoveryTime: number = 0;
     scanCoefficients: Array<number> | null = null;
     speeds: Array<number> = [2, 2];
