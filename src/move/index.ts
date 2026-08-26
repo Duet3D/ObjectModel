@@ -50,6 +50,7 @@ export class Move extends ModelObject {
     readonly keepout: ModelCollection<KeepoutZone | null> = new ModelCollection(KeepoutZone);
     kinematics: Kinematics = new CoreKinematics(KinematicsName.cartesian);
     limitAxes: boolean = true;
+    minSpeed: number = 30;
     noMovesBeforeHoming: boolean = true;
     readonly motionSystems: ModelCollection<MotionSystem> = new ModelCollection(MotionSystem);
     /**
