@@ -92,12 +92,36 @@ jobs:
       - name: Update npm
         run: npm install -g npm@latest
 
+      # DuetAPI.xml is committed by the DSF "Update API documentation" workflow a few minutes after the
+      # push that changed the API, so a release started right after such a push would fetch the previous
+      # file and ship the new object model fields without any documentation. The default token is scoped
+      # to this repository, hence the unauthenticated API calls
+      - name: Wait for pending DSF documentation runs
+        run: |
+          for attempt in $(seq 30); do
+            if runs=$(curl -fsSL "https://api.github.com/repos/Duet3D/DuetSoftwareFramework/actions/workflows/api-documentation.yml/runs?branch=${{ github.ref_name }}&per_page=20"); then
+              pending=$(printf '%s' "$runs" | jq '[.workflow_runs[] | select(.status != "completed")] | length')
+              if [ "$pending" -eq 0 ]; then
+                exit 0
+              fi
+              echo "Waiting for $pending DSF documentation run(s) to finish"
+            else
+              echo "::warning::Could not query the DSF documentation runs, trying again"
+            fi
+            sleep 30
+          done
+          echo "::error::DSF documentation runs did not finish in time"
+          exit 1
+
       # DuetAPI.xml supplies the descriptions for documentation.json. It is a build artifact of the DSF
       # repository, which commits it to its documentation output, so fetch it instead of building DSF
       # here. Read from the branch of the same name rather than the documentation site: that site only
-      # ever serves one branch, so releasing for an older line would document it against the newer API
+      # ever serves one branch, so releasing for an older line would document it against the newer API.
+      # Fetched through the API because raw.githubusercontent.com serves branch content from a five
+      # minute cache, which hands out the previous file right after the documentation run pushed
       - name: Fetch DuetAPI documentation
-        run: curl -fsSL https://raw.githubusercontent.com/Duet3D/DuetSoftwareFramework/${{ github.ref_name }}/docs/DuetAPI.xml -o "$DUETAPI_XML"
+        run: |
+          curl -fsSL -H "Accept: application/vnd.github.raw" "https://api.github.com/repos/Duet3D/DuetSoftwareFramework/contents/docs/DuetAPI.xml?ref=${{ github.ref_name }}" -o "$DUETAPI_XML"
 
       - name: Install dependencies
         run: npm ci
