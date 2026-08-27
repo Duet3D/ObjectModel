@@ -24,7 +24,7 @@ export const patch = {
     },
     "move": {
         "kinematics": {
-            "name": "linearDelta",
+            "name": "delta",
             "deltaRadius": 123
         }
     },

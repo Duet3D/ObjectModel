@@ -1,5 +1,6 @@
 import ModelObject from "../../ModelObject";
 
+// Values are the spellings reported by RepRapFirmware, which are inconsistently capitalized
 export enum KinematicsName {
     cartesian = "cartesian",
     coreXY = "coreXY",
@@ -7,12 +8,12 @@ export enum KinematicsName {
     coreXYUV = "coreXYUV",
     coreXZ = "coreXZ",
     markForged = "markForged",
-    fiveBarScara = "fiveBarScara",
-    hangprinter = "hangprinter",
-    linearDelta = "linearDelta",
-    polar = "polar",
-    rotaryDelta = "rotaryDelta",
-    scara = "scara",
+    fiveBarScara = "FiveBarScara",
+    hangprinter = "Hangprinter",
+    linearDelta = "delta",
+    polar = "Polar",
+    rotaryDelta = "Rotary delta",
+    scara = "Scara",
     unknown = "unknown"
 }
 
