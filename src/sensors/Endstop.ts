@@ -5,6 +5,7 @@ export enum EndstopType {
     ZProbeAsEndstop = "zProbeAsEndstop",
     motorStallAny = "motorStallAny",
     motorStallIndividual = "motorStallIndividual",
+    motorStallEncoder = "motorStallEncoder",
     unknown = "unknown"
 }
 
