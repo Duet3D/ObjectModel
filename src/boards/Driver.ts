@@ -21,7 +21,8 @@ export enum DriverMode {
     spreadCycle = 2,
     stealthChop = 3,
     direct = 4,
-    unknown = 5
+    assistedOpen = 5,
+    unknown = 6
 }
 
 export class DriverConfig extends ModelObject {
