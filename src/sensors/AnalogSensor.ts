@@ -24,6 +24,7 @@ export enum AnalogSensorType {
     mcuTemp = "mcutemp",
     drivers = "drivers",
     driversDuex = "driversduex",
+    remote = "remote",
     unknown = "unknown"
 }
 
