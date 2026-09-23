@@ -47,6 +47,9 @@ export class Board extends ModelObject {
         ModelObject.wrapModelProperty(this, "vIn", MinMaxCurrent);
     }
 
+    /**
+     * @deprecated use sensors.accelerometers[] instead
+     */
     accelerometer: Accelerometer | null = null;
     bootloaderFileName: string | null = null;
     canAddress: number | null = null;
