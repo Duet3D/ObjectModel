@@ -4,14 +4,6 @@ import ModelObject from "../ModelObject";
 import DirectDisplay from "./directDisplay";
 import Driver from "./Driver";
 
-export class Accelerometer extends ModelObject {
-    orientation: number = 20;
-    points: number = 0;
-    resolution: number = 0;
-    runs: number = 0;
-    samplingRate: number = 0;
-}
-
 export class BoardClosedLoop extends ModelObject {
     points: number = 0;
     runs: number = 0;
@@ -39,14 +31,12 @@ export class MinMaxCurrent extends ModelObject {
 export class Board extends ModelObject {
     constructor() {
         super();
-        ModelObject.wrapModelProperty(this, "accelerometer", Accelerometer);
         ModelObject.wrapModelCollectionProperty(this, "drivers", Driver);
         ModelObject.wrapModelProperty(this, "mcuTemp", MinMaxCurrent);
         ModelObject.wrapModelProperty(this, "v12", MinMaxCurrent);
         ModelObject.wrapModelProperty(this, "vIn", MinMaxCurrent);
     }
 
-    accelerometer: Accelerometer | null = null;
     canAddress: number | null = null;
     drivers: ModelCollection<Driver> | null = null;
     firmwareDate: string = "";

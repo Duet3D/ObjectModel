@@ -1,5 +1,6 @@
 import ModelObject from "../ModelObject";
 import ModelCollection from "../ModelCollection";
+import Accelerometer from "./Accelerometer";
 import AnalogSensor from "./AnalogSensor";
 import Endstop from "./Endstop";
 import FilamentMonitor from "./FilamentMonitors";
@@ -10,6 +11,7 @@ export class GpInputPort extends ModelObject {
 }
 
 export class Sensors extends ModelObject {
+    readonly accelerometers: ModelCollection<Accelerometer | null> = new ModelCollection(Accelerometer);
     readonly analog: ModelCollection<AnalogSensor | null> = new ModelCollection(AnalogSensor);
     readonly endstops: ModelCollection<Endstop | null> = new ModelCollection(Endstop);
     readonly filamentMonitors: ModelCollection<FilamentMonitor | null> = new ModelCollection(FilamentMonitor);
@@ -20,6 +22,7 @@ export class Sensors extends ModelObject {
 export default Sensors
 
 export * from "./FilamentMonitors";
+export * from "./Accelerometer";
 export * from "./AnalogSensor";
 export * from "./Endstop";
 export * from "./Probe";
