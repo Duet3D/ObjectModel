@@ -24,6 +24,11 @@ export enum AnalogSensorType {
     mcuTemp = "mcutemp",
     drivers = "drivers",
     driversDuex = "driversduex",
+    boardTemp = "boardtemp",
+    current = "current",
+    thermopileTPiSObject = "thermopile_tpis.object",
+    thermopileTPiSAmbient = "thermopile_tpis.ambient",
+    thermopileTPiSEnvironment = "thermopile_tpis.environment",
     remote = "remote",
     unknown = "unknown"
 }

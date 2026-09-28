@@ -13,7 +13,7 @@ export enum InputShapingType {
 
 export class InputShaping extends ModelObject {
     amplitudes: Array<number> = [];
-    damping: number = 0.1;
+    damping: number = 0.05;
     delays: Array<number> = [];
     frequency: number = 40;
     type: InputShapingType = InputShapingType.none;
