@@ -2,7 +2,7 @@ import ObjectModel, { Heater, initCollection } from "../src";
 import { initObject } from "../src/ModelObject";
 import Board, { BoardState, ExpansionBoard, MainBoard } from "../src/boards";
 import Plugin, { PluginManifest, SbcPermission } from "../src/plugins";
-import Move, { Axis, CoreKinematics, DeltaKinematics, DriverId, Extruder, KinematicsName } from "../src/move";
+import Move, { Axis, CoreKinematics, DeltaKinematics, DriverId, Extruder, KinematicsName, parseKinematicsName } from "../src/move";
 import { MachineStatus, MessageBox } from "../src/state";
 import { LaserFilamentMonitor, RotatingMagnetFilamentMonitor } from "../src/sensors";
 import Volume from "../src/volumes";
@@ -153,6 +153,42 @@ test("updateKinematics", () => {
 
 	model.update({ move: { kinematics: { name: KinematicsName.linearDelta } } })
 	expect(model.move.kinematics.name).toBe(KinematicsName.linearDelta);
+});
+
+test("parseKinematicsName", () => {
+	expect(parseKinematicsName("cartesian")).toBe(KinematicsName.cartesian);
+	expect(parseKinematicsName("coreXY")).toBe(KinematicsName.coreXY);
+	expect(parseKinematicsName("delta")).toBe(KinematicsName.linearDelta);
+	expect(parseKinematicsName("linearDelta")).toBe(KinematicsName.linearDelta);
+	expect(parseKinematicsName("Rotary delta")).toBe(KinematicsName.rotaryDelta);
+	expect(parseKinematicsName("rotaryDelta")).toBe(KinematicsName.rotaryDelta);
+	expect(parseKinematicsName("Scara")).toBe(KinematicsName.scara);
+	expect(parseKinematicsName("scara")).toBe(KinematicsName.scara);
+	expect(parseKinematicsName("FiveBarScara")).toBe(KinematicsName.fiveBarScara);
+	expect(parseKinematicsName("fiveBarScara")).toBe(KinematicsName.fiveBarScara);
+	expect(parseKinematicsName("Hangprinter")).toBe(KinematicsName.hangprinter);
+	expect(parseKinematicsName("hangprinter")).toBe(KinematicsName.hangprinter);
+	expect(parseKinematicsName("Polar")).toBe(KinematicsName.polar);
+	expect(parseKinematicsName("polar")).toBe(KinematicsName.polar);
+	expect(parseKinematicsName("nonsense")).toBe(KinematicsName.unknown);
+});
+
+test("updateKinematicsReportedByFirmware", () => {
+	const model = initObject(ObjectModel, {
+		move: initObject(Move, {
+			kinematics: new CoreKinematics(KinematicsName.coreXY)
+		})
+	});
+
+	model.update({ move: { kinematics: { name: "linearDelta", deltaRadius: 123 } } });
+	expect(model.move.kinematics).toBeInstanceOf(DeltaKinematics);
+	expect(model.move.kinematics.name).toBe(KinematicsName.linearDelta);
+	expect((model.move.kinematics as DeltaKinematics).deltaRadius).toBe(123);
+
+	// This used to replace the instance on every update because the reported spelling was stored verbatim
+	const kinematics = model.move.kinematics;
+	model.update({ move: { kinematics: { name: "delta" } } });
+	expect(model.move.kinematics).toBe(kinematics);
 });
 
 test("updatePlugin", () => {

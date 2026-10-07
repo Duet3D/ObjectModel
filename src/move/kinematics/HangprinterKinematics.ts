@@ -1,6 +1,4 @@
-import type { IModelObject } from "../../ModelObject";
 import KinematicsBase, { KinematicsName } from "./KinematicsBase";
-import { getKinematics } from "./index";
 
 export class HangprinterKinematics extends KinematicsBase {
     anchors: Array<Array<number>> = [
@@ -13,17 +11,6 @@ export class HangprinterKinematics extends KinematicsBase {
 
     constructor() {
         super(KinematicsName.hangprinter);
-    }
-
-    override update(jsonElement: any, authoritative: boolean = false): IModelObject | null {
-        if (jsonElement === null) {
-            throw new Error("Kinematics must not be null");
-        }
-
-        if (typeof jsonElement.name === "string" && this.name !== jsonElement.name) {
-            return getKinematics(jsonElement.name).update(jsonElement, authoritative);
-        }
-        return super.update(jsonElement, authoritative);
     }
 }
 

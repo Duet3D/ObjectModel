@@ -1,4 +1,3 @@
-import type { IModelObject } from "../../ModelObject";
 import KinematicsBase, { KinematicsName } from "./KinematicsBase";
 import CoreKinematics from "./CoreKinematics";
 import DeltaKinematics from "./DeltaKinematics";
@@ -9,17 +8,6 @@ import PolarKinematics from "./PolarKinematics";
 export class Kinematics extends KinematicsBase {
     constructor(name: KinematicsName = KinematicsName.cartesian) {
         super(name);
-    }
-
-    override update(jsonElement: any, authoritative: boolean = false): IModelObject | null {
-        if (jsonElement === null) {
-            throw new Error("Kinematics must not be null");
-        }
-
-        if (typeof jsonElement.name === "string" && this.name !== jsonElement.name) {
-            return getKinematics(jsonElement.name).update(jsonElement, authoritative);
-        }
-        return super.update(jsonElement, authoritative);
     }
 }
 

@@ -1,8 +1,6 @@
 import ModelCollection, { initCollection } from "../../ModelCollection";
 import ModelObject from "../../ModelObject";
-import type { IModelObject } from "../../ModelObject";
 import KinematicsBase from "./KinematicsBase";
-import { getKinematics } from "./index";
 
 export class DeltaTower extends ModelObject {
     angleCorrection: number = 0;
@@ -19,17 +17,6 @@ export class DeltaKinematics extends KinematicsBase {
     readonly towers: ModelCollection<DeltaTower> = initCollection(DeltaTower, [{}, {}, {}]);
     xTilt: number = 0;
     yTilt: number = 0;
-
-    override update(jsonElement: any, authoritative: boolean = false): IModelObject | null {
-        if (jsonElement === null) {
-            throw new Error("Kinematics must not be null");
-        }
-
-        if (typeof jsonElement.name === "string" && this.name !== jsonElement.name) {
-            return getKinematics(jsonElement.name).update(jsonElement, authoritative);
-        }
-        return super.update(jsonElement, authoritative);
-    }
 }
 
 export default DeltaKinematics
