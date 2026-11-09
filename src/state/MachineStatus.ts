@@ -4,6 +4,7 @@ export enum MachineStatus {
     updating = "updating",
     off = "off",
     halted = "halted",
+    held = "held",
     pausing = "pausing",
     paused = "paused",
     resuming = "resuming",
