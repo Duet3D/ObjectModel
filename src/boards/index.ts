@@ -58,6 +58,7 @@ export class MainBoard extends Board {
         ModelObject.wrapModelProperty(this, "directDisplay", DirectDisplay);
     }
 
+    canSplitAddress: number | null = null;
     directDisplay: DirectDisplay | null = null;
     firmwareName: string = "";
     iapFileNameSBC: string | null = null;
