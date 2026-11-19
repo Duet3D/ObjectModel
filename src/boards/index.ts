@@ -76,6 +76,7 @@ export class ExpansionBoard extends Board {
 
     closedLoop: BoardClosedLoop | null = null;
     inductiveSensor: InductiveSensor | null = null;
+    interface: number | null = null;
     state: BoardState = BoardState.unknown;
     timeout: number = 10;
 }
