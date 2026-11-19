@@ -94,12 +94,15 @@ jobs:
 
       # DuetAPI.xml is committed by the DSF "Update API documentation" workflow a few minutes after the
       # push that changed the API, so a release started right after such a push would fetch the previous
-      # file and ship the new object model fields without any documentation. The default token is scoped
-      # to this repository, hence the unauthenticated API calls
+      # file and ship the new object model fields without any documentation. The default token only grants
+      # read access to the public DSF repository, but unauthenticated calls share the 60 requests per hour
+      # of the runner's IP address and fail with 403 most of the time
       - name: Wait for pending DSF documentation runs
+        env:
+          GH_TOKEN: ${{ github.token }}
         run: |
           for attempt in $(seq 30); do
-            if runs=$(curl -fsSL "https://api.github.com/repos/Duet3D/DuetSoftwareFramework/actions/workflows/api-documentation.yml/runs?branch=${{ github.ref_name }}&per_page=20"); then
+            if runs=$(curl -fsSL -H "Authorization: Bearer $GH_TOKEN" "https://api.github.com/repos/Duet3D/DuetSoftwareFramework/actions/workflows/api-documentation.yml/runs?branch=${{ github.ref_name }}&per_page=20"); then
               pending=$(printf '%s' "$runs" | jq '[.workflow_runs[] | select(.status != "completed")] | length')
               if [ "$pending" -eq 0 ]; then
                 exit 0
@@ -120,8 +123,10 @@ jobs:
       # Fetched through the API because raw.githubusercontent.com serves branch content from a five
       # minute cache, which hands out the previous file right after the documentation run pushed
       - name: Fetch DuetAPI documentation
+        env:
+          GH_TOKEN: ${{ github.token }}
         run: |
-          curl -fsSL -H "Accept: application/vnd.github.raw" "https://api.github.com/repos/Duet3D/DuetSoftwareFramework/contents/docs/DuetAPI.xml?ref=${{ github.ref_name }}" -o "$DUETAPI_XML"
+          curl -fsSL -H "Authorization: Bearer $GH_TOKEN" -H "Accept: application/vnd.github.raw" "https://api.github.com/repos/Duet3D/DuetSoftwareFramework/contents/docs/DuetAPI.xml?ref=${{ github.ref_name }}" -o "$DUETAPI_XML"
 
       - name: Install dependencies
         run: npm ci
