@@ -85,6 +85,7 @@ export * from "./kinematics";
 
 export * from "./Axis";
 export * from "./DriverId";
+export * from "./DriverState";
 export * from "./Extruder";
 export * from "./InputShaping";
 export * from "./KeepoutZone";

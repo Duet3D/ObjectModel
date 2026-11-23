@@ -1,5 +1,6 @@
 import ModelObject from "../ModelObject";
 import DriverId from "./DriverId";
+import DriverState from "./DriverState";
 import Microstepping from "./Microstepping";
 
 export class ExtruderNonlinear extends ModelObject {
@@ -41,6 +42,7 @@ export class Extruder extends ModelObject {
     printingJerk: number = 15;
     rawPosition: number = 0;
     speed: number = 100;
+    state: DriverState = DriverState.disabled;
     stepsPerMm: number = 420;
 }
 

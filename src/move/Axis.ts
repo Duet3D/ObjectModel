@@ -1,6 +1,7 @@
 import ModelObject from "../ModelObject";
 import ModelCollection from "../ModelCollection";
 import DriverId from "./DriverId";
+import DriverState from "./DriverState";
 import Microstepping from "./Microstepping";
 
 export enum AxisLetter {
@@ -64,6 +65,7 @@ export class Axis extends ModelObject {
     printingJerk: number = 15;
     reducedAcceleration: number = 0;
     speed: number = 100;
+    state: DriverState = DriverState.disabled;
     stepsPerMm: number = 80;
     stepPos: number = 0;
     userPosition: number | null = null;
