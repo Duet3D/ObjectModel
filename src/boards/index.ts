@@ -74,6 +74,7 @@ export class ExpansionBoard extends Board {
         ModelObject.wrapModelProperty(this, "inductiveSensor", InductiveSensor);
     }
 
+    bootloaderVersion: string = "";
     closedLoop: BoardClosedLoop | null = null;
     inductiveSensor: InductiveSensor | null = null;
     interface: number | null = null;
